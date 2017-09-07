@@ -145,8 +145,28 @@ public class HomeAdapter extends ArrayAdapter {
         });
 
         // ----- Start Go to profile page---------------
-        holder.posterProfile.setOnClickListener(onProfileClickListener);
-        holder.usernames.setOnClickListener(onProfileClickListener);
+
+        holder.posterProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent profileIntent = new Intent(context, PosterProfile.class);
+                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                context.startActivity(profileIntent);
+            }
+
+        });
+        holder.usernames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent profileIntent = new Intent(context, PosterProfile.class);
+                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                context.startActivity(profileIntent);
+            }
+
+        });
+
         // ----- End Go to profile page-----------------
         //==================Button save favorite=============
         holder.btnFav.setOnClickListener(new View.OnClickListener() {
@@ -214,16 +234,6 @@ public class HomeAdapter extends ArrayAdapter {
     }
 
 
-    //------------------start open profile page
-    private View.OnClickListener onProfileClickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-                Intent profileIntent = new Intent(context, PosterProfile.class);
-                context.startActivity(profileIntent);
-        }
-    };
-    //----------------------end profile page-------------
 
 
 
