@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ruc.ps_app_project.EditPosterInfoActivity">
+
+
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_menu"
+                android:minHeight="?attr/actionBarSize">
+
+
+                <TextView
+                    android:id="@+id/udpate_seller_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:drawableStart="@drawable/ic_chevron_left_black_24dp"
+                    android:text=" Personal Information"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/btnUpdateSellerInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="102dp"
+                    android:drawableStart="@drawable/ic_check_black_24dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--username address-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_person_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputUserNameP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/seller_name"
+                            android:layout_width="295dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:hint="User Name"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <!--Email-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_email_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputEmailP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/seller_email"
+                            android:layout_width="295dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:hint="Email"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!--email-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_phone_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputPhoneP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/seller_phone"
+                            android:layout_width="295dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:hint="Phone"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <!--Email-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_contacts_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputAddP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/seller_add"
+                            android:layout_width="295dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:hint="Address"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+    </android.support.constraint.ConstraintLayout>
