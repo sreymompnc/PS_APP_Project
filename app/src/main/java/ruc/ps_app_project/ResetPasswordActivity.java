@@ -1,20 +1,20 @@
 package ruc.ps_app_project;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -25,8 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -35,8 +33,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
     Intent intent;
     String email,newPass,conPass, url;
     Button resetPassword;
+    TextView goToForgotPass;
     TextInputLayout TextInputVerifyCode, TextInputNewPassword, extInputConfirmPass;
-    String port = "http://192.168.1.17:1111/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,10 +166,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         String getUrl = "";
                         Log.i("url",url);
                         Log.i("email",email);
-                        if (url.equals(port+"posters/sendMail")){
-                            getUrl = port+"posters/resetForgotPass";
+                        if (url.equals("http://192.168.1.22:2222/posters/sendMail")){
+                            getUrl = "http://192.168.1.22:2222/posters/resetForgotPass";
                         }else{
-                            getUrl = port+"users/resetForgotPass" ;
+                            getUrl = "http://192.168.1.22:2222/users/resetForgotPass" ;
                         }
                         RequestParams requestParams = new RequestParams();
                         requestParams.add("email",String.valueOf(email));
@@ -217,6 +216,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        goToForgotPass = (TextView) findViewById(R.id.btnPostBack);
+        goToForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ResetPasswordActivity.this,ForgotPassActivity.class);
+                startActivity(intent);
             }
         });
     }

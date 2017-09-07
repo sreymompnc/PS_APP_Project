@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -34,12 +35,19 @@ public class ForgotPassActivity extends AppCompatActivity {
     EditText email;
     String extraEmail, user, url;
     TextInputLayout TextInputEmail;
-    String port = "http://192.168.1.17:1111/";
+    TextView goToLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pass);
+
+        RadioButton simpleRadioButton = (RadioButton) findViewById(R.id.radio_seller); // initiate a radio button
+        Boolean RadioButtonState = simpleRadioButton.isChecked(); // check current state of a radio button (true or false).
+        if (RadioButtonState == true){
+            user = "seller";
+        }
 
         TextInputEmail = (TextInputLayout)findViewById(R.id.TextInputEmail);
         email = (EditText)findViewById(R.id.for_email);
@@ -99,7 +107,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 //                            requestParams.add("username", String.valueOf(username.getText()));
 //                            requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                             //For add student
-                            url = "http://192.168.1.22:2222/users/sendMail";
+                            url = "http://192.168.1.22:2222/posters/sendMail";
                             Log.i("url",url);
                             client.post(url, requestParams, new AsyncHttpResponseHandler() {
                                 @Override
@@ -114,8 +122,8 @@ public class ForgotPassActivity extends AppCompatActivity {
                                                 intent.putExtra("extraEmail",extraEmail);
                                                 intent.putExtra("url",url);
                                                 startActivity(intent);
-                                            } else if(status.equals("fail")){
-                                                showMsgError(TextInputEmail, email,"Email is already used!");
+                                            }else{
+                                                Toast.makeText(ForgotPassActivity.this,"Wrong Email or Position!",Toast.LENGTH_SHORT).show();
                                             }
                                             System.out.println(obj);
                                         } catch (Throwable t) {
@@ -141,7 +149,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 //                            requestParams.add("username", String.valueOf(username.getText()));
 //                            requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                             //For add student
-                            url = "http://192.168.1.22:2222/posters/sendMail";
+                            url = "http://192.168.1.22:2222/users/sendMail";
                             Log.i("url",url);
                             client.post(url, requestParams, new AsyncHttpResponseHandler() {
                                 @Override
@@ -156,8 +164,8 @@ public class ForgotPassActivity extends AppCompatActivity {
                                                 intent.putExtra("extraEmail",extraEmail);
                                                 intent.putExtra("url",url);
                                                 startActivity(intent);
-                                            } else if(status.equals("fail")){
-                                                showMsgError(TextInputEmail, email,"Email is already used!");
+                                            } else{
+                                                Toast.makeText(ForgotPassActivity.this,"Wrong Email or Position!",Toast.LENGTH_SHORT).show();
                                             }
                                             System.out.println(obj);
                                         } catch (Throwable t) {
@@ -181,8 +189,16 @@ public class ForgotPassActivity extends AppCompatActivity {
 
                     }else {
                         Toast.makeText(ForgotPassActivity.this, "Failed", Toast.LENGTH_LONG).show();
-
                     }
+            }
+        });
+
+        goToLogin = (TextView)findViewById(R.id.btnPostBack);
+        goToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ForgotPassActivity.this,Login.class);
+                startActivity(intent);
             }
         });
     }
