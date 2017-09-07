@@ -180,7 +180,7 @@
                             android:onClick="onRadioButtonClicked"/>
                     </RadioGroup>
                     <!--End checkbox-->
-                    <!--Button Login-->
+
                     <Button
                         android:id="@+id/btnlogin"
                         android:layout_width="320dp"

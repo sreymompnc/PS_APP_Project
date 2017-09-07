@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
-
+    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +149,7 @@ public class Login extends AppCompatActivity {
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post("http://192.168.1.22:2222/posters/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(port+"posters/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 
@@ -216,7 +216,7 @@ public class Login extends AppCompatActivity {
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post("http://192.168.1.22:2222/users/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(port+"users/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 
