@@ -200,6 +200,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         requestParams.put("address", String.valueOf(address.getText()));
         requestParams.put("id", cat_id);
         requestParams.put("user_id",userId);
+
 //        File file = new File(picturePath);
 //        try {
 //            requestParams.put("pos_image", file, "image/jpeg");
