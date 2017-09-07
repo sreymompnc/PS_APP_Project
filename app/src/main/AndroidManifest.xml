@@ -28,7 +28,6 @@
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".FavoritePageActivity" />
         <activity android:name=".Register" />
-        <activity android:name=".CreatePost" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".UpdatePost" />
         <activity android:name=".PostDetailActivity" />
