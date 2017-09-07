@@ -208,6 +208,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
 //        requestParams.add("image","");
 //        requestParams.add("InputStream","");
 
