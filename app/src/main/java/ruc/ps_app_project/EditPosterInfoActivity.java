@@ -214,10 +214,10 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                 String newAdd = seller_add.getText().toString();
 
                 Boolean checkData = false;
-                //======================Start check validation of input===================
+
                 if(newUserName.length()== 0){
                     checkData = true;
-                    showMsgError(TextInputUsername,seller_name, "User name is required!");
+                    showMsgError(TextInputUsername, seller_name, "User name is required!");
                 }else{
                     hideMsgError(TextInputUsername, seller_name,2);
                 }
@@ -228,6 +228,7 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                 }else {
                     hideMsgError(TextInputEmail, seller_mail,2);
                 }
+
 
                 if(!emailValidator(newEmail)){
                     showMsgError(TextInputEmail, seller_mail,"Email is invalid!");
@@ -251,9 +252,7 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                     checkData = true;
                 }else {
                     hideMsgError(TextInputAdd, seller_add,2);
-
                 }
-
                 if(checkData.equals(false)){
                     RequestParams requestParams = new RequestParams();
                     requestParams.add("username", newUserName);
@@ -268,19 +267,19 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
                                     String sms = jsonObject.getString("status");
+
                                     if(sms.equals("success")){
                                         Toast.makeText(EditPosterInfoActivity.this,"success",Toast.LENGTH_LONG).show();
                                         Intent backProfileUser = new Intent(EditPosterInfoActivity.this,PosterProfile.class);
                                         startActivity(backProfileUser);
                                     }
                                     else if(sms.equals("fail")){
-                                        //
+                                       //
                                         Toast.makeText(EditPosterInfoActivity.this,"No data change",Toast.LENGTH_LONG).show();
                                         Intent backProfileUser = new Intent(EditPosterInfoActivity.this,PosterProfile.class);
                                         startActivity(backProfileUser);
-                                    }else{
+                                    }else if (sms.equals("existingEmail")){
                                         showMsgError(TextInputEmail, seller_mail,"This email is already used!");
-                                        Toast.makeText(EditPosterInfoActivity.this,"No data change",Toast.LENGTH_LONG).show();
                                     }
 
 

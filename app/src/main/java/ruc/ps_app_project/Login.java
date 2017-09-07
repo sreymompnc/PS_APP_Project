@@ -36,13 +36,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
-
+    String port = "http://192.168.1.17:1111/";
     String user = "";
     Button btnLogin;
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
-
+    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,11 +110,7 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                RequestParams requestParams = new RequestParams();
-//                requestParams.add("email",String.valueOf(logEmail.getText().toString()));
-//                requestParams.add("password",String.valueOf(logPassword.getText().toString()));
-//                Log.i("input",requestParams.toString());
+                
 
             Log.i("userStatus", user);
                 //For validation
@@ -142,12 +138,18 @@ public class Login extends AppCompatActivity {
                 }
                 if(checkData.equals(false)) {
                     if (user.equals("seller")) {
+                        //==================Sharepreference user role=============================
+                        SharedPreferences userPref = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userPref.edit();
+                        editor.putString("user","seller");
+                        editor.commit();
+
                         RequestParams requestParams = new RequestParams();
                         requestParams.add("email",String.valueOf(logEmail.getText().toString()));
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post("http://192.168.1.22:2222/posters/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(port+"posters/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 
@@ -180,20 +182,7 @@ public class Login extends AppCompatActivity {
                                             Toast.makeText(Login.this, "Email or Password is wrong!", Toast.LENGTH_SHORT).show();
                                         }
 
-//                                        if (checkStatus.equals("success")) {
-//                                            SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-//                                            SharedPreferences.Editor editor = pref.edit();
-//                                            editor.putString("userId", id);
-//                                            editor.putString("userName", username);
-//                                            editor.commit();
-//
-//                                            Intent goHome = new Intent(Login.this, HomeActivity.class);
-//                                            startActivity(goHome);
-//                                            Toast.makeText(Login.this, "Login Success!!", Toast.LENGTH_SHORT).show();
-//                                        } else if (checkStatus.equals("fail")){
-//                                            Log.i("statuse", checkStatus);
-//                                            Toast.makeText(Login.this, "Email address or Password incorrect!", Toast.LENGTH_SHORT).show();
-//                                        }
+
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -207,7 +196,6 @@ public class Login extends AppCompatActivity {
 
                                 try {
                                     String data = new String(responseBody, "UTF-8");
-//                                Toast.makeText(MainActivity.this,"Add fale", Toast.LENGTH_SHORT).show();
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
                                 } catch (NullPointerException e) {
@@ -217,12 +205,18 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     } else if (user.equals("buyer")) {
+                        //==================Sharepreference user role=============================
+                        SharedPreferences userPref = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userPref.edit();
+                        editor.putString("user","buyer");
+                        editor.commit();
+
                         RequestParams requestParams = new RequestParams();
                         requestParams.add("email",String.valueOf(logEmail.getText().toString()));
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post("http://192.168.1.22:2222/users/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(port+"users/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 
@@ -255,20 +249,6 @@ public class Login extends AppCompatActivity {
                                             Toast.makeText(Login.this, "Email or Password is wrong!", Toast.LENGTH_SHORT).show();
                                         }
 
-//                                        if (checkStatus.equals("success")) {
-//                                            SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-//                                            SharedPreferences.Editor editor = pref.edit();
-//                                            editor.putString("userId", id);
-//                                            editor.putString("userName", username);
-//                                            editor.commit();
-//
-//                                            Intent goHome = new Intent(Login.this, HomeActivity.class);
-//                                            startActivity(goHome);
-//                                            Toast.makeText(Login.this, "Login Success!!", Toast.LENGTH_SHORT).show();
-//                                        } else if (checkStatus.equals("fail")){
-//                                            Log.i("statuse", checkStatus);
-//                                            Toast.makeText(Login.this, "Email address or Password incorrect!", Toast.LENGTH_SHORT).show();
-//                                        }
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
