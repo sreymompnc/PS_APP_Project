@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ruc.ps_app_project.Login">
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_menu"
+                    android:minHeight="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                    <TextView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_chevron_left_black_24dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true" />
+
+
+                    <TextView
+                        android:text="Login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true" />
+
+                </android.support.v7.widget.Toolbar>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:layout_editor_absoluteY="55dp"
+                tools:layout_editor_absoluteX="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/rise" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="10dp"
+                        android:text="Login"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_menu"
+                        android:textSize="22sp"/>
+
+                    <!--email-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:drawableStart="@drawable/ic_email_black_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/log_email"
+                                android:layout_width="295dp"
+                                android:layout_height="45dp"
+                                android:layout_gravity="center"
+                                android:hint="Email"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/color_hint" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <!--password-->
+                    <!--email-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:drawableStart="@drawable/ic_lock_black_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/log_password"
+                                android:layout_width="295dp"
+                                android:layout_height="45dp"
+                                android:layout_gravity="center"
+                                android:hint="Password"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/color_hint" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+                    <!--start checkbox-->
+                    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp">
+
+                        <RadioButton android:id="@+id/radio_seller"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Seller"
+                            android:checked="true"
+                            android:textColor="@color/color_login_register_action"
+                            android:onClick="onRadioButtonClicked"/>
+
+                        <RadioButton android:id="@+id/radio_buyer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="Buyer"
+                            android:textColor="@color/color_login_register_action"
+                            android:onClick="onRadioButtonClicked"/>
+                    </RadioGroup>
+                    <!--End checkbox-->
+
+                    <Button
+                        android:id="@+id/btnlogin"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/buttonformat"
+                        android:text="Login"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/action_forgotpw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="29dp"
+                        android:layout_marginTop="10dp"
+                        android:text="FORGOT PASSWORD ?"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_forgotpassword"
+                        android:textSize="12dp" />
+
+
+                    <TextView
+                        android:id="@+id/btnToRegister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="25dp"
+                        android:text="Do you have account ? Register"
+                        android:textColor="@color/color_login_register_action"
+                        android:textSize="18dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

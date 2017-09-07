@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+    <!--start header of listview-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:weightSum="1">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/poster_profile"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.40">
+
+                <TextView
+                    android:id="@+id/poster_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:text="username" />
+
+
+                <TextView
+                    android:id="@+id/pos_datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    android:textColor="@color/color_menu"
+                    android:textSize="11sp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <!--End header-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/pos_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/pos_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:ellipsize="end"
+                android:maxLength="110"
+                android:maxLines="2"
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/black"
+                tools:text="description" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/btnlike"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:drawableStart="@drawable/ic_like"
+                android:textColor="@color/color_menu"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:padding="5dp"
+                android:text=""
+                android:textSize="10dp"
+                />
+
+
+            <Button
+                android:id="@+id/btnfavorite"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:drawableStart="@drawable/ic_heart"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/color_menu"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/btncmt"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="30dp"
+                android:drawableStart="@drawable/ic_cmt"
+                android:textColor="@color/color_menu"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:padding="5dp"
+                android:text=""
+                android:textSize="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>
