@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
-
+    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
