@@ -36,7 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
-
+    String port = "http://192.168.1.17:1111/";
     String user = "";
     Button btnLogin;
     EditText logEmail, logPassword;
