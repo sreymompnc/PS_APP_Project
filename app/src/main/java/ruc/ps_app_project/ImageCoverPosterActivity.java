@@ -28,6 +28,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
     Context context;
     ImageView cover;
     TextView back;
+    String port = "http://192.168.1.27:8888/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
 
         Toast.makeText(ImageCoverPosterActivity.this, "profile", Toast.LENGTH_SHORT).show();
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.1.6:8888/posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
+        client.get(port+"posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -53,7 +54,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
                         JSONObject poster_data = obj.getJSONObject("posterProfile");
                         String covers = poster_data.getString("cover");
                         // profile poster
-                        final String posterUrlImg = "http://192.168.1.6:8888/images/posters/" + covers;
+                        final String posterUrlImg = port+"images/posters/" + covers;
                         loadCover(posterUrlImg, cover);
 
                     } catch (JSONException e) {
