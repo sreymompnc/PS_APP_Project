@@ -37,6 +37,7 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class CreatePost extends Activity implements OnItemSelectedListener{
+    String port = "http://192.168.1.17:1111/";
     private Spinner spinner;
     TextView savePost;
     public static final int RESULT_IMAGE = 10;
@@ -66,7 +67,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
         //================================= for get category of spinner================================
         AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.get("http://192.168.1.27:8888/posts/categories", new AsyncHttpResponseHandler() {
+        httpClient.get(port+"posts/categories", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -213,7 +214,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 //        requestParams.add("InputStream","");
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post("http://192.168.1.27:8888/posts/createPost", requestParams, new AsyncHttpResponseHandler() {
+        client.post("http://192.168.1.17:1111/posts/createPost", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
