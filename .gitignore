@@ -1,0 +1,13 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+app/src/main/res/layout/activity_poster_profile.xml
+.xml
+app/src/main/java/ruc/ps_app_project/PosterProfile.java
+.xml

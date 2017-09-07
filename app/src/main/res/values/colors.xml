@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#224c45</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#04988A</color>
+    <color name="white">#fff</color>
+    <color name="color_menu">#488c80</color>
+    <color name="color_btn">#FF4081</color>
+    <color name="black">#000</color>
+    <!--mom-->
+    <color name="color_login_register_action">#04988A</color>
+    <color name="color_btnformat">#224c45</color>
+    <color name="color_forgotpassword">#59b2a2</color>
+    <color name="color_hint">#c5c8cf</color>
+    <color name="color_like_cmt_fav">#B7B7B7</color>
+    <color name="color_date">#B7B7B7</color>
+    <color name="color_select_image">#379180</color>
+    <color name="color_products"> #B7B7B7</color>
+    <color name="color_num">#457DD7</color>
+    <color name="color_background">#c0e2df</color>
+    <color name="color_title">#2d6359</color>
+</resources>
