@@ -27,6 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +176,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             cursor.close();
 //            ImageView imageView = (ImageView) findViewById(R.id.imgView);
 //            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            // InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
+//             InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
 
         }
     }
@@ -194,18 +196,18 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         address = (EditText)findViewById(R.id.pro_address);
 
         RequestParams requestParams = new RequestParams();
-        requestParams.put("description", String.valueOf(description.getText()));
-        requestParams.put("phone", String.valueOf(phone_number.getText()));
-        requestParams.put("title", String.valueOf(pro_name.getText()));
-        requestParams.put("address", String.valueOf(address.getText()));
-        requestParams.put("id", cat_id);
-        requestParams.put("user_id",userId);
-//        File file = new File(picturePath);
-//        try {
-//            requestParams.put("pos_image", file, "image/jpeg");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        requestParams.put("pos_description", String.valueOf(description.getText()));
+        requestParams.put("pos_telephone", String.valueOf(phone_number.getText()));
+        requestParams.put("pos_title", String.valueOf(pro_name.getText()));
+        requestParams.put("pos_address", String.valueOf(address.getText()));
+        requestParams.put("posters_id", userId);
+        requestParams.put("categories_id", cat_id);
+        File file = new File(picturePath);
+        try {
+            requestParams.put("pos_image", file, "image/jpeg");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 //        requestParams.add("image","");
 //        requestParams.add("InputStream","");
 
@@ -216,12 +218,12 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                 try {
                     String data = new String(responseBody, "UTF-8");
                     JSONObject obj = new JSONObject(data);
-                    String status = obj.getString("success");
-                    Log.i("Status",status);
+                    String status = obj.getString("status");
+
                         if(status.equals("success")){
                             Log.i("create_post",status);
                             Toast.makeText(CreatePost.this,"Create success",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CreatePost.this,PosterProfile.class);
+                            Intent intent = new Intent(CreatePost.this,HomeActivity.class);
                             startActivity(intent);
                         }else {
                             Toast.makeText(CreatePost.this,"Create failed",Toast.LENGTH_SHORT).show();
@@ -238,7 +240,19 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 String aa = "";
-                Toast.makeText(CreatePost.this,"failed end",Toast.LENGTH_SHORT).show();
+               Log.i("1555A : ", String.valueOf(statusCode));
+                System.out.print("statuse"+statusCode );
+                System.out.print("headers"+headers );
+                System.out.print("responseBody"+responseBody );
+                System.out.print("error"+error );
+
+                Log.i("18888B : ", String.valueOf(responseBody));
+                Log.i("16666C : ", String.valueOf(headers));
+                Log.i("16666D : ", String.valueOf(error));
+                Toast.makeText(CreatePost.this,String.valueOf(error),Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePost.this,String.valueOf(responseBody),Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePost.this,String.valueOf(headers),Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePost.this,String.valueOf(statusCode),Toast.LENGTH_SHORT).show();
             }
         });
     }
