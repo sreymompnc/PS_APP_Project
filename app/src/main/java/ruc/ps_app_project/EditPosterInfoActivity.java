@@ -253,9 +253,6 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                 }else {
                     hideMsgError(TextInputAdd, seller_add,2);
                 }
-
-
-
                 if(checkData.equals(false)){
                     RequestParams requestParams = new RequestParams();
                     requestParams.add("username", newUserName);

@@ -43,6 +43,7 @@
         <activity android:name=".ImageProfileActivity"></activity>
         <activity android:name=".PosterProfile"></activity>
         <activity android:name=".Login"></activity>
+        <activity android:name=".CreatePost"></activity>
         <activity android:name=".ConfirmEmailChangePassActivity"></activity>
     </application>
 
