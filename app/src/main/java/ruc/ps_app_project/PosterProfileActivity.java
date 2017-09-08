@@ -47,7 +47,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DATETIME = new ArrayList<>();
     Context context;
     String userPostID;
-    String port = "http://192.168.1.27:8888/";
+    String port = "http://192.168.1.17:1111/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get("http://192.168.1.27:8888/posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(port+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -105,17 +105,17 @@ public class PosterProfileActivity extends AppCompatActivity {
 
                         String username = poster_data.getString("username");
                         String profiles = poster_data.getString("image");
-                        String covers = poster_data.getString("cover");
+                        String covers = poster_data.getString("covers");
                         //set text for profile
                         poster_name.setText(username);
 
 //                        Log.i("pstername",poster_name.toString());
 
 //                        // profile poster
-                        final String posterUrlImg ="http://192.168.1.27:8888/images/posters/"+profiles;
+                        final String posterUrlImg = port+"images/posters/"+profiles;
                         loadProfile(posterUrlImg,profile);
                         // post image
-                        final String productUrlImg = "http://192.168.1.27:8888/images/posters/"+covers;
+                        final String productUrlImg = port+"images/posters/"+covers;
                         loadProductImage(productUrlImg,cover);
 
                     }catch (JSONException e){
@@ -132,7 +132,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         });
 //==============================================for all user post=====================================
         final AsyncHttpClient clients = new AsyncHttpClient();
-        clients.get("http://192.168.1.27:8888/posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
+        clients.get(port+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

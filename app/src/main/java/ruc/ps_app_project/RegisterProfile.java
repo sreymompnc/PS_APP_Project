@@ -90,7 +90,7 @@ public class RegisterProfile extends AppCompatActivity {
                         JSONObject poster_data= user_data.getJSONObject(0);
                         String register_names = poster_data.getString("username");
                         String profiles = poster_data.getString("image");
-                        String covers = poster_data.getString("cover");
+                        String covers = poster_data.getString("covers");
                         //set text
                         register_name.setText(register_names);
 
