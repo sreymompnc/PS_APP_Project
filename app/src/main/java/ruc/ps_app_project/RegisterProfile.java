@@ -31,7 +31,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class RegisterProfile extends AppCompatActivity {
-    String port = "http://192.168.1.17:1111/";
+    String port = "http://192.168.1.27:8888/";
     Button updateUserInfo;
     GridView gridViewFavorite;
     Button btnPost, btn_cancel,btn_change_pro, btn_view_pro;
@@ -130,9 +130,8 @@ public class RegisterProfile extends AppCompatActivity {
                         JSONObject jsonObj = new JSONObject(data);
                         Log.i("user_data_obj", jsonObj.toString());
                         JSONArray user_data = jsonObj.getJSONArray("users");
-                        Log.i("user_data_array", String.valueOf(jsonObj.length()));
                         //Loop all info
-                        for(int i = 0; i <= jsonObj.length(); i++){
+                        for(int i = 0; i <= user_data.length(); i++){
                             JSONObject poster_data= user_data.getJSONObject(i);
                             String post_id = poster_data.getString("id");
                             String user_id = poster_data.getString("users_id");
