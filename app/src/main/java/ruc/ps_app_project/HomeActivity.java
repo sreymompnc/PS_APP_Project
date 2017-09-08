@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ListView homeListView;
     String roleUser,userLoginID;
     TextView registerAction,loginAction, back;
-    String port = "http://192.168.1.27:8888/";
+    String port = "http://192.168.1.17:1111/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,6 +263,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        SharedPreferences preferProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+        String userRole = preferProfile.getString("user","");
 
         if (id == R.id.nav_home) {
             // Handle the camera action
@@ -271,8 +273,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage_favorite) {
 
         } else if (id == R.id.nav_manage_profile) {
-            SharedPreferences preferProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
-            String userRole = preferProfile.getString("user","");
+
             if(userRole.equals("seller")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
@@ -280,33 +281,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }else if(userRole.equals("buyer")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, RegisterProfile.class);
+//                intent.putExtra("isSeller", true);
                 startActivity(intent);
             }else {
-
-                    Intent intent= new Intent(HomeActivity.this, Login.class);
+                    Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
                     startActivity(intent);
             }
 
         } else if (id == R.id.nav_manage_post) {
 
         } else if (id == R.id.nav_change_password) {
-            Intent intent = new Intent(HomeActivity.this,ConfirmEmailChangePassActivity.class);
-            startActivity(intent);
+            if(userRole.equals("buyer") || userRole.equals("seller")){
+                Intent intent = new Intent(HomeActivity.this,ConfirmEmailChangePassActivity.class);
+                startActivity(intent);
+            }else{
+                Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_Logout){
-            SharedPreferences preferProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = preferProfile.edit();
-            edit.clear();
-            edit.commit();
-            /// Clear share Preference
-            SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.clear();
-            editor.commit();
-            Log.i("Clear", editor.toString());
-            Toast.makeText(HomeActivity.this,"Logout Successful.",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(HomeActivity.this, Login.class);
-            startActivity(intent);
+            if(userRole.equals("buyer") || userRole.equals("seller")) {
 
+                SharedPreferences preferLogout = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = preferLogout.edit();
+                edit.clear();
+                edit.commit();
+                /// Clear share Preference
+                SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.clear();
+                editor.commit();
+                Log.i("Clear", editor.toString());
+                Toast.makeText(HomeActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeActivity.this, Login.class);
+                startActivity(intent);
+            }else{
+                Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                startActivity(intent);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -36,7 +36,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
-
     String user = "";
     Button btnLogin;
     EditText logEmail, logPassword;

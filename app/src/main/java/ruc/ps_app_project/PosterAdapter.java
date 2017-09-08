@@ -33,6 +33,11 @@ public class PosterAdapter extends ArrayAdapter {
         this.NUMFAV = numFav;
         this.NUMCMT = numCmt;
     }
+
+    public PosterAdapter(Context applicationContext, String[] countryList, int[] flags) {
+        super(applicationContext,R.layout.activity_poster_profile);
+    }
+
     @Override
     public View getView(int i, View view, ViewGroup parent) {
 
