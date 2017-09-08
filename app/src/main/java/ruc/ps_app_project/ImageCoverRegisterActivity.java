@@ -29,7 +29,7 @@ public class ImageCoverRegisterActivity extends AppCompatActivity{
     Context context;
     ImageView cover;
     TextView back;
-    String port = "http://192.168.1.27:8888/";
+    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class ImageCoverRegisterActivity extends AppCompatActivity{
                         //String status = obj.getString("status");
                         JSONArray jArray = obj.getJSONArray("posterProfile");
                         JSONObject poster_data= jArray.getJSONObject(0);
-                        String covers = poster_data.getString("cover");
+                        String covers = poster_data.getString("covers");
                         // profile poster
                         final String posterUrlImg = port+"images/users/" + covers;
                         loadCover(posterUrlImg, cover);
