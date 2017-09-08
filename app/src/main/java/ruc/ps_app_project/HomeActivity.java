@@ -12,11 +12,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +41,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import url.constraint;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +51,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav;
     ListView homeListView;
     String roleUser,userLoginID;
+    TextView search,cancelSearch;
+    EditText searchValue;
     TextView registerAction,loginAction, back;
     String port = "http://192.168.1.17:1111/";
 
@@ -100,6 +106,55 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //============================search=======================
+        cancelSearch = (TextView)findViewById(R.id.cancelsearch);
+        cancelSearch.setVisibility(View.INVISIBLE);
+
+
+        searchValue = (EditText)findViewById(R.id.search_product);
+
+        searchValue.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                cancelSearch.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        cancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchValue.getText().clear();
+                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        search = (TextView)findViewById(R.id.action_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String productName = searchValue.getText().toString();
+
+                // call AsynTask to perform network operation on separate thread
+                new HttpAsyncTaskOfSearch().execute(port+"posts/search/"+productName);
+
+            }
+        });
+
+        //============================End search=======================
 
         //------------------------------------start Spinner-------------------------------------
 
@@ -144,6 +199,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // call AsynTask to perform network operation on separate thread
         new HttpAsyncTask().execute(port+"posts/viewAllPost");
+
 
     }
 
@@ -199,9 +255,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(String result) {
 
+
             try {
                 JSONObject jsonObj = new JSONObject(result);
                 JSONArray jArray = jsonObj.getJSONArray("data");
+
+                users.clear();
+                postDesc.clear();
+                postPro.clear();
+                postImage.clear();
+                dateAndTime.clear();
+                numeLike.clear();
+                numCmt.clear();
+                numFav.clear();
+                productID.clear();
+                userPostId.clear();
 
                 for(int i=0; i < jArray.length(); i++){
                     JSONObject jsonObject = jArray.getJSONObject(i);
@@ -246,6 +314,91 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
+
+    //================================start search=====================================================
+
+    class HttpAsyncTaskOfSearch extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            return GET(urls[0]);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+            try {
+                JSONObject jsonObj = new JSONObject(result);
+                JSONArray jArray = jsonObj.getJSONArray("posts");
+                Toast.makeText(getBaseContext(), "it is true!", Toast.LENGTH_LONG).show();
+
+                users.clear();
+                postDesc.clear();
+                postPro.clear();
+                postImage.clear();
+                dateAndTime.clear();
+                numeLike.clear();
+                numCmt.clear();
+                numFav.clear();
+                productID.clear();
+                userPostId.clear();
+
+                for(int i=0; i < jArray.length(); i++){
+                    JSONObject jsonObject = jArray.getJSONObject(i);
+                    String name = jsonObject.getString("username");
+                    String description = jsonObject.getString("pos_description");
+                    String postIds = jsonObject.getString("id");
+                    String idUserPost = jsonObject.getString("posters_id");
+                    String postProfile = jsonObject.getString("image");
+                    String postImg = jsonObject.getString("pos_image");
+                    String dateTime = jsonObject.getString("created_at");
+                    String likes = jsonObject.getString("numlike");
+                    String cmts = jsonObject.getString("numcmt");
+                    String favs = jsonObject.getString("numfavorite");
+
+                    users.add(name);
+                    postDesc.add(description);
+                    postPro.add(postProfile);
+                    postImage.add(postImg);
+                    dateAndTime.add(dateTime);
+                    numeLike.add(likes);
+                    numCmt.add(cmts);
+                    numFav.add(favs);
+                    productID.add(postIds);
+                    userPostId.add(idUserPost);
+                    Log.i("name",productID.toString());
+
+
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getBaseContext(), "No data!", Toast.LENGTH_LONG).show();
+
+                users.clear();
+                postDesc.clear();
+                postPro.clear();
+                postImage.clear();
+                dateAndTime.clear();
+                numeLike.clear();
+                numCmt.clear();
+                numFav.clear();
+                productID.clear();
+                userPostId.clear();
+
+            }
+
+            HomeAdapter homeList = new HomeAdapter(getApplicationContext(),
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+            homeListView.setAdapter(homeList);
+
+
+
+        }
+    }
+
+    //================================end search=====================================================
+
 
 
     @Override
