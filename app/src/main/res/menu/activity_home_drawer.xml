@@ -7,11 +7,15 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
             android:title="Home" />
+        <!--<item-->
+            <!--android:id="@+id/nav_categories"-->
+            <!--android:icon="@drawable/categories"-->
+            <!--android:title=""-->
+            <!--app:actionLayout="@layout/spinner_layout"/>-->
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/categories"
-            android:title=""
-            app:actionLayout="@layout/spinner_layout"/>
+            android:title="Categories"/>
         <item
             android:id="@+id/nav_manage_favorite"
             android:icon="@drawable/favorite"

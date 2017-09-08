@@ -36,6 +36,10 @@
         <activity android:name=".ClarifyAccountActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".EditPosterInfoActivity" />
+
+        <activity android:name=".CategoriesActivity" />
+        <activity android:name=".CategoriesEachActivity"></activity>
+      
         <activity android:name=".ImageCoverRegisterActivity"></activity>
         <activity android:name=".ImageProRegisterActivity"></activity>
         <activity android:name=".ImageCoverPosterActivity"></activity>
@@ -46,7 +50,7 @@
         <activity android:name=".RegisterProfile"></activity>.
         <activity android:name=".AskConfirmActivity"></activity>
         <activity android:name=".ConfirmEmailChangePassActivity"></activity>
->>>>>>> refs/remotes/origin/master
+
     </application>
 
 </manifest>
