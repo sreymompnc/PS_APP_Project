@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.sax.StartElementListener;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -159,25 +160,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         // Spinner Drop down elements
-        final List<String> categories = new ArrayList<String>();
-        categories.add("Automobile");
-        categories.add("Business Services");
-        categories.add("Computers");
-        categories.add("Education");
-        categories.add("Personal");
-        categories.add("Travel");
-
-        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
-        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        final List<String> categories = new ArrayList<String>();
+//        categories.add("Automobile");
+//        categories.add("Business Services");
+//        categories.add("Computers");
+//        categories.add("Education");
+//        categories.add("Personal");
+//        categories.add("Travel");
+//
+//        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
+//        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
 
         //----------------------------------End spinner----------------------------------------
@@ -422,14 +423,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_categories) {
-
+            Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
+            startActivity(intent);
+            startActivity(intent);
         } else if (id == R.id.nav_manage_favorite) {
 
         } else if (id == R.id.nav_manage_profile) {
 
             if(userRole.equals("seller")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
-                Intent intent= new Intent(HomeActivity.this, PosterProfile.class);
+                Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();

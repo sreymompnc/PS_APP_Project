@@ -18,17 +18,23 @@ import java.util.List;
 
 import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
-public class HomeAdapter extends ArrayAdapter {
+/**
+ * Created by Chiva on 9/8/2017.
+ */
+
+public class CategoriesEachAdapter extends ArrayAdapter {
 
     Context context;
-    List<String> userPostId, productID, username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
+    List<String> userPostId,productID,username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
     String roleUser,userLoginID;
-    String port = "http://192.168.1.17:1111/";
-    public HomeAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
-                       List<String> username, List<String> dateAndTime,
-                       List<String> description, List<String> profile, List<String> allPostImage,
-                       List<String> numLikes, List<String> numFav, List<String> numCmt) {
-        super(applicationContext, R.layout.homelist_item);
+    String port = "http://192.168.1.22:2222/";
+
+    public CategoriesEachAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
+                                 List<String> username, List<String> dateAndTime,
+                                 List<String> description, List<String> profile, List<String> allPostImage,
+                                 List<String> numLikes, List<String> numFav, List<String> numCmt) {
+
+        super(applicationContext, R.layout.activity_categories_each_adapter);
         this.context = applicationContext;
         this.roleUser = roleUser;
         this.userLoginID = userLoginID;
@@ -43,6 +49,8 @@ public class HomeAdapter extends ArrayAdapter {
         this.numFav = numFav;
         this.numCmt = numCmt;
     }
+
+
 
     @Override
     public int getCount() {
@@ -63,13 +71,13 @@ public class HomeAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         View Listview = view;
-        ViewHolder holder;
+        HomeAdapter.ViewHolder holder;
         if (Listview == null) {
 
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             Listview = mInflater.inflate(R.layout.homelist_item, parent, false);
 
-            holder = new ViewHolder();
+            holder = new HomeAdapter.ViewHolder();
 
             holder.createDate = (TextView) Listview.findViewById(R.id.datetime);
             holder.usernames = (TextView) Listview.findViewById(R.id.userItem);
@@ -87,14 +95,14 @@ public class HomeAdapter extends ArrayAdapter {
             Listview.setTag(holder);
         } else {
 
-            holder = (ViewHolder) Listview.getTag();
+            holder = (HomeAdapter.ViewHolder) Listview.getTag();
         }
 
         // Go to detail activity of click product image
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Toast.makeText(context,"create like",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"create like",Toast.LENGTH_LONG).show();
             }
 
         });
@@ -129,7 +137,7 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                Intent profileIntent = new Intent(context, PosterProfile.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }
@@ -139,7 +147,7 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                Intent profileIntent = new Intent(context, PosterProfile.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }
@@ -153,7 +161,7 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 String idOfProduct = productID.get(position);
-                    FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
+                FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
 
             }
 
@@ -211,10 +219,4 @@ public class HomeAdapter extends ArrayAdapter {
                 .into(imgView);
 
     }
-
-
-
-
-
 }
-
