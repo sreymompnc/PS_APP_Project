@@ -1,19 +1,16 @@
 package ruc.ps_app_project;
 
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -32,7 +28,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.HttpGet;
-import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -66,7 +61,7 @@ public class PostDetailActivity extends AppCompatActivity {
     EditText messages;
     private String  productPostID,userPostID ;
     private CommentListAdapter detailCommentList;
-    String port = "http://192.168.1.17:1111/";
+    String port = "http://192.168.1.27:8888/";
 
     List<String> cmtuser,cmtdate,cmtprofile,cmtsms;
 
@@ -302,6 +297,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 else item.setChecked(true);
 
                 Intent updateIntent = new Intent(PostDetailActivity.this,UpdatePost.class);
+                updateIntent.putExtra("pro_id",productPostID);
                 startActivity(updateIntent);
                 return true;
             case R.id.delete_post:
