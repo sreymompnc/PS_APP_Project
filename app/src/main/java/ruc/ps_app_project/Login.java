@@ -36,12 +36,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
-    String port = "http://192.168.1.17:1111/";
     String user = "";
     Button btnLogin;
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
+    String port = "http://192.168.1.27:8888/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +142,7 @@ public class Login extends AppCompatActivity {
                         SharedPreferences.Editor editor = userPref.edit();
                         editor.putString("user","seller");
                         editor.commit();
+
 
                         RequestParams requestParams = new RequestParams();
                         requestParams.add("email",String.valueOf(logEmail.getText().toString()));

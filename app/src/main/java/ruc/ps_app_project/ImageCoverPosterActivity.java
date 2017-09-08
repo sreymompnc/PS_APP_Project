@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -28,7 +27,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
     Context context;
     ImageView cover;
     TextView back;
-    String port = "http://192.168.1.27:8888/";
+    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +38,6 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         String userId = preferLogin.getString("userId", "");
         final String userName = preferLogin.getString("userName", "");
-
-        Toast.makeText(ImageCoverPosterActivity.this, "profile", Toast.LENGTH_SHORT).show();
         final AsyncHttpClient client = new AsyncHttpClient();
         client.get(port+"posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
             @Override
@@ -52,7 +49,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
                         JSONObject obj = new JSONObject(data);
                         //String status = obj.getString("status");
                         JSONObject poster_data = obj.getJSONObject("posterProfile");
-                        String covers = poster_data.getString("cover");
+                        String covers = poster_data.getString("covers");
                         // profile poster
                         final String posterUrlImg = port+"images/posters/" + covers;
                         loadCover(posterUrlImg, cover);
