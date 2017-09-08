@@ -54,7 +54,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     TextView search,cancelSearch;
     EditText searchValue;
     TextView registerAction,loginAction, back;
-    String port = "http://192.168.1.27:8888/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String productName = searchValue.getText().toString();
 
                 // call AsynTask to perform network operation on separate thread
-                new HttpAsyncTaskOfSearch().execute(port+"posts/search/"+productName);
+                new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
 
             }
         });
@@ -198,7 +197,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute(port+"posts/viewAllPost");
+        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
 
 
     }
