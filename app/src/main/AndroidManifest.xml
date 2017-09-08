@@ -42,10 +42,11 @@
         <activity android:name=".ImageProfileActivity"></activity>
         <activity android:name=".Login"></activity>
         <activity android:name=".CreatePost"></activity>
-        <activity android:name=".PosterProfile"></activity>
+        <activity android:name=".PosterProfileActivity"></activity>
         <activity android:name=".RegisterProfile"></activity>.
         <activity android:name=".AskConfirmActivity"></activity>
         <activity android:name=".ConfirmEmailChangePassActivity"></activity>
+>>>>>>> refs/remotes/origin/master
     </application>
 
 </manifest>

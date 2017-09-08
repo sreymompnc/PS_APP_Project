@@ -1,42 +1,21 @@
 package ruc.ps_app_project;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.nineoldandroids.animation.ValueAnimator;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
-
-import static android.content.ContentValues.TAG;
 import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 public class HomeAdapter extends ArrayAdapter {
@@ -150,7 +129,7 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfile.class);
+                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }
@@ -160,7 +139,7 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfile.class);
+                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }
