@@ -1,6 +1,7 @@
 package ruc.ps_app_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,15 @@ import java.util.List;
 public class PosterAdapter extends ArrayAdapter {
 
     Context context;
-    List<String> USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT;
+    List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT;
     String port = "http://192.168.1.17:1111/";
-    public PosterAdapter(Context context, List<String> username,List<String> dateAndTime,
+    public PosterAdapter(Context context, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
                        List<String> description,List<String> profile, List<String> allPostImage,
                        List<String> numLikes,List<String> numFav,List<String> numCmt) {
         super(context,R.layout.listview_post);
         this.context = context;
+        this.POSTER_ID = userId;
+        this.POST_ID = postId;
         this.USERNAME = username;
         this.DATETIME = dateAndTime;
         this.DESCRIPTION = description;
@@ -39,7 +42,7 @@ public class PosterAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup parent) {
+    public View getView(final int i, View view, ViewGroup parent) {
 
         Log.i("getView","Getview success");
         ViewHolder holder;
@@ -66,6 +69,20 @@ public class PosterAdapter extends ArrayAdapter {
 
             holder = (PosterAdapter.ViewHolder) vi.getTag();
         }
+
+        //===============================detail for post ================================
+        holder.pos_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent detailIntent = new Intent(context, PostDetailActivity.class);
+                detailIntent.putExtra("productId", POST_ID.get(i).toString());
+                detailIntent.putExtra("userPostId", POSTER_ID.get(i).toString());
+                context.startActivity(detailIntent);
+            }
+
+        });
+
+
         holder.pos_description.setText(DESCRIPTION.get(i));
         holder.createDate.setText(DATETIME.get(i));
         holder.username.setText(USERNAME.get(i));
@@ -82,6 +99,11 @@ public class PosterAdapter extends ArrayAdapter {
         loadImagePost(postImageurl,holder.pos_image);
 
         return vi;
+
+
+
+
+
     }
     @Override
     public int getCount() {

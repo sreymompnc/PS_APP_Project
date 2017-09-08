@@ -35,7 +35,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     private TextView poster_name,back;
     ListView listViewPosterPost;
     ImageView cover, profile;
-    List<String> ID = new ArrayList<>();
+    List<String> POST_ID = new ArrayList<>();
     List<String> POSTER_ID = new ArrayList<>();
     List<String> PROFILE = new ArrayList<>();
     List<String> POSTIMAGE = new ArrayList<>();
@@ -47,7 +47,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DATETIME = new ArrayList<>();
     Context context;
     String userPostID;
-    String port = "http://192.168.1.17:1111/";
+    String port = "http://192.168.1.27:8888/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +142,11 @@ public class PosterProfileActivity extends AppCompatActivity {
                     try {
                         Toast.makeText(PosterProfileActivity.this, "yes",Toast.LENGTH_SHORT).show();
                         JSONObject jsonObj = new JSONObject(data);
+                        Log.i("data_all_post",jsonObj.toString());
+
                         JSONArray user_data = jsonObj.getJSONArray("posterpost");
                         //Loop all info
-                        for(int i = 0; i <= jsonObj.length(); i++){
+                        for(int i = 0; i <= user_data.length(); i++){
                             JSONObject poster_data= user_data.getJSONObject(i);
                             String post_id = poster_data.getString("id");
                             String poster_id = poster_data.getString("posters_id");
@@ -158,7 +160,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                             String favs = poster_data.getString("numfavorite");
                             Log.i("hello",favs);
                             //add  each info in to list array
-                            ID.add(post_id);
+                            POST_ID.add(post_id);
                             POSTER_ID.add(poster_id);
                             POSTIMAGE.add(image_pos);
                             PROFILE.add(image_pro);
@@ -177,7 +179,10 @@ public class PosterProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 listViewPosterPost = (ListView)findViewById(R.id.listViewPosterPost);
-                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(), USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT);
+                Log.i("Username", String.valueOf(USERNAME.size()));
+                Log.i("DATETIME", String.valueOf(DATETIME.size()));
+                Log.i("DESCRIPTION", String.valueOf(DESCRIPTION.size()));
+                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT);
                 listViewPosterPost.setAdapter(customAdapter);
             }
 
