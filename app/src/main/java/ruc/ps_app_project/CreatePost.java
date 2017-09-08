@@ -37,7 +37,7 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class CreatePost extends Activity implements OnItemSelectedListener{
-    String port = "http://192.168.1.17:1111/";
+    String port = "http://192.168.1.27:8888/";
     private Spinner spinner;
     TextView savePost;
     public static final int RESULT_IMAGE = 10;
@@ -214,7 +214,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 //        requestParams.add("InputStream","");
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post("http://192.168.1.17:1111/posts/createPost", requestParams, new AsyncHttpResponseHandler() {
+        client.post(port+"posts/createPost", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -223,18 +223,15 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                     String status = obj.getString("status");
 
                         if(status.equals("success")){
-                            Log.i("create_post",status);
                             Toast.makeText(CreatePost.this,"Create success",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreatePost.this,HomeActivity.class);
                             startActivity(intent);
                         }else {
-                            Toast.makeText(CreatePost.this,"Create failed",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreatePost.this,CreatePost.class);
                             startActivity(intent);
                         }
 
                 }catch (Exception e){
-                    Toast.makeText(CreatePost.this,"failed 2",Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -247,10 +244,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                 System.out.print("headers"+headers );
                 System.out.print("responseBody"+responseBody );
                 System.out.print("error"+error );
-
-                Log.i("18888B : ", String.valueOf(responseBody));
-                Log.i("16666C : ", String.valueOf(headers));
-                Log.i("16666D : ", String.valueOf(error));
                 Toast.makeText(CreatePost.this,String.valueOf(error),Toast.LENGTH_SHORT).show();
                 Toast.makeText(CreatePost.this,String.valueOf(responseBody),Toast.LENGTH_SHORT).show();
                 Toast.makeText(CreatePost.this,String.valueOf(headers),Toast.LENGTH_SHORT).show();
