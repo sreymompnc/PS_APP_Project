@@ -46,6 +46,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import url.constraint;
 
 public class PostDetailActivity extends AppCompatActivity {
     String userLoginID,roleUser,cmtSms;
@@ -131,7 +132,7 @@ public class PostDetailActivity extends AppCompatActivity {
         //------------------------Start get data detail of post
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(port+"posts/postDetail/"+productPostID, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"posts/postDetail/"+productPostID, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
     ImageView imageViewPost;
     EditText pro_title,pro_phone , pro_address, imgDescription;
     String userLoginID;
+    Context context;
     String proId;
     String item;
     String port = "http://192.168.1.27:8888/";
@@ -53,16 +55,16 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
         pro_phone = (EditText)findViewById(R.id.pro_phone);
         pro_address = (EditText)findViewById(R.id.pro_address);
         imgDescription = (EditText)findViewById(R.id.imgDescription);
-        proId = getIntent().getStringExtra("pro_id");
+        imageViewPost = (ImageView)findViewById(R.id.imageViewPost);
 
+        proId = getIntent().getStringExtra("pro_id");
         SharedPreferences prefUserLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userLoginID = prefUserLogin.getString("userId","");
-
         //===========================Start get data old data of post==========================
         AsyncHttpClient client = new AsyncHttpClient();
         // client.addHeader("header_key", "header value");
 
-        client.get(port+"posters/postOldDataUpdate/"+userLoginID, new AsyncHttpResponseHandler() {
+        client.get(port+"posters/postOldDataUpdate/"+proId, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i("test","success");
@@ -70,22 +72,23 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                     String data = new String(responseBody, "UTF-8");
                     try {
                         JSONObject jsonObj = new JSONObject(data);
-                        JSONArray jArray = jsonObj.getJSONArray("sellerInfo");
+                        JSONArray jArray = jsonObj.getJSONArray("postInfo");
                         JSONObject obj = jArray.getJSONObject(0);
 
-                        String sellerName = obj.getString("username");
-                        String sellerEmail = obj.getString("email");
-                        String sellerPhone = obj.getString("phone");
-                        String sellerAdd = obj.getString("address");
+                        String product_title = obj.getString("pos_title");
+                        String product_phone = obj.getString("pos_telephone");
+                        String pro_addresses = obj.getString("pos_address");
+                        String imgDescriptions = obj.getString("pos_description");
+                        String imageViewPosts = obj.getString("pos_image");
                         String idSellerInfo = obj.getString("id");
 
-                        Log.i("ddd",idSellerInfo);
-
-//                        seller_name.setText(sellerName);
-//                        seller_mail.setText(sellerEmail);
-//                        seller_phone.setText(sellerPhone);
-//                        seller_add.setText(sellerAdd);
-
+                        pro_title.setText(product_title);
+                        pro_phone.setText(product_phone);
+                        pro_address.setText(pro_addresses);
+                        imgDescription.setText(imgDescriptions);
+                        // post image
+                        final String productUrlImg = port+"images/posts/"+obj.getString("pos_image");
+                        loadProductImage(productUrlImg,imageViewPost);
 
 
 
@@ -142,5 +145,15 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
     }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    // To load image of post
+    private void loadProductImage(String url,ImageView imgView){
+        Picasso.with(context)
+                .load(url)
+                .resize(1300,1200)
+                .centerInside()// to zoom img
+                //.centerCrop()
+                .into(imgView);
     }
 }
