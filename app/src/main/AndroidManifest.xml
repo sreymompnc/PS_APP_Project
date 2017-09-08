@@ -36,14 +36,15 @@
         <activity android:name=".ClarifyAccountActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".EditPosterInfoActivity" />
-        <activity android:name=".RegisterProfile"></activity>
         <activity android:name=".ImageCoverRegisterActivity"></activity>
         <activity android:name=".ImageProRegisterActivity"></activity>
         <activity android:name=".ImageCoverPosterActivity"></activity>
         <activity android:name=".ImageProfileActivity"></activity>
-        <activity android:name=".PosterProfile"></activity>
         <activity android:name=".Login"></activity>
         <activity android:name=".CreatePost"></activity>
+        <activity android:name=".PosterProfile"></activity>
+        <activity android:name=".RegisterProfile"></activity>.
+        <activity android:name=".AskConfirmActivity"></activity>
         <activity android:name=".ConfirmEmailChangePassActivity"></activity>
     </application>
 
