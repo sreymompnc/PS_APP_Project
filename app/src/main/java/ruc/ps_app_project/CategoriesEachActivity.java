@@ -4,21 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.sax.StartElementListener;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,21 +34,22 @@ import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
+public class CategoriesEachActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    ListView simpleList;
-    private Spinner spinner;
     List<String> users;
     List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav;
-    ListView homeListView;
-    String roleUser,userLoginID;
+
+    ListView categoryListView;
+    String Id,roleUser,userLoginID;
     TextView registerAction,loginAction, back;
-    String port = "http://192.168.1.17:1111/";
+    Intent intent;
+    String port = "http://192.168.1.22:2222/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_categories_each);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,71 +58,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         SharedPreferences prefUserLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userLoginID = prefUserLogin.getString("userId","");
-        // -------------------------List view--------------------------
-        homeListView = (ListView)findViewById(R.id.simpleListView);
-        //Event on ListView
 
-
-
-        //-----------drawer bar----------------------
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //---------------------------Register---------------------------------
-        View headerview = navigationView.getHeaderView(0);
-        registerAction = (TextView) headerview.findViewById(R.id.action_register);
-        registerAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent regIntent = new Intent(HomeActivity.this,Register.class);
-                startActivity(regIntent);
-            }
-        });
-
-        //--------------------------------Login--------------------------------------
-        loginAction = (TextView) headerview.findViewById(R.id.action_login);
-        loginAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(HomeActivity.this,"log",Toast.LENGTH_LONG).show();
-                Intent regIntent = new Intent(HomeActivity.this,Login.class);
-                startActivity(regIntent);
-            }
-        });
-
-
-        //------------------------------------start Spinner-------------------------------------
-
-
-        // Spinner Drop down elements
-//        final List<String> categories = new ArrayList<String>();
-//        categories.add("Automobile");
-//        categories.add("Business Services");
-//        categories.add("Computers");
-//        categories.add("Education");
-//        categories.add("Personal");
-//        categories.add("Travel");
-//
-//        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
-//        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-
-
-        //----------------------------------End spinner----------------------------------------
+        categoryListView = (ListView)findViewById(R.id.category_list_id);
 
         users = new ArrayList<String>();
         postDesc = new ArrayList<String>();
@@ -138,16 +71,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         numFav = new ArrayList<String>();
         productID = new ArrayList<String>();
         userPostId = new ArrayList<String>();
-        //------------------------Start get data all of post----------------------
-        userPostId = new ArrayList<String>();
 
+        intent = getIntent();
+        Id = intent.getStringExtra("CategoryID");
 
-        // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute(port+"posts/viewAllPost");
+        Log.i("GetIdFromCate",Id);
 
+        new HttpAsyncTask().execute(port+"posts/viewEachCategories/"+Id);
+
+//------------------------ Start Go to Category ------------------------------------------
+        back = (TextView)findViewById(R.id.btnPostBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoriesEachActivity.this,CategoriesActivity.class);
+                startActivity(intent);
+            }
+        });
+//------------------------ End Go to Category ------------------------------------------
     }
-
-
 
     // To get API url
     public static String GET(String url) {
@@ -188,7 +130,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return result;
 
     }
-
 
     class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -238,15 +179,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-            HomeAdapter homeList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
-            homeListView.setAdapter(homeList);
-
-            homeList.notifyDataSetChanged();
+            CategoriesEachAdapter categoriesList = new CategoriesEachAdapter(getApplicationContext(),roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+            categoryListView.setAdapter(categoriesList);
+//
+//            homeList.notifyDataSetChanged();
 
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -270,7 +209,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_categories) {
-            Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
+            Intent intent = new Intent(CategoriesEachActivity.this,CategoriesActivity.class);
             startActivity(intent);
             startActivity(intent);
         } else if (id == R.id.nav_manage_favorite) {
@@ -278,27 +217,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage_profile) {
 
             if(userRole.equals("seller")){
-                Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
-                Intent intent= new Intent(HomeActivity.this, PosterProfile.class);
+                Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();
+                Intent intent= new Intent(CategoriesEachActivity.this, PosterProfile.class);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
-                Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
-                Intent intent= new Intent(HomeActivity.this, RegisterProfile.class);
+                Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();
+                Intent intent= new Intent(CategoriesEachActivity.this, RegisterProfile.class);
 //                intent.putExtra("isSeller", true);
                 startActivity(intent);
             }else {
-                    Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
-                    startActivity(intent);
+                Intent intent= new Intent(CategoriesEachActivity.this, AskConfirmActivity.class);
+                startActivity(intent);
             }
 
         } else if (id == R.id.nav_manage_post) {
 
         } else if (id == R.id.nav_change_password) {
             if(userRole.equals("buyer") || userRole.equals("seller")){
-                Intent intent = new Intent(HomeActivity.this,ConfirmEmailChangePassActivity.class);
+                Intent intent = new Intent(CategoriesEachActivity.this,ConfirmEmailChangePassActivity.class);
                 startActivity(intent);
             }else{
-                Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                Intent intent= new Intent(CategoriesEachActivity.this, AskConfirmActivity.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_Logout){
@@ -314,11 +253,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 editor.clear();
                 editor.commit();
                 Log.i("Clear", editor.toString());
-                Toast.makeText(HomeActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeActivity.this, Login.class);
+                Toast.makeText(CategoriesEachActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CategoriesEachActivity.this, Login.class);
                 startActivity(intent);
             }else{
-                Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                Intent intent= new Intent(CategoriesEachActivity.this, AskConfirmActivity.class);
                 startActivity(intent);
             }
         }
@@ -327,6 +266,4 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
