@@ -29,9 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class RegisterProfile extends AppCompatActivity {
-    String port = "http://192.168.1.27:8888/";
+
     Button updateUserInfo;
     GridView gridViewFavorite;
     Button btnPost, btn_cancel,btn_change_pro, btn_view_pro;
@@ -77,7 +78,7 @@ public class RegisterProfile extends AppCompatActivity {
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get(port+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(constraint.url+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -95,10 +96,10 @@ public class RegisterProfile extends AppCompatActivity {
                         register_name.setText(register_names);
 
                         // profile poster
-                        final String posterUrlImg = port+"images/users/"+profiles;
+                        final String posterUrlImg = constraint.url+"images/users/"+profiles;
                         loadProfile(posterUrlImg,profile);
                         // post image
-                        final String productUrlImg = port+"images/users/"+covers;
+                        final String productUrlImg = constraint.url+"images/users/"+covers;
                         loadProductImage(productUrlImg,cover);
 
                     }catch (JSONException e){
@@ -118,7 +119,7 @@ public class RegisterProfile extends AppCompatActivity {
 
         //==============================================for all favorite post=====================================
 
-        client.get(port+"users/viewUserFavorite/"+userId, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"users/viewUserFavorite/"+userId, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
