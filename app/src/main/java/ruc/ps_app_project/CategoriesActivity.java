@@ -1,9 +1,8 @@
 package ruc.ps_app_project;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,24 +12,17 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.HttpGet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import url.constraint;
 
 public class CategoriesActivity extends AppCompatActivity {
     List<String> postCategoryName,categoriesId;
@@ -54,7 +46,7 @@ public class CategoriesActivity extends AppCompatActivity {
 //        });
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.1.22:2222/posts/categories", new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"posts/categories", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
