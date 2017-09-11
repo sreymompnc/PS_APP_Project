@@ -452,6 +452,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             startActivity(intent);
             startActivity(intent);
         } else if (id == R.id.nav_manage_favorite) {
+            Intent goToFavoritePage = new Intent(HomeActivity.this,FavoritePageActivity.class);
+            startActivity(goToFavoritePage);
 
         } else if (id == R.id.nav_manage_profile) {
 

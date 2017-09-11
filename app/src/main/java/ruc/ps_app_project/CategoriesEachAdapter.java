@@ -137,7 +137,7 @@ public class CategoriesEachAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfile.class);
+                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }
@@ -147,7 +147,7 @@ public class CategoriesEachAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfile.class);
+                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                 context.startActivity(profileIntent);
             }

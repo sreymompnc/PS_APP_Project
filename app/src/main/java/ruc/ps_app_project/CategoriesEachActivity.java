@@ -218,7 +218,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
 
             if(userRole.equals("seller")){
                 Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();
-                Intent intent= new Intent(CategoriesEachActivity.this, PosterProfile.class);
+                Intent intent= new Intent(CategoriesEachActivity.this, PosterProfileActivity.class);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();

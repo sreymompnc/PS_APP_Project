@@ -15,17 +15,19 @@ import java.util.List;
 
 import url.constraint;
 
-public class RegisterAdapter extends ArrayAdapter {
-    List<String> POSTTITLE,FAVORITEIMAGE;
-
+public class FavoriteGridViewAdapter extends ArrayAdapter {
+    List<String> FAVORITEID,USERID,POST_ID,POSTTITLE, FAVORITEIMAGE;
     Context context;
 
-    public RegisterAdapter(@NonNull Context applicationContext, List<String> pos_title, List<String> fav_pos) {
-        super(applicationContext,R.layout.activity_gridview_favorite);
+    public FavoriteGridViewAdapter(@NonNull Context applicationContext, List<String> favID,List<String> userID,
+                                   List<String> postID,List<String> postTitle,List<String> postImage) {
+        super(applicationContext,R.layout.display_gridview_favorite);
         this.context = applicationContext;
-        this.POSTTITLE = pos_title;
-        this.FAVORITEIMAGE = fav_pos;
-
+        this.FAVORITEID = favID;
+        this.USERID = userID;
+        this.POST_ID = postID;
+        this.POSTTITLE = postTitle;
+        this.FAVORITEIMAGE = postImage;
     }
 
     @Override
@@ -52,23 +54,25 @@ public class RegisterAdapter extends ArrayAdapter {
         if (Gridview == null){
 
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            Gridview = mInflater.inflate(R.layout.activity_gridview_favorite, parent, false);
+            Gridview = mInflater.inflate(R.layout.display_gridview_favorite, parent, false);
 
-            holder = new RegisterAdapter.ViewHolder();
+            holder = new FavoriteGridViewAdapter.ViewHolder();
 
-            holder.fav_image = (ImageView) Gridview.findViewById(R.id.fav_pro);
-            holder.pos_title = (TextView) Gridview.findViewById(R.id.title_pro);
+            holder.fav_image = (ImageView) Gridview.findViewById(R.id.fav_image);
+            holder.pos_title = (TextView) Gridview.findViewById(R.id.fav_title);
 
             Gridview.setTag(holder);
         }else {
 
-            holder = (RegisterAdapter.ViewHolder) Gridview.getTag();
+            holder = (FavoriteGridViewAdapter.ViewHolder) Gridview.getTag();
         }
 
+        // set favorite data
+        holder.pos_title.setText(POSTTITLE.get(i));
         // post image
         final String postImageurl = constraint.url+"images/posts/"+FAVORITEIMAGE.get(i);
         loadImagePost(postImageurl,holder.fav_image);
-        holder.pos_title.setText(POSTTITLE.get(i));
+
 
         return Gridview;
     }
