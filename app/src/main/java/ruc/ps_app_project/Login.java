@@ -35,13 +35,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import url.constraint;
+
 public class Login extends AppCompatActivity {
     String user = "";
     Button btnLogin;
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
-    String port = "http://192.168.1.27:8888/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +151,7 @@ public class Login extends AppCompatActivity {
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post(port+"posters/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(constraint.url+"posters/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 
@@ -216,7 +218,7 @@ public class Login extends AppCompatActivity {
                         requestParams.add("password",String.valueOf(logPassword.getText().toString()));
                         Log.i("input",requestParams.toString());
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.post(port+"users/login", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(constraint.url+"users/login", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
 

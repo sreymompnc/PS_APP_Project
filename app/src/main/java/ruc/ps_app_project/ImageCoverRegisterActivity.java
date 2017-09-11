@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 /**
  * Created by ACER on 9/5/2017.
@@ -29,7 +30,6 @@ public class ImageCoverRegisterActivity extends AppCompatActivity{
     Context context;
     ImageView cover;
     TextView back;
-    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class ImageCoverRegisterActivity extends AppCompatActivity{
 
         Toast.makeText(ImageCoverRegisterActivity.this, "profile", Toast.LENGTH_SHORT).show();
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(port+"users/userProfile/" + userId, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"users/userProfile/" + userId, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -56,7 +56,7 @@ public class ImageCoverRegisterActivity extends AppCompatActivity{
                         JSONObject poster_data= jArray.getJSONObject(0);
                         String covers = poster_data.getString("covers");
                         // profile poster
-                        final String posterUrlImg = port+"images/users/" + covers;
+                        final String posterUrlImg = constraint.url+"images/users/" + covers;
                         loadCover(posterUrlImg, cover);
 
                     } catch (JSONException e) {

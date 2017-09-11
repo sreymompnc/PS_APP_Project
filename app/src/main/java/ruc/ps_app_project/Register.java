@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class Register extends AppCompatActivity {
     Button btn_register , btn_login;
@@ -41,7 +42,6 @@ public class Register extends AppCompatActivity {
     String user = "";
     TextView back;
     TextInputLayout TextInputConfirmPass, TextInputPassword, TextInputUsername, TextInputEmail;
-    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,7 +231,7 @@ public class Register extends AppCompatActivity {
                         requestParams.add("username", String.valueOf(username.getText()));
                         requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                         //For add student
-                        client.post(port+"posters/register", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(constraint.url+"posters/register", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                 try {
@@ -287,7 +287,7 @@ public class Register extends AppCompatActivity {
                         requestParams.add("username", String.valueOf(username.getText()));
                         requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                         //For add student
-                        client.post(port+"users/register", requestParams, new AsyncHttpResponseHandler() {
+                        client.post(constraint.url+"users/register", requestParams, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                 try {
