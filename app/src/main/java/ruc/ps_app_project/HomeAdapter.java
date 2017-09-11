@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import url.constraint;
+
 import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 public class HomeAdapter extends ArrayAdapter {
@@ -167,10 +169,10 @@ public class HomeAdapter extends ArrayAdapter {
         holder.btnFav.setText(numFav.get(position));
         holder.bntCmt.setText(numCmt.get(position));
         // profile
-        final String url = port+"images/posters/" + profile.get(position);
+        final String url = constraint.url+"images/posters/" + profile.get(position);
         loadImage(url, holder.posterProfile);
         // post image
-        final String postImageurl = port+"images/posts/" + allPostImage.get(position);
+        final String postImageurl = constraint.url+"images/posts/" + allPostImage.get(position);
         loadImagePost(postImageurl, holder.postImages);
 
 

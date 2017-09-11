@@ -9,12 +9,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="6dp">
 
         <ImageView
-            android:id="@+id/fav_pro"
+            android:id="@+id/fav_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
@@ -23,7 +23,7 @@
             android:verticalSpacing="15dp" />
 
         <TextView
-            android:id="@+id/title_pro"
+            android:id="@+id/fav_title"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="71dp"
