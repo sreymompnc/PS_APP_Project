@@ -126,6 +126,7 @@
                         android:drawableStart="@drawable/ic_create_black_24dp" />
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -170,13 +171,14 @@
                         android:drawableStart="@drawable/ic_phone_black_24dp" />
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <EditText
                             android:id="@+id/pro_phone"
                             android:layout_width="295dp"
-                            android:layout_height="45dp"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:hint="Phone Number"
                             android:inputType="number"
@@ -202,6 +204,7 @@
                         android:drawableStart="@drawable/ic_contacts_black_24dp" />
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -232,7 +235,7 @@
                         android:drawableStart="@drawable/ic_contacts_black_24dp" />
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_name"
+                        android:id="@+id/TextInputDes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 

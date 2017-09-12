@@ -15,11 +15,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import url.constraint;
+
 public class PosterAdapter extends ArrayAdapter {
 
     Context context;
     List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT;
-    String port = "http://192.168.1.17:1111/";
     public PosterAdapter(Context context, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
                        List<String> description,List<String> profile, List<String> allPostImage,
                        List<String> numLikes,List<String> numFav,List<String> numCmt) {
@@ -92,10 +93,10 @@ public class PosterAdapter extends ArrayAdapter {
         holder.bntCmt.setText(NUMCMT.get(i));
 
         // profile
-        final String url = port+"images/posters/"+PROFILE.get(i);
+        final String url = constraint.url+"images/posters/"+PROFILE.get(i);
         loadImage(url,holder.pro_image );
         // post image
-        final String postImageurl = port+"images/posts/"+POSTIMAGE.get(i);
+        final String postImageurl = constraint.url+"images/posts/"+POSTIMAGE.get(i);
         loadImagePost(postImageurl,holder.pos_image);
 
         return vi;

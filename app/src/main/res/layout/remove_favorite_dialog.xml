@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="2dip"
+            android:textSize="14dp"
+            android:textColor="#000"
+            android:id="@+id/warning"
+            android:text="Are you sure to delete this post ?" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
+
+        <Button
+            android:layout_marginTop="50dip"
+            android:layout_marginLeft="30dip"
+            android:text="YES"
+            android:id="@+id/btnDeleteRemove"
+            android:textColor="#FFFFFF"
+            android:textSize="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#A8A8A8"
+            android:layout_marginBottom="20dip"/>
+
+        <Button
+            android:id="@+id/btnCancelRemove"
+            android:layout_marginTop="50dip"
+            android:text="NO"
+            android:layout_marginLeft="5dp"
+            android:textColor="#FFFFFF"
+            android:textSize="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/dangerbutton"
+            android:shadowColor="#A8A8A8"
+            android:layout_marginBottom="20dip"
+            />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -21,12 +21,12 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class ImageProRegisterActivity extends AppCompatActivity {
     Context context;
     ImageView profile;
     TextView back;
-    String port = "http://192.168.1.27:8888/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class ImageProRegisterActivity extends AppCompatActivity {
 
         Toast.makeText(ImageProRegisterActivity.this, "profile",Toast.LENGTH_SHORT).show();
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(port+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(constraint.url+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -53,7 +53,7 @@ public class ImageProRegisterActivity extends AppCompatActivity {
                         JSONObject poster_data= jArray.getJSONObject(0);
                         String profiles = poster_data.getString("image");
                         // profile poster
-                        final String posterUrlImg = port+"images/users/"+profiles;
+                        final String posterUrlImg = constraint.url+"images/users/"+profiles;
                         loadProfile(posterUrlImg,profile);
 
                     }catch (JSONException e){

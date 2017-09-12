@@ -120,6 +120,7 @@ public class HomeAdapter extends ArrayAdapter {
                 Intent detailIntent = new Intent(context, PostDetailActivity.class);
                 detailIntent.putExtra("productId", productID.get(position).toString());
                 detailIntent.putExtra("userPostId", userPostId.get(position).toString());
+                detailIntent.putExtra("page","homepage");
                 context.startActivity(detailIntent);
             }
 
@@ -133,6 +134,7 @@ public class HomeAdapter extends ArrayAdapter {
 
                 Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                profileIntent.putExtra("frompage","homepage");
                 context.startActivity(profileIntent);
             }
 
@@ -143,6 +145,7 @@ public class HomeAdapter extends ArrayAdapter {
 
                 Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                 profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                profileIntent.putExtra("frompage","homepage");
                 context.startActivity(profileIntent);
             }
 
@@ -156,11 +159,9 @@ public class HomeAdapter extends ArrayAdapter {
             public void onClick(View view) {
                 String idOfProduct = productID.get(position);
                     FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
-
             }
 
         });
-
 
         holder.usernames.setText(username.get(position));
         holder.createDate.setText(dateAndTime.get(position));
@@ -174,7 +175,6 @@ public class HomeAdapter extends ArrayAdapter {
         // post image
         final String postImageurl = constraint.url+"images/posts/" + allPostImage.get(position);
         loadImagePost(postImageurl, holder.postImages);
-
 
         return Listview;
 
