@@ -5,5 +5,7 @@ package url;
  */
 
 public class constraint {
-    public static String url = "http://192.168.1.5:8888/";
+
+    public static String url = "http://192.168.1.22:2222/";
+
 }
