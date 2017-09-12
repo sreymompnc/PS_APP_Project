@@ -87,7 +87,9 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         //---------------------------Register---------------------------------
         View headerview = navigationView.getHeaderView(0);
+
         registerAction = (TextView) headerview.findViewById(R.id.action_register);
+
         registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -452,8 +454,14 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             startActivity(intent);
             startActivity(intent);
         } else if (id == R.id.nav_manage_favorite) {
-            Intent goToFavoritePage = new Intent(HomeActivity.this,FavoritePageActivity.class);
-            startActivity(goToFavoritePage);
+            if(roleUser.equals("buyer")){
+                Intent goToFavoritePage = new Intent(HomeActivity.this,FavoritePageActivity.class);
+                startActivity(goToFavoritePage);
+            }else{
+                Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                startActivity(intent);
+            }
+
 
         } else if (id == R.id.nav_manage_profile) {
 

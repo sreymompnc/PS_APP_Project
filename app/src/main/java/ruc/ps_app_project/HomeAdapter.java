@@ -120,6 +120,7 @@ public class HomeAdapter extends ArrayAdapter {
                 Intent detailIntent = new Intent(context, PostDetailActivity.class);
                 detailIntent.putExtra("productId", productID.get(position).toString());
                 detailIntent.putExtra("userPostId", userPostId.get(position).toString());
+                detailIntent.putExtra("page","homepage");
                 context.startActivity(detailIntent);
             }
 

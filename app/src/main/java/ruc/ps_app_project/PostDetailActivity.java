@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.HttpGet;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -55,14 +56,14 @@ public class PostDetailActivity extends AppCompatActivity {
     ImageView posterProfile,postImage;
     TextView detail_back;
     Context context;
-    final Context contextDialog = this;
+    final Context contextDialog = this,contextRemove = this;
+
     ListView commentListview;
     LinearLayout hideBtnComment;
     TextView commentPost;
     EditText messages;
-    private String  productPostID,userPostID ;
+    private String  productPostID,userPostID,favoriteID ;
     private CommentListAdapter detailCommentList;
-    String port = "http://192.168.1.27:8888/";
 
     List<String> cmtuser,cmtdate,cmtprofile,cmtsms;
 
@@ -112,11 +113,14 @@ public class PostDetailActivity extends AppCompatActivity {
         // ----------------------get intent ==================================
         productPostID = getIntent().getStringExtra("productId");
         userPostID = getIntent().getStringExtra("userPostId");
+        favoriteID = getIntent().getStringExtra("favId");
 
         SharedPreferences prefProfile = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userLoginID = prefProfile.getString("userId","");
-        Toast.makeText(PostDetailActivity.this,productPostID,Toast.LENGTH_LONG).show();
-        Toast.makeText(PostDetailActivity.this,userLoginID,Toast.LENGTH_LONG).show();
+
+        SharedPreferences preRole = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+        roleUser = preRole.getString("user","");
+
 
         //=============================back to home ===========================
         detail_back = (TextView)findViewById(R.id.back_postDetail);
@@ -160,10 +164,10 @@ public class PostDetailActivity extends AppCompatActivity {
                         btnCmt.setText(objJson.getString("numcmt"));
 
                         // profile poster
-                        final String posterUrlImg = port+"images/posters/"+objJson.getString("posterprofile");
+                        final String posterUrlImg = constraint.url+"images/posters/"+objJson.getString("posterprofile");
                         loadProfile(posterUrlImg,posterProfile);
                         // post image
-                        final String productUrlImg = port+"images/posts/"+objJson.getString("pos_image");
+                        final String productUrlImg = constraint.url+"images/posts/"+objJson.getString("pos_image");
                         loadProductImage(productUrlImg,postImage);
 
 
@@ -199,24 +203,25 @@ public class PostDetailActivity extends AppCompatActivity {
 
         messages.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                commentPost.setEnabled(true);
                 if(s.toString().trim().length()==0){
-                    commentPost.setAlpha(0.0f);
-                    commentPost.setEnabled(false);
+                    //commentPost.setAlpha(1f);
+                   // commentPost.setEnabled(false);
 
                 } else {
                     commentPost.setEnabled(true);
                     commentPost.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(PostDetailActivity.this,"kkkk",Toast.LENGTH_SHORT).show();
-
                             cmtSms = messages.getText().toString();
-                            CommentSingleton.getInstance().commentPost(detailCommentList, userLoginID,productPostID,cmtSms);
-
+                            Toast.makeText(PostDetailActivity.this,"Commeneted",Toast.LENGTH_SHORT).show();
+                           // CommentSingleton.getInstance().commentPost(detailCommentList, userLoginID,productPostID,cmtSms);
+                            commentPost(productPostID,cmtSms);
 
                         }
                     });
@@ -224,7 +229,9 @@ public class PostDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+
+            }
 
         });
 
@@ -238,7 +245,7 @@ public class PostDetailActivity extends AppCompatActivity {
         cmtprofile = new ArrayList<String>();
 
         // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute(port+"posts/listcomment/"+productPostID);
+        new HttpAsyncTask().execute(constraint.url+"posts/listcomment/"+productPostID);
 
 
     }
@@ -272,16 +279,35 @@ public class PostDetailActivity extends AppCompatActivity {
 
 
 
-    // ---------------- start Overflow menu ---------------------
+    // ---------------- start Overflow menu ---------------------favoritepage
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        if (userPostID.equals(userLoginID)) {
+            menu.findItem(R.id.delete_post).setVisible(true);
+            menu.findItem(R.id.update_post).setVisible(true);
+            menu.findItem(R.id.delete_favorite).setVisible(false);
+            return true;
+        }else if( getIntent().getStringExtra("page").equals("favoritepage")){   // You can also use something like:
+            menu.findItem(R.id.delete_post).setVisible(false);
+            menu.findItem(R.id.update_post).setVisible(false);
+            menu.findItem(R.id.delete_favorite).setVisible(true);
+            return true;
+        }else{
+            menu.findItem(R.id.delete_post).setVisible(false);
+            menu.findItem(R.id.update_post).setVisible(false);
+            menu.findItem(R.id.delete_favorite).setVisible(false);
+        }
+
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       if(userPostID.equals(userLoginID)){
           MenuInflater mMenuInflater = getMenuInflater();
             mMenuInflater.inflate(R.menu.menu_detail, menu);
            return true;
-        }
-        return true;
     }
+
 
 
     /**
@@ -355,6 +381,35 @@ public class PostDetailActivity extends AppCompatActivity {
                 dialog.show();
 
                 return true;
+            case R.id.delete_favorite:
+
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+
+                final Dialog dialogRemoveFavorite = new Dialog(contextRemove);
+                dialogRemoveFavorite.setContentView(R.layout.remove_favorite_dialog);
+
+                // btn delete student
+                Button removeFav = (Button) dialogRemoveFavorite.findViewById(R.id.btnDeleteRemove);
+                // if button is clicked, it will delete this post
+                removeFav.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeFavorite(favoriteID);
+                    }
+                });
+
+                // btn dismiss button
+                Button cancelRemove = (Button) dialogRemoveFavorite.findViewById(R.id.btnCancelRemove);
+                // if button is clicked, close the custom dialog
+                cancelRemove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogRemoveFavorite.dismiss();
+                    }
+                });
+
+                dialogRemoveFavorite.show();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -442,7 +497,6 @@ public class PostDetailActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "null!", Toast.LENGTH_LONG).show();
 
             }
 
@@ -455,6 +509,64 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     //===========================================End display comment===============================
+
+    //===============================================Start comment=========================
+
+    public void   commentPost(String productPostID,String cmtSms){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("users_id",userLoginID);
+        requestParams.add("posts_id",productPostID);
+        requestParams.add("message",cmtSms);
+
+
+        client.post(constraint.url+"posts/comment", requestParams, new AsyncHttpResponseHandler() {
+            @Override
+
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(data);
+
+                        String sms = jsonObject.getString("status");
+
+                        if(sms.equals("success")){
+                            Toast.makeText(PostDetailActivity.this,"comment success",Toast.LENGTH_SHORT).show();
+                            messages.getText().clear();
+//                            adapter.notifyDataSetChanged();
+                        }else {
+                            Toast.makeText(PostDetailActivity.this,"comment fail",Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    //==================================================End comment========================
+
+
+
 
     //=========================to solve display listview in detail ===========================
     /**** Method for Setting the Height of the ListView dynamically.
@@ -481,6 +593,61 @@ public class PostDetailActivity extends AppCompatActivity {
         listView.setLayoutParams(params);
     }
     //================================to solve display listview in detail ============================
+
+
+
+
+
+    //=========================================Remove favorite===========================
+    public void removeFavorite(String favoriteID){
+
+        //------------------------Start get data detail of post
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.delete(constraint.url+"users/deleteFavorite/"+favoriteID, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(data);
+                        String sms = jsonObject.getString("status");
+
+                        Toast.makeText(getBaseContext(), sms, Toast.LENGTH_LONG).show();
+                        Intent goToFavoritePage = new Intent(PostDetailActivity.this,FavoritePageActivity.class);
+                        startActivity(goToFavoritePage);
+
+
+
+
+
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+    //==========================================End remove favorite======================
+
 
 
 }
