@@ -468,6 +468,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             if(userRole.equals("seller")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
+                intent.putExtra("frompage","menupage");
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
