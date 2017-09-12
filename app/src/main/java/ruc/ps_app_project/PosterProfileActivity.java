@@ -132,9 +132,11 @@ public class PosterProfileActivity extends AppCompatActivity {
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
 
+
 //        client.get(constraint.url+"posters/profile/"+userId, new AsyncHttpResponseHandler(){
 
         client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
