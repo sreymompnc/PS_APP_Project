@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.sax.StartElementListener;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,15 +16,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.HttpGet;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +52,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     String roleUser,userLoginID;
     TextView search,cancelSearch;
     EditText searchValue;
-    TextView registerAction,loginAction, back;
+    TextView registerAction,loginAction, back, user_name;
+    ImageView image_profile;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        context = HomeActivity.this;
 
         SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preProfile.getString("user","");
@@ -93,6 +95,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(regIntent);
             }
         });
+
+        //===========================get sharedPreference====================================
+        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        String userId = preferLogin.getString("userId","");
+        final String userName = preferLogin.getString("userName","");
+        //=============================for profile===================================
+        View header=navigationView.getHeaderView(0);
+        user_name = (TextView)header.findViewById(R.id.user_name);
+        image_profile = (ImageView)header.findViewById(R.id.image_profile);
+        user_name.setText(userName);
+
+
+        //===============================for image ==================================
+//        // profile poster
+//        final String posterUrlImg = constraint.url+"images/users/"+profiles;
+//        loadProfile(posterUrlImg,profile);
+
+
+
+
+
 
         //--------------------------------Login--------------------------------------
         loginAction = (TextView) headerview.findViewById(R.id.action_login);
@@ -480,6 +503,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //============================ To load image of profile==============================================
+    private void loadProfile(String url,ImageView imgView){
+        Picasso.with(context)
+                .load(url)
+                .resize(800,800)
+                .centerInside()// to zoom img
+                //.centerCrop()
+                .into(imgView);
     }
 
 

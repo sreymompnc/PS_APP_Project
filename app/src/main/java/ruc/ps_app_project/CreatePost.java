@@ -46,7 +46,7 @@ import url.constraint;
 
 public class CreatePost extends Activity implements OnItemSelectedListener{
     private Spinner spinner;
-    TextView savePost;
+    TextView savePost, back;
     public static final int RESULT_IMAGE = 10;
     Button btn_upload;
     EditText pro_name, phone_number, address, description;
@@ -61,6 +61,13 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         setContentView(R.layout.activity_create_post);
 
         savePost = (TextView)findViewById(R.id.savepost);
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         //======================for spinner ====================================
         spinner = (Spinner) findViewById(R.id.category_list);
@@ -151,11 +158,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             }
             @Override
             public void afterTextChanged(Editable editable) {
-//                if(confirmPass.equals(password)){
-//                    hideMsgError(TextInputConfirmPass, confirmPass,2);
-//                }else {
-//                    showMsgError(TextInputConfirmPass, confirmPass,"Password is not match!");
-//                }
             }
         });
         savePost.setOnClickListener(new View.OnClickListener() {

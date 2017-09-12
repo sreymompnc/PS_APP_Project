@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,74 +30,93 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
-public class RegisterProfile extends AppCompatActivity {
-    Button updateUserInfo;
-    GridView gridViewFavorite;
-    Button btnPost, btn_cancel,btn_change_pro, btn_view_pro;
-    TextView register_name,back;
+public class VeiwProfileInHomeActivity extends AppCompatActivity {
+
+    Button btnPost, btn_view_pro, create_post,updatePosterInfo;
+
+    private TextView poster_name,back;
     ListView listViewPosterPost;
     ImageView cover, profile;
-    List<String> ID = new ArrayList<>();
-    List<String> USERID = new ArrayList<>();
+    List<String> POST_ID = new ArrayList<>();
     List<String> POSTER_ID = new ArrayList<>();
-    List<String> FAVORITEIMAGE = new ArrayList<>();
-    List<String> POSTTITLE = new ArrayList<>();
-
-
+    List<String> PROFILE = new ArrayList<>();
+    List<String> POSTIMAGE = new ArrayList<>();
+    List<String> USERNAME = new ArrayList<>();
+    List<String> NUMLIKE = new ArrayList<>();
+    List<String> NUMCMT = new ArrayList<>();
+    List<String> NUMFAV = new ArrayList<>();
+    List<String> DESCRIPTION = new ArrayList<>();
+    List<String> DATETIME = new ArrayList<>();
     Context context;
+    String userPostID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_profile);
-        context = RegisterProfile.this;
+        setContentView(R.layout.activity_veiw_profile_in_home);
+        //==========================for profile==============================================
+        poster_name = (TextView)findViewById(R.id.postername);
+        cover = (ImageView)findViewById(R.id.cover_poster);
+        profile = (ImageView)findViewById(R.id.pro_poster);
+        context = VeiwProfileInHomeActivity.this;
 
-        //=========================Go to update user ==============
-        updateUserInfo = (Button)findViewById(R.id.update_info_user);
-        updateUserInfo.setOnClickListener(new View.OnClickListener() {
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent updatePosterInfoIntent = new Intent(RegisterProfile.this,EditUserActivity.class);
-                startActivity(updatePosterInfoIntent);
+                onBackPressed();
             }
         });
 
-//==========================for profile==============================================
-        register_name = (TextView)findViewById(R.id.textView_username);
-        cover = (ImageView)findViewById(R.id.imageView_cover);
-        profile = (ImageView)findViewById(R.id.imageView_profile);
+        create_post = (Button)findViewById(R.id.create_post);
+        updatePosterInfo = (Button)findViewById(R.id.update_info_poster);
+        updatePosterInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent updateInfoPoster = new Intent(VeiwProfileInHomeActivity.this,EditPosterInfoActivity.class);
+                startActivity(updateInfoPoster);
+            }
+        });
 
+//        Toast.makeText(PosterProfile.this, userName, Toast.LENGTH_LONG).show();
+
+//        userPostID = getIntent().getStringExtra("userPostId");
+
+//        if(!userId.equals(userPostID)){
+//            updatePosterInfo.setVisibility(View.INVISIBLE);
+//            create_post.setVisibility(View.INVISIBLE);
+//        }
         //===========================get sharedPreference====================================
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         String userId = preferLogin.getString("userId","");
         final String userName = preferLogin.getString("userName","");
-        Toast.makeText(RegisterProfile.this, userName, Toast.LENGTH_LONG).show();
-
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get(constraint.url+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String data = new String(responseBody, "UTF8");
-                    Log.i("data", data);
+                    //Log.i("data", data);
                     try {
-                        JSONObject jsonObj = new JSONObject(data);
-                        JSONArray user_data = jsonObj.getJSONArray("posterProfile");
+                        JSONObject obj = new JSONObject(data);
                         //String status = obj.getString("status");
-                        JSONObject poster_data= user_data.getJSONObject(0);
-                        String register_names = poster_data.getString("username");
+                        JSONObject poster_data= obj.getJSONObject("posterProfile");
+
+                        String username = poster_data.getString("username");
                         String profiles = poster_data.getString("image");
                         String covers = poster_data.getString("covers");
-                        //set text
-                        register_name.setText(register_names);
+                        //set text for profile
+                        poster_name.setText(username);
 
-                        // profile poster
-                        final String posterUrlImg = constraint.url+"images/users/"+profiles;
+//                        Log.i("pstername",poster_name.toString());
+
+//                        // profile poster
+                        final String posterUrlImg = constraint.url+"images/posters/"+profiles;
                         loadProfile(posterUrlImg,profile);
                         // post image
-                        final String productUrlImg = constraint.url+"images/users/"+covers;
+                        final String productUrlImg = constraint.url+"images/posters/"+covers;
                         loadProductImage(productUrlImg,cover);
 
                     }catch (JSONException e){
@@ -113,47 +131,66 @@ public class RegisterProfile extends AppCompatActivity {
 
             }
         });
-
-        //==============================================for all favorite post=====================================
-
-        client.get(constraint.url+"users/viewUserFavorite/"+userId, new AsyncHttpResponseHandler() {
+//====================================
+//
+//
+//
+//
+//
+// ==========for all user post=====================================
+        final AsyncHttpClient clients = new AsyncHttpClient();
+        clients.get(constraint.url+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String data = new String(responseBody, "UTF8");
-                    Log.i("user_data", data);
+                    //Log.i("data", data);
                     try {
-                        Toast.makeText(RegisterProfile.this, "yes",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VeiwProfileInHomeActivity.this, "yes",Toast.LENGTH_SHORT).show();
                         JSONObject jsonObj = new JSONObject(data);
-                        Log.i("user_data_obj", jsonObj.toString());
-                        JSONArray user_data = jsonObj.getJSONArray("users");
+                        Log.i("data_all_post",jsonObj.toString());
+
+                        JSONArray user_data = jsonObj.getJSONArray("posterpost");
                         //Loop all info
                         for(int i = 0; i <= user_data.length(); i++){
                             JSONObject poster_data= user_data.getJSONObject(i);
                             String post_id = poster_data.getString("id");
-                            String user_id = poster_data.getString("users_id");
                             String poster_id = poster_data.getString("posters_id");
-                            String pos_title = poster_data.getString("pos_title");
+                            String image_pro = poster_data.getString("image");
                             String image_pos = poster_data.getString("pos_image");
+                            String username = poster_data.getString("username");
+                            String description = poster_data.getString("pos_description");
+                            String dateTime = poster_data.getString("created_at");
+                            String likes = poster_data.getString("numlike");
+                            String cmts = poster_data.getString("numcmt");
+                            String favs = poster_data.getString("numfavorite");
+                            Log.i("hello",favs);
                             //add  each info in to list array
-                            ID.add(post_id);
-                            USERID.add(user_id);
+                            POST_ID.add(post_id);
                             POSTER_ID.add(poster_id);
-                            FAVORITEIMAGE.add(image_pos);
-                            POSTTITLE.add(pos_title);
-
+                            POSTIMAGE.add(image_pos);
+                            PROFILE.add(image_pro);
+                            DESCRIPTION.add(description);
+                            USERNAME.add(username);
+                            DATETIME.add(dateTime);
+                            NUMCMT.add(cmts);
+                            NUMFAV.add(favs);
+                            NUMLIKE.add(likes);
                         }
                     }catch (JSONException e){
-                        Toast.makeText(RegisterProfile.this, "no",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VeiwProfileInHomeActivity.this, "no",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }catch (UnsupportedEncodingException e){
                     e.printStackTrace();
                 }
-                gridViewFavorite = (GridView)findViewById(R.id.gridViewFavorite);
-                RegisterAdapter customAdapter = new RegisterAdapter(getApplicationContext(),POSTTITLE, FAVORITEIMAGE);
-                gridViewFavorite.setAdapter(customAdapter);
+                listViewPosterPost = (ListView)findViewById(R.id.listViewPosterPost);
+                Log.i("Username", String.valueOf(USERNAME.size()));
+                Log.i("DATETIME", String.valueOf(DATETIME.size()));
+                Log.i("DESCRIPTION", String.valueOf(DESCRIPTION.size()));
+                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT);
+                listViewPosterPost.setAdapter(customAdapter);
             }
 
             @Override
@@ -161,9 +198,19 @@ public class RegisterProfile extends AppCompatActivity {
 
             }
         });
+        //================================ For create post ===========================================
+
+
+        create_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(VeiwProfileInHomeActivity.this, CreatePost.class);
+                startActivity(intent);
+            }
+        });
 
         //=================================for view profile =========================================
-        profile = (ImageView)findViewById(R.id.imageView_profile);
+        profile = (ImageView)findViewById(R.id.pro_poster);
         profile.setOnClickListener(new View.OnClickListener() {
 
 
@@ -186,7 +233,7 @@ public class RegisterProfile extends AppCompatActivity {
                         "View Profile",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(RegisterProfile.this, ImageProRegisterActivity.class);
+                                Intent intent = new Intent(VeiwProfileInHomeActivity.this, ImageProfileActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -195,9 +242,8 @@ public class RegisterProfile extends AppCompatActivity {
                 alert11.show();
             }
         });
-
         //=================================for view profile =========================================
-        cover = (ImageView)findViewById(R.id.imageView_cover);
+        cover = (ImageView)findViewById(R.id.cover_poster);
         cover.setOnClickListener(new View.OnClickListener() {
 
 
@@ -220,7 +266,7 @@ public class RegisterProfile extends AppCompatActivity {
                         "View Cover",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(RegisterProfile.this, ImageCoverRegisterActivity.class);
+                                Intent intent = new Intent(VeiwProfileInHomeActivity.this, ImageCoverPosterActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -230,8 +276,8 @@ public class RegisterProfile extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
 
     //============================ To load image of profile==============================================
@@ -253,7 +299,5 @@ public class RegisterProfile extends AppCompatActivity {
                 //.centerCrop()
                 .into(imgView);
     }
-
-
 
 }

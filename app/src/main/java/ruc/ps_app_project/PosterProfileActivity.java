@@ -130,7 +130,13 @@ public class PosterProfileActivity extends AppCompatActivity {
 
             }
         });
-//==============================================for all user post=====================================
+//====================================
+//
+//
+//
+//
+//
+// ==========for all user post=====================================
         final AsyncHttpClient clients = new AsyncHttpClient();
         clients.get(constraint.url+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
 
