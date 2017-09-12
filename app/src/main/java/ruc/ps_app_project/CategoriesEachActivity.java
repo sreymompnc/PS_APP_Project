@@ -33,6 +33,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import url.constraint;
 
 public class CategoriesEachActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -43,7 +44,6 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
     String Id,roleUser,userLoginID;
     TextView registerAction,loginAction, back;
     Intent intent;
-    String port = "http://192.168.1.22:2222/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
 
         Log.i("GetIdFromCate",Id);
 
-        new HttpAsyncTask().execute(port+"posts/viewEachCategories/"+Id);
+        new HttpAsyncTask().execute(constraint.url+"posts/viewEachCategories/"+Id);
 
 //------------------------ Start Go to Category ------------------------------------------
         back = (TextView)findViewById(R.id.btnPostBack);

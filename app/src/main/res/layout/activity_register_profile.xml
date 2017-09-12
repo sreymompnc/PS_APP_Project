@@ -14,30 +14,70 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="243dp"
                 android:layout_gravity="center">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_menu"
+                    android:minHeight="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp">
+
+
+                    <TextView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/ic_chevron_left_black_24dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:text="Profile"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </android.support.v7.widget.Toolbar>
 
                 <ImageView
                     android:id="@+id/imageView_cover"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/postprofile" />
+                    android:background="@drawable/postprofile"
+                    android:layout_below="@+id/toolbar"
+                    android:layout_alignParentStart="true" />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView_profile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="97dp"
                     android:src="@drawable/postprofile"
                     app:border_color="@color/white"
-                    app:border_width="2dp" />
+                    app:border_width="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
-
 
 
         </LinearLayout>

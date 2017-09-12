@@ -340,7 +340,31 @@ public class PostDetailActivity extends AppCompatActivity {
                 deleteStu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Action
+                        Toast.makeText(PostDetailActivity.this,"yes",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostDetailActivity.this,productPostID,Toast.LENGTH_LONG).show();
+                        final AsyncHttpClient client = new AsyncHttpClient();
+                        client.addHeader("apikey", "123");
+                        client.delete(constraint.url+"posts/deletePost/"+productPostID, new AsyncHttpResponseHandler() {
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                Toast.makeText(PostDetailActivity.this,"Delete success",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(PostDetailActivity.this,HomeActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                Toast.makeText(PostDetailActivity.this,"Delete failed",Toast.LENGTH_LONG).show();
+                                Toast.makeText(PostDetailActivity.this,String.valueOf(error),Toast.LENGTH_LONG).show();
+                                Toast.makeText(PostDetailActivity.this,String.valueOf(responseBody),Toast.LENGTH_LONG).show();
+                                Toast.makeText(PostDetailActivity.this,String.valueOf(headers),Toast.LENGTH_LONG).show();
+                                Toast.makeText(PostDetailActivity.this,String.valueOf(statusCode),Toast.LENGTH_LONG).show();
+                                Toast.makeText(PostDetailActivity.this,"failed",Toast.LENGTH_LONG).show();
+
+
+                            }
+                        });
                     }
                 });
 

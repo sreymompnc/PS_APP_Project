@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.sax.StartElementListener;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,8 +17,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -44,7 +42,7 @@ import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import url.constraint;
 
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener {
     ListView simpleList;
     private Spinner spinner;
     List<String> users;
@@ -54,6 +52,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     TextView search,cancelSearch;
     EditText searchValue;
     TextView registerAction,loginAction, back;
+    private HomeAdapter homeList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeListView = (ListView)findViewById(R.id.simpleListView);
         //Event on ListView
 
-
+//        homeList = new HomeAdapter(getApplicationContext(),
+//                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+//        homeListView.setAdapter(homeList);
 
         //-----------drawer bar----------------------
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -199,11 +201,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+//        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
 
+//########################################## Start Pull Requrest ##################################
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+            }
+        });
+
+        homeList = new HomeAdapter(getApplicationContext(),
+                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+        homeListView.setAdapter(homeList);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+//########################################## End Pull Requrest ####################################
     }
-
 
 
     // To get API url
@@ -246,6 +268,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+        Toast.makeText(HomeActivity.this, "Loaded!!!", Toast.LENGTH_SHORT).show();
+        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+    }
+
 
     class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -255,7 +286,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-
+            swipeRefreshLayout.setRefreshing(true);
 
             try {
                 JSONObject jsonObj = new JSONObject(result);
@@ -272,47 +303,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 productID.clear();
                 userPostId.clear();
 
-                for(int i=0; i < jArray.length(); i++){
-                    JSONObject jsonObject = jArray.getJSONObject(i);
-                    String name = jsonObject.getString("username");
-                    String description = jsonObject.getString("pos_description");
-                    String postIds = jsonObject.getString("id");
-                    String idUserPost = jsonObject.getString("posters_id");
-                    String postProfile = jsonObject.getString("image");
-                    String postImg = jsonObject.getString("pos_image");
-                    String dateTime = jsonObject.getString("created_at");
-                    String likes = jsonObject.getString("numlike");
-                    String cmts = jsonObject.getString("numcmt");
-                    String favs = jsonObject.getString("numfavorite");
+                if (jArray.length() > 0) {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        JSONObject jsonObject = jArray.getJSONObject(i);
+                        String name = jsonObject.getString("username");
+                        String description = jsonObject.getString("pos_description");
+                        String postIds = jsonObject.getString("id");
+                        String idUserPost = jsonObject.getString("posters_id");
+                        String postProfile = jsonObject.getString("image");
+                        String postImg = jsonObject.getString("pos_image");
+                        String dateTime = jsonObject.getString("created_at");
+                        String likes = jsonObject.getString("numlike");
+                        String cmts = jsonObject.getString("numcmt");
+                        String favs = jsonObject.getString("numfavorite");
 
-                    users.add(name);
-                    postDesc.add(description);
-                    postPro.add(postProfile);
-                    postImage.add(postImg);
-                    dateAndTime.add(dateTime);
-                    numeLike.add(likes);
-                    numCmt.add(cmts);
-                    numFav.add(favs);
-                    productID.add(postIds);
-                    userPostId.add(idUserPost);
-                    Log.i("name",productID.toString());
-
-
-
+                        users.add(name);
+                        postDesc.add(description);
+                        postPro.add(postProfile);
+                        postImage.add(postImg);
+                        dateAndTime.add(dateTime);
+                        numeLike.add(likes);
+                        numCmt.add(cmts);
+                        numFav.add(favs);
+                        productID.add(postIds);
+                        userPostId.add(idUserPost);
+                        Log.i("name", productID.toString());
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
                 }
-
-            } catch (JSONException e) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(getBaseContext(), "not data!", Toast.LENGTH_LONG).show();
 
             }
-
-            HomeAdapter homeList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
-            homeListView.setAdapter(homeList);
-
             homeList.notifyDataSetChanged();
-
         }
     }
 
@@ -389,7 +415,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-            HomeAdapter homeList = new HomeAdapter(getApplicationContext(),
+            homeList = new HomeAdapter(getApplicationContext(),
                     roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
             homeListView.setAdapter(homeList);
 
@@ -489,6 +515,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
 }
