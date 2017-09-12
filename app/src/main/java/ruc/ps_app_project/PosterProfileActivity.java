@@ -47,7 +47,8 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DESCRIPTION = new ArrayList<>();
     List<String> DATETIME = new ArrayList<>();
     Context context;
-    String userPostID;
+    String userPostID,page,posterID;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,22 @@ public class PosterProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
+        //---------------------Check where action from- home or menu to open profile poster----------------------
+        page =  getIntent().getStringExtra("frompage");
+        posterID = getIntent().getStringExtra("userPostId");
+
+        if(page.equals("menupage")){
+            //===========================get sharedPreference====================================
+            SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+            userId = preferLogin.getString("userId","");
+            final String userName = preferLogin.getString("userName","");
+
+        }else{
+            userId = posterID;
+        }
+
 //        Toast.makeText(PosterProfile.this, userName, Toast.LENGTH_LONG).show();
 
 //        userPostID = getIntent().getStringExtra("userPostId");
@@ -85,10 +102,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 //            updatePosterInfo.setVisibility(View.INVISIBLE);
 //            create_post.setVisibility(View.INVISIBLE);
 //        }
-        //===========================get sharedPreference====================================
-        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        String userId = preferLogin.getString("userId","");
-        final String userName = preferLogin.getString("userName","");
+
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
