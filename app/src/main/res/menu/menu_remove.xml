@@ -4,7 +4,7 @@
     tools:context="com.example.prosen.menuexample.MenuExampleActivity">
 
         <item
-            android:id="@+id/update_post"
+            android:id="@+id/remove_fav"
             android:orderInCategory="1"
             app:showAsAction="never"
             android:title="@string/update"/>
@@ -13,9 +13,4 @@
             android:orderInCategory="2"
             app:showAsAction="never"
             android:title="@string/delete"/>
-        <item
-            android:id="@+id/delete_favorite"
-            android:orderInCategory="3"
-            app:showAsAction="never"
-            android:title="Remove Favorite"/>
 </menu>
