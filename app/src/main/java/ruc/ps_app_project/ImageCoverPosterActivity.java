@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 /**
  * Created by ACER on 9/5/2017.
@@ -27,7 +28,6 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
     Context context;
     ImageView cover;
     TextView back;
-    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
         String userId = preferLogin.getString("userId", "");
         final String userName = preferLogin.getString("userName", "");
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(port+"posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -51,7 +51,7 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
                         JSONObject poster_data = obj.getJSONObject("posterProfile");
                         String covers = poster_data.getString("covers");
                         // profile poster
-                        final String posterUrlImg = port+"images/posters/" + covers;
+                        final String posterUrlImg = constraint.url+"images/posters/" + covers;
                         loadCover(posterUrlImg, cover);
 
                     } catch (JSONException e) {

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class PosterProfileActivity extends AppCompatActivity {
     Button btnPost, btn_view_pro, create_post,updatePosterInfo;
@@ -47,7 +48,6 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DATETIME = new ArrayList<>();
     Context context;
     String userPostID;
-    String port = "http://192.168.1.27:8888/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get(port+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -112,10 +112,10 @@ public class PosterProfileActivity extends AppCompatActivity {
 //                        Log.i("pstername",poster_name.toString());
 
 //                        // profile poster
-                        final String posterUrlImg = port+"images/posters/"+profiles;
+                        final String posterUrlImg = constraint.url+"images/posters/"+profiles;
                         loadProfile(posterUrlImg,profile);
                         // post image
-                        final String productUrlImg = port+"images/posters/"+covers;
+                        final String productUrlImg = constraint.url+"images/posters/"+covers;
                         loadProductImage(productUrlImg,cover);
 
                     }catch (JSONException e){
@@ -132,7 +132,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         });
 //==============================================for all user post=====================================
         final AsyncHttpClient clients = new AsyncHttpClient();
-        clients.get(port+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
+        clients.get(constraint.url+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
