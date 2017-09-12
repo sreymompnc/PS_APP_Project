@@ -59,10 +59,14 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DATETIME = new ArrayList<>();
     String imageUpdate,paramUrl;
     Context context;
-    String userPostID;
+
     public static final int RESULT_LOAD_IMAGE = 10;
     String picturePath = "";
     String IdUser,UserName;
+
+    String userPostID,page,posterID;
+    String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,22 @@ public class PosterProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
+        //---------------------Check where action from- home or menu to open profile poster----------------------
+        page =  getIntent().getStringExtra("frompage");
+        posterID = getIntent().getStringExtra("userPostId");
+
+        if(page.equals("menupage")){
+            //===========================get sharedPreference====================================
+            SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+            userId = preferLogin.getString("userId","");
+            final String userName = preferLogin.getString("userName","");
+
+        }else{
+            userId = posterID;
+        }
+
 //        Toast.makeText(PosterProfile.this, userName, Toast.LENGTH_LONG).show();
 
         userPostID = getIntent().getStringExtra("userPostId");
@@ -107,14 +127,15 @@ public class PosterProfileActivity extends AppCompatActivity {
 //            updatePosterInfo.setVisibility(View.INVISIBLE);
 //            create_post.setVisibility(View.INVISIBLE);
 //        }
-        //===========================get sharedPreference====================================
-        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        String userId = preferLogin.getString("userId","");
-        final String userName = preferLogin.getString("userName","");
+
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get(constraint.url+"posters/profile/"+userId, new AsyncHttpResponseHandler(){
+
+//        client.get(constraint.url+"posters/profile/"+userId, new AsyncHttpResponseHandler(){
+
+        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

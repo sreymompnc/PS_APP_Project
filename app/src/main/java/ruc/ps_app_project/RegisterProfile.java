@@ -43,7 +43,6 @@ import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
 public class RegisterProfile extends AppCompatActivity {
-
     Button updateUserInfo;
     GridView gridViewFavorite;
     Button btnPost, btn_cancel,btn_change_pro, btn_view_pro;

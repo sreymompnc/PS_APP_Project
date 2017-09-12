@@ -5,9 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,10 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 
 public class CreatePost extends Activity implements OnItemSelectedListener{
-    String port = "http://192.168.1.27:8888/";
     private Spinner spinner;
     TextView savePost;
     public static final int RESULT_IMAGE = 10;
@@ -47,6 +54,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
     String item;
     final List<String> categories = new ArrayList<String>();
     final List<String> cate_id = new ArrayList<String>();
+    TextInputLayout TextInputName, TextInputPhone, TextInputAddress, TextInputDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +64,149 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
         //======================for spinner ====================================
         spinner = (Spinner) findViewById(R.id.category_list);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
-//        // Specify the layout to use when the list of choices appears
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Apply the adapter to the spinner
-//        spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(this);
+
+        TextInputName = (TextInputLayout)findViewById(R.id.TextInputName);
+        TextInputPhone = (TextInputLayout)findViewById(R.id.TextInputPhone);
+        TextInputAddress = (TextInputLayout)findViewById(R.id.TextInputAddress);
+        TextInputDescription = (TextInputLayout)findViewById(R.id.TextInputDes);
+        pro_name = (EditText) findViewById(R.id.pro_title);
+        phone_number = (EditText) findViewById(R.id.pro_phone);
+        address = (EditText) findViewById(R.id.pro_address);
+        description = (EditText) findViewById(R.id.imgDescription);
+//================================for validation before when text change===================
+
+        // product name required
+        pro_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputName, pro_name,2);
+                }else{
+                    showMsgError(TextInputName, pro_name,"Product name is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // Email required
+        phone_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputPhone, phone_number,2);
+                }else{
+                    showMsgError(TextInputPhone, phone_number,"Phone number is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // password required
+        address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputAddress, address,2);
+                }else{
+                    showMsgError(TextInputAddress, address,"Password is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        // Confirm pass required
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputDescription, description,2);
+                }else{
+                    showMsgError(TextInputDescription, description,"Description is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+//                if(confirmPass.equals(password)){
+//                    hideMsgError(TextInputConfirmPass, confirmPass,2);
+//                }else {
+//                    showMsgError(TextInputConfirmPass, confirmPass,"Password is not match!");
+//                }
+            }
+        });
+        savePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                final String text = spinner.getSelectedItem().toString();
+//                Toast.makeText(CreatePost.this,text,Toast.LENGTH_LONG).show();
+
+                //For validation
+                String title = pro_name.getText().toString();
+                String phone = phone_number.getText().toString();
+                String des = description.getText().toString();
+                String add = address.getText().toString();
+                //Check validation
+                Boolean checkData = false;
+                if(title.length()== 0){
+                    showMsgError(TextInputName, pro_name, "Product name is required!");
+                    checkData = true;
+                }else{
+                    hideMsgError(TextInputName, pro_name,2);
+                }
+                if(phone.length()==0){
+                    showMsgError(TextInputPhone, phone_number,"Phone number is required!");
+                    checkData = true;
+                }else {
+                    hideMsgError(TextInputPhone, phone_number,2);
+                }
+                if(des.length()==0){
+                    showMsgError(TextInputDescription, description,"Description is required!");
+                    checkData = true;
+                }else {
+                    hideMsgError(TextInputDescription, description,2);
+                }
+                if(add.length()==0){
+                    showMsgError(TextInputAddress, address,"Address is required!");
+                    checkData = true;
+                }else {
+                    hideMsgError(TextInputAddress, address,2);
+                }
+                if(checkData.equals(false)) {
+                    createPost();
+                }else {
+                    Toast.makeText(CreatePost.this, "Failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         //================================= for get category of spinner================================
         AsyncHttpClient httpClient = new AsyncHttpClient();
-        httpClient.get(port+"posts/categories", new AsyncHttpResponseHandler() {
+        httpClient.get(constraint.url+"posts/categories", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -110,22 +249,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
 
 
-//        categories.add("Clothes");
-//        categories.add("Shoes");
-//        categories.add("Education");
-//        categories.add("Personal");
-//        categories.add("Travel");
 
-
-        // Get spinner
-        savePost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                final String text = spinner.getSelectedItem().toString();
-//                Toast.makeText(CreatePost.this,text,Toast.LENGTH_LONG).show();
-                createPost();
-            }
-        });
         //====================btn upload image =====================================
         btn_upload = (Button)findViewById(R.id.selectImage);
         btn_upload.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +307,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
     }
 
 //===================================function for create post =================================
+
     public void createPost(){
         //Login sharePreference
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
@@ -214,7 +339,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 //        requestParams.add("InputStream","");
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(port+"posts/createPost", requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url+"posts/createPost", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -223,8 +348,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                     String status = obj.getString("status");
 
                         if(status.equals("success")){
-                            Toast.makeText(CreatePost.this,"Create success",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CreatePost.this,HomeActivity.class);
+                            Intent intent = new Intent(CreatePost.this,PosterProfileActivity.class);
                             startActivity(intent);
                         }else {
                             Intent intent = new Intent(CreatePost.this,CreatePost.class);
@@ -238,18 +362,35 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String aa = "";
-               Log.i("1555A : ", String.valueOf(statusCode));
-                System.out.print("statuse"+statusCode );
-                System.out.print("headers"+headers );
-                System.out.print("responseBody"+responseBody );
-                System.out.print("error"+error );
-                Toast.makeText(CreatePost.this,String.valueOf(error),Toast.LENGTH_SHORT).show();
-                Toast.makeText(CreatePost.this,String.valueOf(responseBody),Toast.LENGTH_SHORT).show();
-                Toast.makeText(CreatePost.this,String.valueOf(headers),Toast.LENGTH_SHORT).show();
-                Toast.makeText(CreatePost.this,String.valueOf(statusCode),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /*
+* Set error message
+* */
+    public static void showMsgError(TextInputLayout textInputLayout, EditText editText, String errText){
+        textInputLayout.setError(errText);
+        errorStyle(editText, Color.RED);
+    }
+    /*
+    * Hide error message
+    * */
+    public static void hideMsgError(TextInputLayout textInputLayout, EditText editText, int color){
+        textInputLayout.setError("");
+        editText.setTextColor(Color.BLACK);
+        errorStyle(editText, color);
+    }
+    /*Text message error style of Edited text */
+    public static void errorStyle(EditText edt, int color){
+        Drawable drawable = edt.getBackground(); // get current EditText drawable
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP); // change the drawable color
+
+        if(Build.VERSION.SDK_INT > 16) {
+            edt.setBackground(drawable); // set the new drawable to EditText
+        }else{
+            edt.setBackgroundDrawable(drawable); // use setBackgroundDrawable because setBackground required API 16
+        }
     }
 }
 
