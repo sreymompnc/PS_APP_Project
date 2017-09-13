@@ -63,19 +63,19 @@
             <ImageView
                 android:layout_marginTop="10dp"
                 android:id="@+id/imageView"
-                android:layout_width="130dp"
+                android:layout_width="180dp"
                 android:layout_height="130dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:src="@drawable/ps_app" />
+                android:src="@drawable/app" />
 
 
         </LinearLayout>
 
         <!--start-->
         <LinearLayout
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:text="Already have an account?"/>
+                android:text="Already have an account as a buyer?"/>
 
             <Button
                 android:id="@+id/goToLogin"

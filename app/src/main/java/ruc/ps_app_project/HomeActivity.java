@@ -225,8 +225,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 searchValue.getText().clear();
+
                 requestData(rangePage);
                 cancelSearch.setVisibility(View.INVISIBLE);
+                loadMore.setVisibility(View.VISIBLE);
+
             }
         });
 
