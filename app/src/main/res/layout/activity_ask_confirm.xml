@@ -61,13 +61,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:layout_marginTop="10dp"
                 android:id="@+id/imageView"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:src="@drawable/rise" />
+                android:src="@drawable/ps_app" />
 
 
         </LinearLayout>

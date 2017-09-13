@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -54,6 +55,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
     TextView registerAction,loginAction, back;
     private HomeAdapter homeList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    Button loadMore;
+    int rangePage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,55 +112,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
-        //============================search=======================
-        cancelSearch = (TextView)findViewById(R.id.cancelsearch);
-        cancelSearch.setVisibility(View.INVISIBLE);
 
-
-        searchValue = (EditText)findViewById(R.id.search_product);
-
-        searchValue.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                cancelSearch.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                cancelSearch.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                cancelSearch.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        cancelSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchValue.getText().clear();
-                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
-                cancelSearch.setVisibility(View.INVISIBLE);
-            }
-        });
-
-
-        search = (TextView)findViewById(R.id.action_search);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String productName = searchValue.getText().toString();
-
-                // call AsynTask to perform network operation on separate thread
-                new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
-
-            }
-        });
-
-        //============================End search=======================
 
         //------------------------------------start Spinner-------------------------------------
 
@@ -200,8 +155,15 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         userPostId = new ArrayList<String>();
 
 
-        // call AsynTask to perform network operation on separate thread
-//        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+// Reguest more data when user click on button load more-----------------------------------
+        rangePage = 1;
+        loadMore = (Button)findViewById(R.id.buttonLoadMore);
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestData(rangePage);
+            }
+        });
 
 //########################################## Start Pull Requrest ##################################
 
@@ -215,16 +177,75 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
-                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+                requestData(rangePage);
             }
         });
+
+
 
         homeList = new HomeAdapter(getApplicationContext(),
                 roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
         homeListView.setAdapter(homeList);
 
         swipeRefreshLayout.setOnRefreshListener(this);
+
 //########################################## End Pull Requrest ####################################
+
+        //============================search=======================
+        cancelSearch = (TextView)findViewById(R.id.cancelsearch);
+        cancelSearch.setVisibility(View.INVISIBLE);
+
+
+        searchValue = (EditText)findViewById(R.id.search_product);
+
+        searchValue.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                cancelSearch.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        //---------------------------cancel search-------------------------
+        cancelSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchValue.getText().clear();
+                requestData(rangePage);
+                cancelSearch.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        search = (TextView)findViewById(R.id.action_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String productName = searchValue.getText().toString();
+
+                // call AsynTask to perform network operation on separate thread
+                new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
+
+            }
+        });
+
+        //============================End search=======================
+
+    }
+
+    public void requestData(int rangePage){
+        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
     }
 
 
@@ -273,10 +294,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     @Override
     public void onRefresh() {
-        Toast.makeText(HomeActivity.this, "Loaded!!!", Toast.LENGTH_SHORT).show();
-        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+        requestData(rangePage);
     }
-
 
     class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -292,16 +311,6 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                 JSONObject jsonObj = new JSONObject(result);
                 JSONArray jArray = jsonObj.getJSONArray("data");
 
-                users.clear();
-                postDesc.clear();
-                postPro.clear();
-                postImage.clear();
-                dateAndTime.clear();
-                numeLike.clear();
-                numCmt.clear();
-                numFav.clear();
-                productID.clear();
-                userPostId.clear();
 
                 if (jArray.length() > 0) {
                     for (int i = 0; i < jArray.length(); i++) {
@@ -328,14 +337,16 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                         productID.add(postIds);
                         userPostId.add(idUserPost);
                         Log.i("name", productID.toString());
+
                     }
+                    rangePage ++;
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
             catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "not data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "not data!", Toast.LENGTH_LONG).show();
 
             }
             homeList.notifyDataSetChanged();
@@ -393,8 +404,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                     productID.add(postIds);
                     userPostId.add(idUserPost);
                     Log.i("name",productID.toString());
-
-
+                    loadMore.setVisibility(View.INVISIBLE);
 
                 }
 
@@ -412,6 +422,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                 numFav.clear();
                 productID.clear();
                 userPostId.clear();
+
+                loadMore.setVisibility(View.INVISIBLE);
 
             }
 
