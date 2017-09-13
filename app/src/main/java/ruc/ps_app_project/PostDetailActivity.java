@@ -63,7 +63,7 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView commentPost;
     EditText messages;
     private String  productPostID,userPostID,favoriteID ;
-    private CommentListAdapter detailCommentList;
+    public CommentListAdapter detailCommentList;
 
     List<String> cmtuser,cmtdate,cmtprofile,cmtsms;
 
