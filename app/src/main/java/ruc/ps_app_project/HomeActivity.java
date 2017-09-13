@@ -55,6 +55,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     TextView registerAction,loginAction, back;
     private HomeAdapter homeList;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+
     Button loadMore;
     int rangePage;
 
@@ -113,33 +115,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
-        //------------------------------------start Spinner-------------------------------------
-
-
-        // Spinner Drop down elements
-//        final List<String> categories = new ArrayList<String>();
-//        categories.add("Automobile");
-//        categories.add("Business Services");
-//        categories.add("Computers");
-//        categories.add("Education");
-//        categories.add("Personal");
-//        categories.add("Travel");
-//
-//        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
-//        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-
-
-        //----------------------------------End spinner----------------------------------------
 
         users = new ArrayList<String>();
         postDesc = new ArrayList<String>();
@@ -339,6 +314,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Log.i("name", productID.toString());
 
                     }
+                    Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
                     rangePage ++;
                     swipeRefreshLayout.setRefreshing(false);
                 }

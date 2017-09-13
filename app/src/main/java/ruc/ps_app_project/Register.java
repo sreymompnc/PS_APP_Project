@@ -40,7 +40,7 @@ public class Register extends AppCompatActivity {
     Button btn_register , btn_login;
     EditText username, email, password, confirmPass;
     String user = "";
-    TextView back;
+    TextView back,goToLogin;
     TextInputLayout TextInputConfirmPass, TextInputPassword, TextInputUsername, TextInputEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,15 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        goToLogin = (TextView)findViewById(R.id.btnToRegister);
+        goToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toLoginIntent = new Intent(Register.this,Login.class);
+                startActivity(toLoginIntent);
             }
         });
 
