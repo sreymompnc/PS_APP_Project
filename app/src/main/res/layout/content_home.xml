@@ -23,5 +23,7 @@
                 android:dividerHeight="1dp"
                 android:footerDividersEnabled="true" />
 
+
+
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
