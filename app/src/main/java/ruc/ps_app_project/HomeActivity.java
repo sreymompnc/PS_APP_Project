@@ -43,7 +43,7 @@ import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import url.constraint;
 
 
-public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ListView simpleList;
     private Spinner spinner;
     List<String> users;
@@ -187,7 +187,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                 roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
         homeListView.setAdapter(homeList);
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.setOnRefreshListener(this);
 
 //########################################## End Pull Requrest ####################################
 
@@ -292,10 +292,10 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
     /**
      * This method is called when swipe refresh is pulled down
      */
-    @Override
-    public void onRefresh() {
-        requestData(rangePage);
-    }
+//    @Override
+//    public void onRefresh() {
+//        requestData(rangePage);
+//    }
 
     class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
