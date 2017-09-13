@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
+//import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -54,8 +54,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     EditText searchValue;
     TextView registerAction,loginAction, back;
     private HomeAdapter homeList;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
+//    private SwipeRefreshLayout swipeRefreshLayout;
 
     Button loadMore;
     int rangePage;
@@ -98,8 +98,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent regIntent = new Intent(HomeActivity.this,Register.class);
-                startActivity(regIntent);
+                Toast.makeText(HomeActivity.this,"Clicked!!",Toast.LENGTH_SHORT).show();
+//                Intent regIntent = new Intent(HomeActivity.this,Register.class);
+//                startActivity(regIntent);
             }
         });
 
@@ -115,6 +116,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+        //------------------------------------start Spinner-------------------------------------
+
+
+        // Spinner Drop down elements
+//        final List<String> categories = new ArrayList<String>();
+//        categories.add("Automobile");
+//        categories.add("Business Services");
+//        categories.add("Computers");
+//        categories.add("Education");
+//        categories.add("Personal");
+//        categories.add("Travel");
+//
+//        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
+//        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
+
+        //----------------------------------End spinner----------------------------------------
 
         users = new ArrayList<String>();
         postDesc = new ArrayList<String>();
@@ -143,19 +170,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 //########################################## Start Pull Requrest ##################################
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+//        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                requestData(rangePage);
-            }
-        });
+//        /**
+//         * Showing Swipe Refresh animation on activity create
+//         * As animation won't start on onCreate, post runnable is used
+//         */
+//        swipeRefreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeRefreshLayout.setRefreshing(true);
+//                requestData(rangePage);
+//            }
+//        });
 
 
 
@@ -198,8 +225,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 searchValue.getText().clear();
+
                 requestData(rangePage);
                 cancelSearch.setVisibility(View.INVISIBLE);
+                loadMore.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -215,9 +245,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
+        requestData(rangePage);
         //============================End search=======================
-
+//        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost"+ rangePage);
     }
 
     public void requestData(int rangePage){
@@ -265,9 +295,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    /**
-     * This method is called when swipe refresh is pulled down
-     */
+//    /**
+//     * This method is called when swipe refresh is pulled down
+//     */
 //    @Override
 //    public void onRefresh() {
 //        requestData(rangePage);
@@ -281,7 +311,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            swipeRefreshLayout.setRefreshing(true);
+//            swipeRefreshLayout.setRefreshing(true);
 
             try {
                 JSONObject jsonObj = new JSONObject(result);
@@ -317,9 +347,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                     rangePage ++;
-                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setRefreshing(false);
                 }
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
             }
             catch (JSONException e) {
                 e.printStackTrace();
