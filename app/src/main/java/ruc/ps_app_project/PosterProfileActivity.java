@@ -120,8 +120,8 @@ public class PosterProfileActivity extends AppCompatActivity {
 
 //        Toast.makeText(PosterProfile.this, userName, Toast.LENGTH_LONG).show();
 
-        userPostID = getIntent().getStringExtra("userPostId");
-        Log.i("GetExtraId",userPostID);
+       // userPostID = getIntent().getStringExtra("userPostId");
+       // Log.i("GetExtraId",userPostID);
 
 //        if(!IdUser.equals(POSTER_ID)){
 //            updatePosterInfo.setVisibility(View.INVISIBLE);
