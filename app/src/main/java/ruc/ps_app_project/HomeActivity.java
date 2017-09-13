@@ -137,6 +137,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 requestData(rangePage);
+                Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -314,7 +315,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Log.i("name", productID.toString());
 
                     }
-                    Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
+
                     rangePage ++;
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -469,7 +470,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } else if (id == R.id.nav_manage_post) {
-
+                if(userRole.equals("seller")){
+                    Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
+                    intent.putExtra("frompage","menupage");
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(HomeActivity.this,"You don't have permisson to access",Toast.LENGTH_SHORT).show();
+                }
         } else if (id == R.id.nav_change_password) {
             if(userRole.equals("buyer") || userRole.equals("seller")){
                 Intent intent = new Intent(HomeActivity.this,ConfirmEmailChangePassActivity.class);
