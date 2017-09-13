@@ -87,9 +87,9 @@ public class PostDetailActivity extends AppCompatActivity {
         hideBtnComment = (LinearLayout)findViewById(R.id.btnComment);
         SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preProfile.getString("user","");
-//        if(!roleUser.equals("buyer")) {
-//            hideBtnComment.setVisibility(View.INVISIBLE);
-//        }
+        if(!roleUser.equals("buyer")) {
+            hideBtnComment.setVisibility(View.INVISIBLE);
+        }
         //--------------------------End hide comment-----
 
 

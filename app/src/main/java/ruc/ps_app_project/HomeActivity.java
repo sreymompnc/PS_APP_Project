@@ -54,7 +54,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     EditText searchValue;
     TextView registerAction,loginAction, back;
     private HomeAdapter homeList;
+
 //    private SwipeRefreshLayout swipeRefreshLayout;
+
     Button loadMore;
     int rangePage;
 
@@ -112,6 +114,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(regIntent);
             }
         });
+
 
         //------------------------------------start Spinner-------------------------------------
 
@@ -338,6 +341,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Log.i("name", productID.toString());
 
                     }
+                    Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
                     rangePage ++;
 //                    swipeRefreshLayout.setRefreshing(false);
                 }
@@ -459,7 +463,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String userRole = preferProfile.getString("user","");
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+          
         } else if (id == R.id.nav_categories) {
             Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
             startActivity(intent);
