@@ -529,7 +529,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 editor.commit();
                 Log.i("Clear", editor.toString());
                 Toast.makeText(HomeActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeActivity.this, Login.class);
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 startActivity(intent);
             }else{
                 Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);

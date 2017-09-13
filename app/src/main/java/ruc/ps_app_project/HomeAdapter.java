@@ -173,6 +173,7 @@ public class HomeAdapter extends ArrayAdapter {
                     String idOfProduct = productID.get(position);
                     FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
                 }else{
+                    Toast.makeText(context,"save favorite",Toast.LENGTH_SHORT).show();
                     Intent intent= new Intent(context, AskConfirmActivity.class);
                     context.startActivity(intent);
                 }
