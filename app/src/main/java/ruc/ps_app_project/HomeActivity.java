@@ -436,7 +436,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String userRole = preferProfile.getString("user","");
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+          
         } else if (id == R.id.nav_categories) {
             Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
             startActivity(intent);
