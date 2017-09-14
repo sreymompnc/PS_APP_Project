@@ -169,13 +169,15 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i("my test","success");
                 try {
+                    Toast.makeText(PostDetailActivity.this,"success",Toast.LENGTH_SHORT).show();
+
                     String data = new String(responseBody, "UTF-8");
                     try {
                         JSONObject jsonObj = new JSONObject(data);
                         JSONArray jArray = jsonObj.getJSONArray("posts");
                         JSONObject objJson = jArray.getJSONObject(0);
 
-                        poster.setText(objJson.getString("poster"));
+                        poster.setText(objJson.getString("username"));
                         postDate.setText(objJson.getString("created_at"));
 
                         productName.setText(objJson.getString("pos_title"));
@@ -183,7 +185,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         productDis.setText(objJson.getString("discount")+"%");
                         productDes.setText(objJson.getString("pos_description"));
                         phone.setText(objJson.getString("pos_telephone"));
-                        email.setText(objJson.getString("postermail"));
+
                         address.setText(objJson.getString("pos_address"));
 
                         btnLike.setText(objJson.getString("numlike"));
@@ -191,11 +193,12 @@ public class PostDetailActivity extends AppCompatActivity {
                         btnCmt.setText(objJson.getString("numcmt"));
 
                         // profile poster
-                        final String posterUrlImg = constraint.url+"images/posters/"+objJson.getString("posterprofile");
+                        final String posterUrlImg = constraint.url+"images/posters/"+objJson.getString("image");
                         loadProfile(posterUrlImg,posterProfile);
                         // post image
                         final String productUrlImg = constraint.url+"images/posts/"+objJson.getString("pos_image");
                         loadProductImage(productUrlImg,postImage);
+
 
 
                     } catch (Throwable t) {
@@ -209,6 +212,8 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.i("my test","Fail");
+                Toast.makeText(PostDetailActivity.this,"fail",Toast.LENGTH_SHORT).show();
+
                 try {
                     String data = new String(responseBody, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
