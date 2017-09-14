@@ -96,7 +96,12 @@ public class HomeAdapter extends ArrayAdapter {
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Toast.makeText(context,"create like",Toast.LENGTH_LONG).show();
+                if(roleUser.equals("buyer")) {
+                    Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
             }
 
         });
@@ -104,10 +109,17 @@ public class HomeAdapter extends ArrayAdapter {
         holder.bntCmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent detailIntent = new Intent(context, PostDetailActivity.class);
-                detailIntent.putExtra("productId", productID.get(position).toString());
-                detailIntent.putExtra("userPostId", userPostId.get(position).toString());
-                context.startActivity(detailIntent);
+                if(roleUser.equals("buyer")){
+                    Intent detailIntent = new Intent(context, PostDetailActivity.class);
+                    detailIntent.putExtra("productId", productID.get(position).toString());
+                    detailIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    detailIntent.putExtra("page","homepage");
+                    context.startActivity(detailIntent);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+
             }
 
         });
@@ -175,8 +187,13 @@ public class HomeAdapter extends ArrayAdapter {
 
             @Override
             public void onClick(View view) {
-                String idOfProduct = productID.get(position);
+                if(roleUser.equals("buyer")){
+                    String idOfProduct = productID.get(position);
                     FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
             }
 
         });
@@ -185,7 +202,7 @@ public class HomeAdapter extends ArrayAdapter {
         holder.createDate.setText(dateAndTime.get(position));
         holder.desc.setText(description.get(position));
         holder.btnLike.setText(numLikes.get(position));
-        holder.btnFav.setText(numFav.get(position));
+       // holder.btnFav.setText(numFav.get(position));
         holder.bntCmt.setText(numCmt.get(position));
         // profile
         final String url = constraint.url+"images/posters/" + profile.get(position);

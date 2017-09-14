@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -43,20 +44,26 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import url.constraint;
 
+//import android.support.v4.widget.SwipeRefreshLayout;
 
-public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NavigationView.OnNavigationItemSelectedListener {
+
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ListView simpleList;
     private Spinner spinner;
     List<String> users;
-    List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav;
+    List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav,userSaved,userLiked;
     ListView homeListView;
     String roleUser,userLoginID;
     EditText searchValue;
     ImageView image_profile;
     Context context;
-    TextView registerAction,loginAction, back, user_name, search,cancelSearch;
-    private HomeAdapter homeList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    TextView registerAction,loginAction, back, user_name, search,cancelSearch;
+    private HomeAdapter homeList,searchList;
+
+//    private SwipeRefreshLayout swipeRefreshLayout;
+    Button loadMore;
+    int rangePage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +104,9 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent regIntent = new Intent(HomeActivity.this,Register.class);
-                startActivity(regIntent);
+                Toast.makeText(HomeActivity.this,"Clicked!!",Toast.LENGTH_SHORT).show();
+//                Intent regIntent = new Intent(HomeActivity.this,Register.class);
+//                startActivity(regIntent);
             }
         });
 
@@ -134,6 +142,47 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
+
+
+
+
+        users = new ArrayList<String>();
+        postDesc = new ArrayList<String>();
+        postPro = new ArrayList<String>();
+        postImage = new ArrayList<String>();
+        dateAndTime = new ArrayList<String>();
+        numeLike = new ArrayList<String>();
+        numCmt = new ArrayList<String>();
+        numFav = new ArrayList<String>();
+        productID = new ArrayList<String>();
+        userPostId = new ArrayList<String>();
+        userSaved = new ArrayList<String>();
+        userLiked = new ArrayList<String>();
+        //------------------------Start get data all of post----------------------
+        userPostId = new ArrayList<String>();
+
+
+// Reguest more data when user click on button load more-----------------------------------
+        rangePage = 1;
+        loadMore = (Button)findViewById(R.id.buttonLoadMore);
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestData(rangePage);
+                Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        homeList = new HomeAdapter(getApplicationContext(),
+                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+        homeListView.setAdapter(homeList);
+
+//        swipeRefreshLayout.setOnRefreshListener(this);
+
+//########################################## End Pull Requrest ####################################
+
         //============================search=======================
         cancelSearch = (TextView)findViewById(R.id.cancelsearch);
         cancelSearch.setVisibility(View.INVISIBLE);
@@ -160,12 +209,19 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
+        //---------------------------cancel search-------------------------
         cancelSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchValue.getText().clear();
-                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
+                Toast.makeText(HomeActivity.this,"cancel search",Toast.LENGTH_SHORT).show();
+
+
                 cancelSearch.setVisibility(View.INVISIBLE);
+                loadMore.setVisibility(View.VISIBLE);
+                
+                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
+
             }
         });
 
@@ -175,7 +231,6 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onClick(View view) {
                 String productName = searchValue.getText().toString();
-
                 // call AsynTask to perform network operation on separate thread
                 new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
 
@@ -183,73 +238,12 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
 
         //============================End search=======================
+//        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost"+ rangePage);
+        requestData(rangePage);
+    }
 
-        //------------------------------------start Spinner-------------------------------------
-
-
-        // Spinner Drop down elements
-//        final List<String> categories = new ArrayList<String>();
-//        categories.add("Automobile");
-//        categories.add("Business Services");
-//        categories.add("Computers");
-//        categories.add("Education");
-//        categories.add("Personal");
-//        categories.add("Travel");
-//
-//        Spinner spinner = (Spinner) navigationView.getMenu().findItem(R.id.nav_categories).getActionView();
-//        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,categories));
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(HomeActivity.this, categories.get(position),Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-
-
-        //----------------------------------End spinner----------------------------------------
-
-        users = new ArrayList<String>();
-        postDesc = new ArrayList<String>();
-        postPro = new ArrayList<String>();
-        postImage = new ArrayList<String>();
-        dateAndTime = new ArrayList<String>();
-        numeLike = new ArrayList<String>();
-        numCmt = new ArrayList<String>();
-        numFav = new ArrayList<String>();
-        productID = new ArrayList<String>();
-        userPostId = new ArrayList<String>();
-        //------------------------Start get data all of post----------------------
-        userPostId = new ArrayList<String>();
-
-
-        // call AsynTask to perform network operation on separate thread
-//        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
-
-//########################################## Start Pull Requrest ##################################
-
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
-            }
-        });
-
-        homeList = new HomeAdapter(getApplicationContext(),
-                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
-        homeListView.setAdapter(homeList);
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-//########################################## End Pull Requrest ####################################
+    public void requestData(int rangePage){
+        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
     }
 
 
@@ -293,14 +287,6 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     }
 
-    /**
-     * This method is called when swipe refresh is pulled down
-     */
-    @Override
-    public void onRefresh() {
-        Toast.makeText(HomeActivity.this, "Loaded!!!", Toast.LENGTH_SHORT).show();
-        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost");
-    }
 
 
     class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -311,22 +297,12 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            swipeRefreshLayout.setRefreshing(true);
+//            swipeRefreshLayout.setRefreshing(true);
 
             try {
                 JSONObject jsonObj = new JSONObject(result);
                 JSONArray jArray = jsonObj.getJSONArray("data");
 
-                users.clear();
-                postDesc.clear();
-                postPro.clear();
-                postImage.clear();
-                dateAndTime.clear();
-                numeLike.clear();
-                numCmt.clear();
-                numFav.clear();
-                productID.clear();
-                userPostId.clear();
 
                 if (jArray.length() > 0) {
                     for (int i = 0; i < jArray.length(); i++) {
@@ -341,6 +317,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                         String likes = jsonObject.getString("numlike");
                         String cmts = jsonObject.getString("numcmt");
                         String favs = jsonObject.getString("numfavorite");
+                       // String userSavedID = jsonObject.getString("userSaved");
+                       // String userLikedID = jsonObject.getString("userLiked");
 
                         users.add(name);
                         postDesc.add(description);
@@ -352,18 +330,24 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                         numFav.add(favs);
                         productID.add(postIds);
                         userPostId.add(idUserPost);
+                       // userSaved.add(userSavedID);
+                       // userLiked.add(userLikedID);
                         Log.i("name", productID.toString());
+
                     }
-                    swipeRefreshLayout.setRefreshing(false);
+                    rangePage ++;
+
                 }
-                swipeRefreshLayout.setRefreshing(false);
+
             }
             catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "not data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "not data!", Toast.LENGTH_LONG).show();
 
             }
-            homeList.notifyDataSetChanged();
+            homeList = new HomeAdapter(getApplicationContext(),
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+            homeListView.setAdapter(homeList);
         }
     }
 
@@ -406,6 +390,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                     String likes = jsonObject.getString("numlike");
                     String cmts = jsonObject.getString("numcmt");
                     String favs = jsonObject.getString("numfavorite");
+                   // String userSavedID = jsonObject.getString("userSaved");
+                   // String userLikedID = jsonObject.getString("userLiked");
 
                     users.add(name);
                     postDesc.add(description);
@@ -418,8 +404,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                     productID.add(postIds);
                     userPostId.add(idUserPost);
                     Log.i("name",productID.toString());
-
-
+                    loadMore.setVisibility(View.INVISIBLE);
 
                 }
 
@@ -438,11 +423,13 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                 productID.clear();
                 userPostId.clear();
 
+                loadMore.setVisibility(View.INVISIBLE);
+
             }
 
-            homeList = new HomeAdapter(getApplicationContext(),
+            searchList = new HomeAdapter(getApplicationContext(),
                     roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
-            homeListView.setAdapter(homeList);
+            homeListView.setAdapter(searchList);
 
 
 
@@ -473,7 +460,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         String userRole = preferProfile.getString("user","");
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+          
         } else if (id == R.id.nav_categories) {
             Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
             startActivity(intent);
@@ -506,7 +493,13 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
         } else if (id == R.id.nav_manage_post) {
-
+                if(userRole.equals("seller")){
+                    Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
+                    intent.putExtra("frompage","menupage");
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(HomeActivity.this,"You don't have permisson to access",Toast.LENGTH_SHORT).show();
+                }
         } else if (id == R.id.nav_change_password) {
             if(userRole.equals("buyer") || userRole.equals("seller")){
                 Intent intent = new Intent(HomeActivity.this,ConfirmEmailChangePassActivity.class);
@@ -529,7 +522,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
                 editor.commit();
                 Log.i("Clear", editor.toString());
                 Toast.makeText(HomeActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeActivity.this, Login.class);
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 startActivity(intent);
             }else{
                 Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);

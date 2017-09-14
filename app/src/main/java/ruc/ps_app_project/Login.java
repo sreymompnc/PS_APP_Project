@@ -309,8 +309,7 @@ public class Login extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Login.this, HomeActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 //--------------------------- End Go To Home ----------------------------------
