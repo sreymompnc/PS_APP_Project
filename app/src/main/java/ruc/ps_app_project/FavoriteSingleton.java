@@ -1,5 +1,6 @@
 package ruc.ps_app_project;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 /**
  * Created by Chamroeurn on 9/4/2017.
@@ -19,8 +21,8 @@ import cz.msebera.android.httpclient.Header;
 
 class FavoriteSingleton {
     private static FavoriteSingleton ourInstance = null;
+    private Context context;
     private FavoriteSingleton() {}
-    String port = "http://192.168.1.17:1111/";
     static FavoriteSingleton getInstance() {
 
         if(ourInstance == null){
@@ -39,7 +41,7 @@ class FavoriteSingleton {
         requestParams.add("posts_id",idOfProduct);
 
 
-        client.post(port+"posts/store", requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url+"posts/store", requestParams, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -51,7 +53,9 @@ class FavoriteSingleton {
 
                         String sms = jsonObject.getString("status");
                         if(sms.equals("success")){
-                          //  Toast.makeText(context,"well",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,"save success",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(context,"save fail",Toast.LENGTH_SHORT).show();
 
                         }
 

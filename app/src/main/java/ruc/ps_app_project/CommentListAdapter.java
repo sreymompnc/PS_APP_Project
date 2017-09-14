@@ -21,11 +21,12 @@ import com.squareup.picasso.Picasso;
 import java.io.InputStream;
 import java.util.List;
 
+import url.constraint;
+
 public class CommentListAdapter extends ArrayAdapter {
 
     Context context;
     List<String> userComment, dateComment, smsComment, profileComment;
-    String port = "http://192.168.1.17:1111/";
 
     public CommentListAdapter(Context applicationContext,List<String> userComment,
                               List<String> dateComment,List<String> smsComment, List<String> profileComment) {
@@ -86,7 +87,7 @@ public class CommentListAdapter extends ArrayAdapter {
         //loadImage(url, holder.profileCmt);
 
         new DownloadImageTask((ImageView) Listview.findViewById(R.id.cmt_image))
-                .execute(port+"images/users/"+profileComment.get(position));
+                .execute(constraint.url+"images/users/"+profileComment.get(position));
 
         return Listview;
 
