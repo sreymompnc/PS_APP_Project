@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-//import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,12 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.HttpGet;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,8 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import url.constraint;
 
+//import android.support.v4.widget.SwipeRefreshLayout;
+
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ListView simpleList;
@@ -50,13 +54,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav,userSaved,userLiked;
     ListView homeListView;
     String roleUser,userLoginID;
-    TextView search,cancelSearch;
     EditText searchValue;
-    TextView registerAction,loginAction, back;
+    ImageView image_profile;
+    Context context;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    TextView registerAction,loginAction, back, user_name, search,cancelSearch;
     private HomeAdapter homeList,searchList;
 
 //    private SwipeRefreshLayout swipeRefreshLayout;
-
     Button loadMore;
     int rangePage;
 
@@ -66,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        context = HomeActivity.this;
 
         SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preProfile.getString("user","");
@@ -103,6 +109,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //                startActivity(regIntent);
             }
         });
+
+        //===========================get sharedPreference====================================
+        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        String userId = preferLogin.getString("userId","");
+        final String userName = preferLogin.getString("userName","");
+        //=============================for profile===================================
+        View header=navigationView.getHeaderView(0);
+        user_name = (TextView)header.findViewById(R.id.user_name);
+        image_profile = (ImageView)header.findViewById(R.id.image_profile);
+        user_name.setText(userName);
+
+
+        //===============================for image ==================================
+//        // profile poster
+//        final String posterUrlImg = constraint.url+"images/users/"+profiles;
+//        loadProfile(posterUrlImg,profile);
+
+
+
+
+
 
         //--------------------------------Login--------------------------------------
         loginAction = (TextView) headerview.findViewById(R.id.action_login);
@@ -506,6 +533,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //============================ To load image of profile==============================================
+    private void loadProfile(String url,ImageView imgView){
+        Picasso.with(context)
+                .load(url)
+                .resize(800,800)
+                .centerInside()// to zoom img
+                //.centerCrop()
+                .into(imgView);
     }
 
 

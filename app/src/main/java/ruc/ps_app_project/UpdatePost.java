@@ -3,9 +3,15 @@ package ruc.ps_app_project;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +42,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
     private Spinner spinner;
     TextInputLayout TextInputProName, TextInputPhoneNumber, TextInputAddress, TextInputDescription;
-    TextView updatePost;
+    TextView updatePost,back;
     ImageView imageViewPost;
     EditText pro_title,pro_phone , pro_address, imgDescription;
     String userLoginID;
@@ -49,6 +55,14 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_post);
+
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         //==================get by id==============================
         imageViewPost = (ImageView)findViewById(R.id.imageViewPost);
 
@@ -71,6 +85,92 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
         //======================for spinner ====================================
         spinner = (Spinner) findViewById(R.id.category_list);
         spinner.setOnItemSelectedListener(this);
+
+
+        //================================for validation before when text change===================
+
+        // product name required
+        pro_title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputProName, pro_title,2);
+                }else{
+                    showMsgError(TextInputProName, pro_title,"Product name is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // Email required
+        pro_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputPhoneNumber, pro_phone,2);
+                }else{
+                    showMsgError(TextInputPhoneNumber, pro_phone,"Phone number is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // password required
+        pro_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputAddress, pro_address,2);
+                }else{
+                    showMsgError(TextInputAddress, pro_address,"Password is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        // Confirm pass required
+        imgDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0)
+                {
+                    hideMsgError(TextInputDescription, imgDescription,2);
+                }else{
+                    showMsgError(TextInputDescription, imgDescription,"Description is required!");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+//                if(confirmPass.equals(password)){
+//                    hideMsgError(TextInputConfirmPass, confirmPass,2);
+//                }else {
+//                    showMsgError(TextInputConfirmPass, confirmPass,"Password is not match!");
+//                }
+            }
+        });
 //
         //================================= for get category of spinner================================
         AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -155,35 +255,16 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
 
                     } catch (Throwable t) {
-
-                        Toast.makeText(UpdatePost.this, "faild1", Toast.LENGTH_LONG).show();
                         t.printStackTrace();
                     }
                 } catch (UnsupportedEncodingException e) {
-                    Toast.makeText(UpdatePost.this, "faild2", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("test data","Fail");
-                Toast.makeText(UpdatePost.this, "faildend", Toast.LENGTH_LONG).show();
-                System.out.print("statuse"+statusCode );
-                System.out.print("headers"+headers );
-                System.out.print("responseBody"+responseBody );
-                System.out.print("error"+error );
-                Toast.makeText(UpdatePost.this,String.valueOf(error),Toast.LENGTH_SHORT).show();
-                Toast.makeText(UpdatePost.this,String.valueOf(responseBody),Toast.LENGTH_SHORT).show();
-                Toast.makeText(UpdatePost.this,String.valueOf(headers),Toast.LENGTH_SHORT).show();
-                Toast.makeText(UpdatePost.this,String.valueOf(statusCode),Toast.LENGTH_SHORT).show();
-//                try {
-//                    String data = new String(responseBody, "UTF-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                } catch (NullPointerException e){
-//                    e.printStackTrace();
-//                }
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {;
+
             }
         });
 
@@ -221,11 +302,9 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                                 JSONObject obj = new JSONObject(data);
                                 String status = obj.getString("status");
                                 if(status.equals("success")){
-                                    Toast.makeText(UpdatePost.this, "update success",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(UpdatePost.this,HomeActivity.class);
+                                    Intent intent = new Intent(UpdatePost.this,PosterProfileActivity.class);
                                     startActivity(intent);
                                 }else {
-                                    Toast.makeText(UpdatePost.this, "failed",Toast.LENGTH_LONG).show();
 
                                 }
                                 System.out.println(obj);
@@ -239,12 +318,6 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(UpdatePost.this,String.valueOf(error),Toast.LENGTH_LONG).show();
-                        Toast.makeText(UpdatePost.this,String.valueOf(responseBody),Toast.LENGTH_LONG).show();
-                        Toast.makeText(UpdatePost.this,String.valueOf(headers),Toast.LENGTH_LONG).show();
-                        Toast.makeText(UpdatePost.this,String.valueOf(statusCode),Toast.LENGTH_LONG).show();
-                        Toast.makeText(UpdatePost.this,"failed",Toast.LENGTH_LONG).show();
-
 
                     }
                 });
@@ -258,11 +331,6 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
         String spinner =  adapterView.getItemAtPosition(i).toString();
         String id = String.valueOf(adapterView.getItemIdAtPosition(i));
         String a = cate_id.get(Integer.parseInt(id));
-
-//        Intent cat_id = new Intent(this, CreatePost.class);
-//        cat_id.putExtra("catId",a);
-
-
 
     }
 
@@ -279,5 +347,32 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                 .centerInside()// to zoom img
                 //.centerCrop()
                 .into(imgView);
+    }
+
+    /*
+* Set error message
+* */
+    public static void showMsgError(TextInputLayout textInputLayout, EditText editText, String errText){
+        textInputLayout.setError(errText);
+        errorStyle(editText, Color.RED);
+    }
+    /*
+    * Hide error message
+    * */
+    public static void hideMsgError(TextInputLayout textInputLayout, EditText editText, int color){
+        textInputLayout.setError("");
+        editText.setTextColor(Color.BLACK);
+        errorStyle(editText, color);
+    }
+    /*Text message error style of Edited text */
+    public static void errorStyle(EditText edt, int color){
+        Drawable drawable = edt.getBackground(); // get current EditText drawable
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP); // change the drawable color
+
+        if(Build.VERSION.SDK_INT > 16) {
+            edt.setBackground(drawable); // set the new drawable to EditText
+        }else{
+            edt.setBackgroundDrawable(drawable); // use setBackgroundDrawable because setBackground required API 16
+        }
     }
 }

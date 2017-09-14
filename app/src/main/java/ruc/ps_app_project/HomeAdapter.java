@@ -143,22 +143,40 @@ public class HomeAdapter extends ArrayAdapter {
         holder.posterProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(userLoginID.equals(userPostId)){
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("frompage","homepage");
+                    context.startActivity(profileIntent);
+                }else {
+//                    Intent profileIntent = new Intent(context, VeiwProfileInHomeActivity.class);
+//                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+//                    profileIntent.putExtra("frompage","homepage");
+//                    context.startActivity(profileIntent);
+                    Toast.makeText(context,"hello",Toast.LENGTH_LONG).show();
+                }
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
-                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                profileIntent.putExtra("frompage","homepage");
-                context.startActivity(profileIntent);
+
             }
 
         });
         holder.usernames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(userLoginID.equals(userPostId)){
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("frompage","homepage");
+                    context.startActivity(profileIntent);
+                }else {
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("frompage","homepage");
+                    context.startActivity(profileIntent);
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
-                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                profileIntent.putExtra("frompage","homepage");
-                context.startActivity(profileIntent);
+                }
+
+
             }
 
         });
