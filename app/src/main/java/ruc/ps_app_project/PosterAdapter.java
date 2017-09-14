@@ -127,7 +127,7 @@ public class PosterAdapter extends ArrayAdapter {
         holder.username.setText(USERNAME.get(i));
 
         holder.btnLike.setText(NUMLIKE.get(i));
-        holder.btnFav.setText(NUMFAV.get(i));
+       // holder.btnFav.setText(NUMFAV.get(i));
         holder.bntCmt.setText(NUMCMT.get(i));
 
         // profile
