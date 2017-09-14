@@ -103,8 +103,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomeActivity.this,"Clicked!!",Toast.LENGTH_SHORT).show();
-//                Intent regIntent = new Intent(HomeActivity.this,Register.class);
-//                startActivity(regIntent);
+                Intent regIntent = new Intent(HomeActivity.this,Register.class);
+                startActivity(regIntent);
             }
         });
 
@@ -178,8 +178,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //        homeListView.setAdapter(homeList);
 
 //        swipeRefreshLayout.setOnRefreshListener(this);
-
-//########################################## End Pull Requrest ####################################
 
         //============================search=======================
         cancelSearch = (TextView)findViewById(R.id.cancelsearch);
