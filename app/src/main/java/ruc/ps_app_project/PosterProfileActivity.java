@@ -107,8 +107,6 @@ public class PosterProfileActivity extends AppCompatActivity {
         page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
 
-
-
 //===========================get sharedPreference====================================
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userId = preferLogin.getString("userId","");
@@ -118,6 +116,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 //
 //        }else{
 //            userId = posterID;
+
 
        // userPostID = getIntent().getStringExtra("userPostId");
        // Log.i("GetExtraId",userPostID);
