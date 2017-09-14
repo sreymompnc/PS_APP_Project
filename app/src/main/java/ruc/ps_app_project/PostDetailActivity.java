@@ -247,6 +247,12 @@ public class PostDetailActivity extends AppCompatActivity {
         // call AsynTask to perform network operation on separate thread
         new HttpAsyncTask().execute(constraint.url+"posts/listcomment/"+productPostID);
 
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 

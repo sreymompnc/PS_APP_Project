@@ -37,7 +37,7 @@ public class PosterProfile extends AppCompatActivity {
     String countryList[] = {"Camboida","India"};
     public static final int RESULT_LOAD_IMAGE = 10;
     String picturePath = "";
-    String IdUser;
+    String IdUser,roleUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,8 @@ public class PosterProfile extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         IdUser = pref.getString("userId","");
         Log.i("Iduser",IdUser);
+        SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+        roleUser = preProfile.getString("user","");
 
 //############################ Start Change image profile #############################
 //        imageViewProfile = (CircleImageView)findViewById(R.id.pro_poster) ;
