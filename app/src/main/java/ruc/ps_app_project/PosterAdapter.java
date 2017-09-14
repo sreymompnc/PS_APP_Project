@@ -10,17 +10,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
 public class PosterAdapter extends ArrayAdapter {
 
     Context context;
     List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT;
+//    String ROLEUSER;
     public PosterAdapter(Context context, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
                        List<String> description,List<String> profile, List<String> allPostImage,
                        List<String> numLikes,List<String> numFav,List<String> numCmt) {
@@ -36,11 +41,17 @@ public class PosterAdapter extends ArrayAdapter {
         this.NUMLIKE = numLikes;
         this.NUMFAV = numFav;
         this.NUMCMT = numCmt;
+//        this.ROLEUSER = roleUser;
     }
 
     public PosterAdapter(Context applicationContext, String[] countryList, int[] flags) {
         super(applicationContext,R.layout.activity_poster_profile);
     }
+
+
+//    public PosterAdapter(Context applicationContext, String roleUser, String[] countryList, int[] flags) {
+//        super();
+//    }
 
     @Override
     public View getView(final int i, View view, ViewGroup parent) {
@@ -82,6 +93,33 @@ public class PosterAdapter extends ArrayAdapter {
             }
 
         });
+
+        // Go to detail activity of click product image
+//        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(ROLEUSER.equals("buyer")) {
+//                    AsyncHttpClient client = new AsyncHttpClient();
+//                    client.get(constraint.url + "posts/checkLike/"+POSTER_ID+"/"+POST_ID, new AsyncHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                            Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
+//                        }
+//                    });
+//                    Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+//                }else{
+//                    Intent intent= new Intent(context, AskConfirmActivity.class);
+//                    context.startActivity(intent);
+//                }
+//            }
+
+//        });
+
 
 
         holder.pos_description.setText(DESCRIPTION.get(i));
