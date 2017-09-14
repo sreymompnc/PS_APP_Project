@@ -176,7 +176,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         homeList = new HomeAdapter(getApplicationContext(),
-                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,
+                userSaved,userLiked);
         homeListView.setAdapter(homeList);
 
 //        swipeRefreshLayout.setOnRefreshListener(this);
@@ -233,6 +234,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String productName = searchValue.getText().toString();
                 // call AsynTask to perform network operation on separate thread
                 new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
+                Toast.makeText(HomeActivity.this,productName,Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -317,8 +319,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         String likes = jsonObject.getString("numlike");
                         String cmts = jsonObject.getString("numcmt");
                         String favs = jsonObject.getString("numfavorite");
-                       // String userSavedID = jsonObject.getString("userSaved");
-                       // String userLikedID = jsonObject.getString("userLiked");
+                        String userSavedID = jsonObject.getString("userSavedID");
+                        String userLikedID = jsonObject.getString("userLikedID");
+
 
                         users.add(name);
                         postDesc.add(description);
@@ -330,8 +333,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         numFav.add(favs);
                         productID.add(postIds);
                         userPostId.add(idUserPost);
-                       // userSaved.add(userSavedID);
-                       // userLiked.add(userLikedID);
+                        userSaved.add(userSavedID);
+                        userLiked.add(userLikedID);
                         Log.i("name", productID.toString());
 
                     }
@@ -346,7 +349,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
             homeList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,
+                    postDesc,postPro,postImage,numeLike,numFav,numCmt,
+                    userSaved, userLiked);
             homeListView.setAdapter(homeList);
         }
     }
@@ -377,6 +382,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 numFav.clear();
                 productID.clear();
                 userPostId.clear();
+                userSaved.clear();
+                userLiked.clear();
 
                 for(int i=0; i < jArray.length(); i++){
                     JSONObject jsonObject = jArray.getJSONObject(i);
@@ -390,8 +397,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String likes = jsonObject.getString("numlike");
                     String cmts = jsonObject.getString("numcmt");
                     String favs = jsonObject.getString("numfavorite");
-                   // String userSavedID = jsonObject.getString("userSaved");
-                   // String userLikedID = jsonObject.getString("userLiked");
+                    String userSavedID = jsonObject.getString("userSavedID");
+                    String userLikedID = jsonObject.getString("userLikedID");
+
+                    Toast.makeText(getBaseContext(),userSavedID+userLikedID, Toast.LENGTH_LONG).show();
 
                     users.add(name);
                     postDesc.add(description);
@@ -403,6 +412,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     numFav.add(favs);
                     productID.add(postIds);
                     userPostId.add(idUserPost);
+                    userSaved.add(userSavedID);
+                    userLiked.add(userLikedID);
                     Log.i("name",productID.toString());
                     loadMore.setVisibility(View.INVISIBLE);
 
@@ -410,7 +421,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "No data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Search no data!", Toast.LENGTH_LONG).show();
 
                 users.clear();
                 postDesc.clear();
@@ -428,7 +439,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             searchList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,
+                    userSaved, userLiked);
             homeListView.setAdapter(searchList);
 
 
