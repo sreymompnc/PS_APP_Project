@@ -25,7 +25,6 @@ public class HomeAdapter extends ArrayAdapter {
     Context context;
     List<String> userPostId, productID, username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
     String roleUser,userLoginID;
-    String port = "http://192.168.1.17:1111/";
     public HomeAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
                        List<String> username, List<String> dateAndTime,
                        List<String> description, List<String> profile, List<String> allPostImage,
