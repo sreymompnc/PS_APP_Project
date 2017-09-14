@@ -41,6 +41,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
+import static ruc.ps_app_project.CreatePost.RESULT_IMAGE;
+
 public class PosterProfileActivity extends AppCompatActivity {
     Button btnPost, btn_view_pro, create_post,updatePosterInfo;
 
@@ -57,7 +59,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> NUMFAV = new ArrayList<>();
     List<String> DESCRIPTION = new ArrayList<>();
     List<String> DATETIME = new ArrayList<>();
-    String imageUpdate,paramUrl;
+    String imageUpdate,paramUrl,roleUser;
     Context context;
 
     public static final int RESULT_LOAD_IMAGE = 10;
@@ -73,9 +75,8 @@ public class PosterProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poster_profile);
 ////############################# Get share preference ######################################
-//        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-//        IdUser = pref.getString("userId","");
-//        UserName = pref.getString("userName","");
+        SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
+        roleUser = preProfile.getString("user","");
 ////############################# Get share preference ######################################
 
         //==========================for profile==============================================
@@ -105,7 +106,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         //---------------------Check where action from- home or menu to open profile poster----------------------
         page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
-
+      
 //===========================get sharedPreference====================================
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userId = preferLogin.getString("userId","");
@@ -115,6 +116,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 //
 //        }else{
 //            userId = posterID;
+
 
        // userPostID = getIntent().getStringExtra("userPostId");
        // Log.i("GetExtraId",userPostID);
@@ -262,7 +264,9 @@ public class PosterProfileActivity extends AppCompatActivity {
                                 imageUpdate = "profile";
                                 paramUrl = "image";
                                 Gallary();
-                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(PosterProfileActivity.this, PosterProfileActivity.class);
+//                                startActivity(intent);
                             }
                         });
                 builder1.setPositiveButton(
@@ -338,7 +342,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == RESULT_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             Log.i("selectImgae",selectedImage.toString());
 
@@ -348,8 +352,11 @@ public class PosterProfileActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
+//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+//            InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
             ChangeImageProfile();
+
         }
     }
 
@@ -358,27 +365,30 @@ public class PosterProfileActivity extends AppCompatActivity {
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
-    public InputStream convertBitmapToInputStream(Bitmap bitmap)
-    {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        InputStream inputStream = new ByteArrayInputStream(byteArray);
-        return inputStream;
-    }
+//    public InputStream convertBitmapToInputStream(Bitmap bitmap)
+//    {
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//        InputStream inputStream = new ByteArrayInputStream(byteArray);
+//        return inputStream;
+//    }
 
 
     public void ChangeImageProfile(){
         RequestParams requestParams = new RequestParams();
+        Log.i("getPosterID",posterID);
         File file = new File(picturePath);
         try {
             requestParams.put(paramUrl, file, "image/jpeg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        Log.i("getPosterID",imageUpdate);
+        Log.i("getPosterID",posterID);
+        Log.i("getPosterID",paramUrl);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(constraint.url+"posters/"+imageUpdate+"/"+IdUser, requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url+"posters/"+imageUpdate+"/"+posterID, requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
