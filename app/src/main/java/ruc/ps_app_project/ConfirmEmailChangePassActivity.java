@@ -7,14 +7,13 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -31,11 +29,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class ConfirmEmailChangePassActivity extends AppCompatActivity {
     TextView backConfirmMail,confirmEmail;
     String roleUser;
-    String port = "http://192.168.1.17:1111/";
     String uri,userLoginID;
     EditText inputEmail;
     TextInputLayout TextInputEmail;
@@ -128,7 +126,7 @@ public class ConfirmEmailChangePassActivity extends AppCompatActivity {
                     RequestParams requestParams = new RequestParams();
                     requestParams.add("email", confirmmail);
 
-                    client.post(port+uri+userLoginID, requestParams,new AsyncHttpResponseHandler() {
+                    client.post(constraint.url+uri+userLoginID, requestParams,new AsyncHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

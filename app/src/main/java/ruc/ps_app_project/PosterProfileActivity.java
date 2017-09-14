@@ -1,15 +1,18 @@
 package ruc.ps_app_project;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,11 +32,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +74,11 @@ public class PosterProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poster_profile);
-////############################# Get share preference ######################################
+       //=========================== Get share preference ======================================
         SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preProfile.getString("user","");
-////############################# Get share preference ######################################
 
-        //==========================for profile==============================================
+        //==========================for profile============================================
         poster_name = (TextView)findViewById(R.id.postername);
         cover = (ImageView)findViewById(R.id.cover_poster);
         profile = (ImageView)findViewById(R.id.pro_poster);
@@ -103,6 +102,14 @@ public class PosterProfileActivity extends AppCompatActivity {
             }
         });
 
+        //ask permission for read image
+        if (Build.VERSION.SDK_INT >= 23) {
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
         //---------------------Check where action from- home or menu to open profile poster----------------------
         page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
@@ -125,9 +132,6 @@ public class PosterProfileActivity extends AppCompatActivity {
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-
-
-//        client.get(constraint.url+"posters/profile/"+userId, new AsyncHttpResponseHandler(){
 
         client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
 
@@ -338,6 +342,11 @@ public class PosterProfileActivity extends AppCompatActivity {
                 //.centerCrop()
                 .into(imgView);
     }
+    //=============================for change image======================================
+    public void Gallary(){
+        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -352,58 +361,43 @@ public class PosterProfileActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//            InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
             ChangeImageProfile();
 
         }
     }
 
-    public void Gallary(){
-        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }
-
-//    public InputStream convertBitmapToInputStream(Bitmap bitmap)
-//    {
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
-//        InputStream inputStream = new ByteArrayInputStream(byteArray);
-//        return inputStream;
-//    }
-
-
     public void ChangeImageProfile(){
         RequestParams requestParams = new RequestParams();
-        Log.i("getPosterID",posterID);
+        Log.i("getPosterID",userId);
+        Toast.makeText(PosterProfileActivity.this, userId,Toast.LENGTH_LONG).show();
         File file = new File(picturePath);
         try {
             requestParams.put(paramUrl, file, "image/jpeg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Log.i("getPosterID",imageUpdate);
-        Log.i("getPosterID",posterID);
-        Log.i("getPosterID",paramUrl);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(constraint.url+"posters/"+imageUpdate+"/"+posterID, requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url+"posters/"+imageUpdate+"/"+userId, requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String data = new String(responseBody, "UTF-8");
                     JSONObject object = new JSONObject(data);
                     String message = object.getString("status");
+                    Toast.makeText(PosterProfileActivity.this, "succes",Toast.LENGTH_LONG).show();
                     Log.i("message", message);
                 }catch (Exception e){
                     e.printStackTrace();
+                    Toast.makeText(PosterProfileActivity.this, "faild1",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 String bb = "";
+                System.out.print("status"+statusCode);
+                Toast.makeText(PosterProfileActivity.this, "failed2",Toast.LENGTH_LONG).show();
+
             }
         });
     }
