@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,12 +22,18 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +57,27 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> NUMFAV = new ArrayList<>();
     List<String> DESCRIPTION = new ArrayList<>();
     List<String> DATETIME = new ArrayList<>();
+    String imageUpdate,paramUrl;
     Context context;
+
+    public static final int RESULT_LOAD_IMAGE = 10;
+    String picturePath = "";
+    String IdUser,UserName;
+
     String userPostID,page,posterID;
     String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poster_profile);
+////############################# Get share preference ######################################
+//        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+//        IdUser = pref.getString("userId","");
+//        UserName = pref.getString("userName","");
+////############################# Get share preference ######################################
+
         //==========================for profile==============================================
         poster_name = (TextView)findViewById(R.id.postername);
         cover = (ImageView)findViewById(R.id.cover_poster);
@@ -91,12 +115,19 @@ public class PosterProfileActivity extends AppCompatActivity {
 //
 //        }else{
 //            userId = posterID;
-//        }
+
+        userPostID = getIntent().getStringExtra("userPostId");
+        Log.i("GetExtraId",userPostID);
+
 
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
-        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+
+        client.get(constraint.url+"posters/profile/"+userId, new AsyncHttpResponseHandler(){
+
+//         client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -107,6 +138,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                         //String status = obj.getString("status");
                         JSONObject poster_data= obj.getJSONObject("posterProfile");
 
+//                        String id = poster_data.getString("id");
                         String username = poster_data.getString("username");
                         String profiles = poster_data.getString("image");
                         String covers = poster_data.getString("covers");
@@ -146,6 +178,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                     try {
                         Toast.makeText(PosterProfileActivity.this, "yes",Toast.LENGTH_SHORT).show();
                         JSONObject jsonObj = new JSONObject(data);
+
                         Log.i("data_all_post",jsonObj.toString());
 
                         JSONArray user_data = jsonObj.getJSONArray("posterpost");
@@ -176,6 +209,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                             NUMFAV.add(favs);
                             NUMLIKE.add(likes);
                         }
+                        Log.i("Poster_id", String.valueOf(POST_ID));
                     }catch (JSONException e){
                         Toast.makeText(PosterProfileActivity.this, "no",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
@@ -183,7 +217,9 @@ public class PosterProfileActivity extends AppCompatActivity {
                 }catch (UnsupportedEncodingException e){
                     e.printStackTrace();
                 }
+
                 listViewPosterPost = (ListView)findViewById(R.id.listViewPosterPost);
+                Log.i("UserId", String.valueOf(POST_ID));
                 Log.i("Username", String.valueOf(USERNAME.size()));
                 Log.i("DATETIME", String.valueOf(DATETIME.size()));
                 Log.i("DESCRIPTION", String.valueOf(DESCRIPTION.size()));
@@ -198,7 +234,6 @@ public class PosterProfileActivity extends AppCompatActivity {
         });
         //================================ For create post ===========================================
 
-
         create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,7 +246,6 @@ public class PosterProfileActivity extends AppCompatActivity {
         profile = (ImageView)findViewById(R.id.pro_poster);
         profile.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
@@ -223,8 +257,10 @@ public class PosterProfileActivity extends AppCompatActivity {
                         "Change Profile",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                Intent intent = new Intent(PosterProfile.this, ChangeProfile.class);
-//                                startActivity(intent);
+                                imageUpdate = "profile";
+                                paramUrl = "image";
+                                Gallary();
+                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
                             }
                         });
                 builder1.setPositiveButton(
@@ -256,8 +292,10 @@ public class PosterProfileActivity extends AppCompatActivity {
                         "Change Cover",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                Intent intent = new Intent(PosterProfile.this, ChangeProfile.class);
-//                                startActivity(intent);
+                                imageUpdate = "cover";
+                                paramUrl = "covers";
+                                Gallary();
+                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
                             }
                         });
                 builder1.setPositiveButton(
@@ -273,10 +311,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                 alert11.show();
             }
         });
-
-
     }
-
 
     //============================ To load image of profile==============================================
     private void loadProfile(String url,ImageView imgView){
@@ -299,8 +334,66 @@ public class PosterProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            Log.i("selectImgae",selectedImage.toString());
+
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
+            ChangeImageProfile();
+        }
+    }
+
+    public void Gallary(){
+        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+    public InputStream convertBitmapToInputStream(Bitmap bitmap)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        InputStream inputStream = new ByteArrayInputStream(byteArray);
+        return inputStream;
+    }
+
+
+    public void ChangeImageProfile(){
+        RequestParams requestParams = new RequestParams();
+        File file = new File(picturePath);
+        try {
+            requestParams.put(paramUrl, file, "image/jpeg");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(constraint.url+"posters/"+imageUpdate+"/"+IdUser, requestParams, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    JSONObject object = new JSONObject(data);
+                    String message = object.getString("status");
+                    Log.i("message", message);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String bb = "";
+            }
+        });
     }
 }
 
