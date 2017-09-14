@@ -12,10 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
 import static android.support.v4.view.PagerAdapter.POSITION_NONE;
@@ -26,7 +29,7 @@ public class HomeAdapter extends ArrayAdapter {
     List<String> userPostId, productID, username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
     List<String> userSaved, userLiked;
     String roleUser,userLoginID;
-    String port = "http://192.168.1.17:1111/";
+
     public HomeAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
                        List<String> username, List<String> dateAndTime,
                        List<String> description, List<String> profile, List<String> allPostImage,
@@ -101,6 +104,18 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 if(roleUser.equals("buyer")) {
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.get(constraint.url + "posts/checkLike/"+userLoginID+"/"+productID, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                        }
+                    });
                     Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
                 }else{
                     Intent intent= new Intent(context, AskConfirmActivity.class);
