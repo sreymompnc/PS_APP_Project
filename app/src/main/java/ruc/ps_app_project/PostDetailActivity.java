@@ -157,6 +157,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
+        Toast.makeText(PostDetailActivity.this,productPostID,Toast.LENGTH_SHORT).show();
 
 
         //------------------------Start get data detail of post
