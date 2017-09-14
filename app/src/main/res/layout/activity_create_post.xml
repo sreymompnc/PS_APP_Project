@@ -36,7 +36,7 @@
                     app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
                     <TextView
-                        android:id="@+id/back_post"
+                        android:id="@+id/back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -251,19 +251,6 @@
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
-
-
-                <!--<Button-->
-                <!--android:id="@+id/btnUploadImage"-->
-                <!--android:background="@drawable/buttonformat"-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textStyle="bold"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_width="320dp"-->
-                <!--android:text="Create Post"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="5dp"/>-->
 
             </LinearLayout>
 

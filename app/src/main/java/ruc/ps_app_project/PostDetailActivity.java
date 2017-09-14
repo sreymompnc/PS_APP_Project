@@ -49,6 +49,8 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import url.constraint;
 
+import static ruc.ps_app_project.R.id.scroll;
+
 public class PostDetailActivity extends AppCompatActivity {
     String userLoginID,roleUser,cmtSms;
     TextView poster,postDate,productName,productPrice,productDis,productDes,phone,email,address;
@@ -63,7 +65,8 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView commentPost;
     EditText messages;
     private String  productPostID,userPostID,favoriteID ;
-    private CommentListAdapter detailCommentList;
+    public CommentListAdapter detailCommentList;
+    public CommentListAdapter adapter;
 
     List<String> cmtuser,cmtdate,cmtprofile,cmtsms;
 
@@ -103,9 +106,10 @@ public class PostDetailActivity extends AppCompatActivity {
         email = (TextView)findViewById(R.id.cMail);
         address = (TextView)findViewById(R.id.cAddress);
 
-        btnLike = (Button)findViewById(R.id.btnlike);
-        btnFav = (Button)findViewById(R.id.btnfavorite) ;
-        btnCmt = (Button)findViewById(R.id.btncommentt);
+        btnLike = (Button)findViewById(R.id.btnlikeDetail);
+        btnFav = (Button)findViewById(R.id.btnfavoriteDetail) ;
+        btnCmt = (Button)findViewById(R.id.btncommentDetail);
+
 
         posterProfile = (ImageView)findViewById(R.id.detail_circle_image);
         postImage = (ImageView)findViewById(R.id.detailImage);
@@ -120,6 +124,28 @@ public class PostDetailActivity extends AppCompatActivity {
 
         SharedPreferences preRole = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preRole.getString("user","");
+
+
+        //==========================Start comment, save favorite and like=========
+
+        btnCmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roleUser.equals("buyer")){
+                    Toast.makeText(PostDetailActivity.this,"forcus",Toast.LENGTH_SHORT).show();
+
+                   // messages
+
+
+
+                }else{
+                    Intent intentToConfirm =  new Intent(PostDetailActivity.this, AskConfirmActivity.class);
+                    context.startActivity(intentToConfirm);
+                }
+
+            }
+        });
+        //==========================End comment, save favorite and like=========
 
 
         //=============================back to home ===========================
@@ -160,7 +186,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         address.setText(objJson.getString("pos_address"));
 
                         btnLike.setText(objJson.getString("numlike"));
-                        btnFav.setText(objJson.getString("numfavorite"));
+                       // btnFav.setText(objJson.getString("numfavorite"));
                         btnCmt.setText(objJson.getString("numcmt"));
 
                         // profile poster
@@ -223,15 +249,15 @@ public class PostDetailActivity extends AppCompatActivity {
                            // CommentSingleton.getInstance().commentPost(detailCommentList, userLoginID,productPostID,cmtSms);
                             commentPost(productPostID,cmtSms);
 
+
+
                         }
                     });
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
 
         });
 
@@ -356,19 +382,12 @@ public class PostDetailActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                 Toast.makeText(PostDetailActivity.this,"Delete success",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(PostDetailActivity.this,HomeActivity.class);
+                                Intent intent = new Intent(PostDetailActivity.this,PosterProfileActivity.class);
                                 startActivity(intent);
                             }
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                Toast.makeText(PostDetailActivity.this,"Delete failed",Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(error),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(responseBody),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(headers),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(statusCode),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,"failed",Toast.LENGTH_LONG).show();
-
 
                             }
                         });
@@ -542,7 +561,12 @@ public class PostDetailActivity extends AppCompatActivity {
                         if(sms.equals("success")){
                             Toast.makeText(PostDetailActivity.this,"comment success",Toast.LENGTH_SHORT).show();
                             messages.getText().clear();
-//                            adapter.notifyDataSetChanged();
+
+                            adapter = new CommentListAdapter(getApplicationContext(),cmtuser, cmtdate, cmtsms, cmtprofile);
+                            commentListview.setAdapter(adapter);
+
+                            adapter.notifyDataSetChanged();
+
                         }else {
                             Toast.makeText(PostDetailActivity.this,"comment fail",Toast.LENGTH_SHORT).show();
 
