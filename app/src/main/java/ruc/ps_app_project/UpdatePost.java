@@ -255,12 +255,9 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
 
                     } catch (Throwable t) {
-
-                        Toast.makeText(UpdatePost.this, "faild1", Toast.LENGTH_LONG).show();
                         t.printStackTrace();
                     }
                 } catch (UnsupportedEncodingException e) {
-                    Toast.makeText(UpdatePost.this, "faild2", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }

@@ -1,9 +1,11 @@
 package ruc.ps_app_project;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -43,7 +47,6 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
-
 public class CreatePost extends Activity implements OnItemSelectedListener{
     private Spinner spinner;
     TextView savePost, back;
@@ -52,6 +55,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
     EditText pro_name, phone_number, address, description;
     String picturePath = "";
     String item;
+    String userPostID,page,posterID;
     final List<String> categories = new ArrayList<String>();
     final List<String> cate_id = new ArrayList<String>();
     TextInputLayout TextInputName, TextInputPhone, TextInputAddress, TextInputDescription;
@@ -77,10 +81,18 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         TextInputPhone = (TextInputLayout)findViewById(R.id.TextInputPhone);
         TextInputAddress = (TextInputLayout)findViewById(R.id.TextInputAddress);
         TextInputDescription = (TextInputLayout)findViewById(R.id.TextInputDes);
+
         pro_name = (EditText) findViewById(R.id.pro_title);
         phone_number = (EditText) findViewById(R.id.pro_phone);
         address = (EditText) findViewById(R.id.pro_address);
         description = (EditText) findViewById(R.id.imgDescription);
+        //ask permission for read image
+        if (Build.VERSION.SDK_INT >= 23) {
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
 //================================for validation before when text change===================
 
         // product name required
@@ -141,7 +153,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
             }
         });
-        // Confirm pass required
+        // description required
         description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,6 +175,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         savePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
 //                final String text = spinner.getSelectedItem().toString();
 //                Toast.makeText(CreatePost.this,text,Toast.LENGTH_LONG).show();
 
@@ -202,6 +216,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                 }else {
                     Toast.makeText(CreatePost.this, "Failed", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
@@ -260,6 +275,31 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                 Gallary();
             }
         });
+
+    }
+    //=========================to get image =========================================
+    public void Gallary(){
+        Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_IMAGE);
+    }
+
+    //=============================for image==========================================
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            picturePath = cursor.getString(columnIndex);
+            cursor.close();
+//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            // InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
+
+        }
     }
 
     //============================Method override of spinner =====================================
@@ -282,32 +322,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
     }
 
 
-
-
-
-    //===============================for image ===================================================
-    public void Gallary(){
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_IMAGE);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            picturePath = cursor.getString(columnIndex);
-            cursor.close();
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//             InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
-
-        }
-    }
-
 //===================================function for create post =================================
 
     public void createPost(){
@@ -316,7 +330,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         String userId = preferLogin.getString("userId","");
         int id = spinner.getSelectedItemPosition();
         String cat_id = cate_id.get(id);
-        Toast.makeText(getApplicationContext(),cat_id, Toast.LENGTH_SHORT).show();
         //        description= (MultiAutoCompleteTextView)findViewById(R.id.postDescription);
         description = (EditText) findViewById(R.id.imgDescription);
         phone_number = (EditText)findViewById(R.id.pro_phone);
@@ -324,24 +337,26 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         address = (EditText)findViewById(R.id.pro_address);
 
         RequestParams requestParams = new RequestParams();
+        requestParams.setHttpEntityIsRepeatable(true);
         requestParams.put("pos_description", String.valueOf(description.getText()));
         requestParams.put("pos_telephone", String.valueOf(phone_number.getText()));
         requestParams.put("pos_title", String.valueOf(pro_name.getText()));
         requestParams.put("pos_address", String.valueOf(address.getText()));
         requestParams.put("posters_id", userId);
         requestParams.put("categories_id", cat_id);
+
         File file = new File(picturePath);
         try {
             requestParams.put("pos_image", file, "image/jpeg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-//        requestParams.add("image","");
-//        requestParams.add("InputStream","");
+        //==================get intent from posterProfile====================================
+        page =  getIntent().getStringExtra("frompage");
+        posterID = getIntent().getStringExtra("userPostId");
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(constraint.url+"posts/createPost", requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url + "posts/createPost", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -364,6 +379,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("error", String.valueOf(responseBody));
             }
         });
     }

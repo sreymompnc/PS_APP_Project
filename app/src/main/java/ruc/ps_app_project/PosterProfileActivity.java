@@ -78,29 +78,19 @@ public class PosterProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
         //---------------------Check where action from- home or menu to open profile poster----------------------
         page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
 
-        if(page.equals("menupage")){
-            //===========================get sharedPreference====================================
-            SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-            userId = preferLogin.getString("userId","");
-            final String userName = preferLogin.getString("userName","");
-
-        }else{
-            userId = posterID;
-        }
-
-//        Toast.makeText(PosterProfile.this, userName, Toast.LENGTH_LONG).show();
-
-//        userPostID = getIntent().getStringExtra("userPostId");
-
-//        if(!userId.equals(userPostID)){
-//            updatePosterInfo.setVisibility(View.INVISIBLE);
-//            create_post.setVisibility(View.INVISIBLE);
+//===========================get sharedPreference====================================
+        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userId = preferLogin.getString("userId","");
+        final String userName = preferLogin.getString("userName","");
+//        if(page.equals("menupage")){
+//
+//
+//        }else{
+//            userId = posterID;
 //        }
 
         //============================data of poster==========================================
@@ -144,13 +134,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 
             }
         });
-//====================================
-//
-//
-//
-//
-//
-// ==========for all user post=====================================
+//================================for all user post=====================================
         final AsyncHttpClient clients = new AsyncHttpClient();
         clients.get(constraint.url+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
 
@@ -166,7 +150,8 @@ public class PosterProfileActivity extends AppCompatActivity {
 
                         JSONArray user_data = jsonObj.getJSONArray("posterpost");
                         //Loop all info
-                        for(int i = 0; i <= user_data.length(); i++){
+                        final int user_datas = user_data.length();
+                        for(int i = 0; i <= user_datas; i++){
                             JSONObject poster_data= user_data.getJSONObject(i);
                             String post_id = poster_data.getString("id");
                             String poster_id = poster_data.getString("posters_id");
@@ -313,6 +298,9 @@ public class PosterProfileActivity extends AppCompatActivity {
                 .into(imgView);
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
 }
 
