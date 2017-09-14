@@ -27,12 +27,14 @@ public class HomeAdapter extends ArrayAdapter {
 
     Context context;
     List<String> userPostId, productID, username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
+    List<String> userSaved, userLiked;
     String roleUser,userLoginID;
 
     public HomeAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
                        List<String> username, List<String> dateAndTime,
                        List<String> description, List<String> profile, List<String> allPostImage,
-                       List<String> numLikes, List<String> numFav, List<String> numCmt) {
+                       List<String> numLikes, List<String> numFav, List<String> numCmt,
+                       List<String> userSaved,List<String>  userLiked) {
         super(applicationContext, R.layout.homelist_item);
         this.context = applicationContext;
         this.roleUser = roleUser;
@@ -47,6 +49,8 @@ public class HomeAdapter extends ArrayAdapter {
         this.numLikes = numLikes;
         this.numFav = numFav;
         this.numCmt = numCmt;
+        this.userSaved = userSaved;
+        this.userLiked = userLiked;
     }
 
     @Override
