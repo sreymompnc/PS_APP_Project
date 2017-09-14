@@ -376,19 +376,12 @@ public class PostDetailActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                 Toast.makeText(PostDetailActivity.this,"Delete success",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(PostDetailActivity.this,HomeActivity.class);
+                                Intent intent = new Intent(PostDetailActivity.this,PosterProfileActivity.class);
                                 startActivity(intent);
                             }
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                Toast.makeText(PostDetailActivity.this,"Delete failed",Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(error),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(responseBody),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(headers),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,String.valueOf(statusCode),Toast.LENGTH_LONG).show();
-                                Toast.makeText(PostDetailActivity.this,"failed",Toast.LENGTH_LONG).show();
-
 
                             }
                         });

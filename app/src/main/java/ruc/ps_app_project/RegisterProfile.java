@@ -124,11 +124,9 @@ public class RegisterProfile extends AppCompatActivity {
 
                     }catch (JSONException e){
                         e.printStackTrace();
-                        Toast.makeText(RegisterProfile.this, "failed 1", Toast.LENGTH_LONG).show();
                     }
                 }catch (UnsupportedEncodingException e){
                     e.printStackTrace();
-                    Toast.makeText(RegisterProfile.this, "failed 2", Toast.LENGTH_LONG).show();
                 }
             }
             @Override

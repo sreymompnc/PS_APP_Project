@@ -4,9 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <users-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -36,21 +34,19 @@
         <activity android:name=".ClarifyAccountActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".EditPosterInfoActivity" />
-
         <activity android:name=".CategoriesActivity" />
-        <activity android:name=".CategoriesEachActivity"></activity>
-      
-        <activity android:name=".ImageCoverRegisterActivity"></activity>
-        <activity android:name=".ImageProRegisterActivity"></activity>
-        <activity android:name=".ImageCoverPosterActivity"></activity>
-        <activity android:name=".ImageProfileActivity"></activity>
-        <activity android:name=".Login"></activity>
-        <activity android:name=".CreatePost"></activity>
-        <activity android:name=".PosterProfileActivity"></activity>
-        <activity android:name=".RegisterProfile"></activity>.
-        <activity android:name=".AskConfirmActivity"></activity>
-        <activity android:name=".ConfirmEmailChangePassActivity"></activity>
-
+        <activity android:name=".CategoriesEachActivity" />
+        <activity android:name=".ImageCoverRegisterActivity" />
+        <activity android:name=".ImageProRegisterActivity" />
+        <activity android:name=".ImageCoverPosterActivity" />
+        <activity android:name=".ImageProfileActivity" />
+        <activity android:name=".Login" />
+        <activity android:name=".CreatePost" />
+        <activity android:name=".PosterProfileActivity" />
+        <activity android:name=".RegisterProfile" />
+        .
+        <activity android:name=".AskConfirmActivity" />
+        <activity android:name=".ConfirmEmailChangePassActivity" />
     </application>
 
 </manifest>
