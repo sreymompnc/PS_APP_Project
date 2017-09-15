@@ -68,7 +68,17 @@ public class RegisterProfile extends AppCompatActivity {
         setContentView(R.layout.activity_register_profile);
         context = RegisterProfile.this;
 
+
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 //=============================== Get share preference ===================================
+
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         IdUser = pref.getString("userId","");
         Log.i("Iduser",IdUser);

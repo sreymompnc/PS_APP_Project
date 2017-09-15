@@ -114,7 +114,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         //---------------------Check where action from- home or menu to open profile poster----------------------
         page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
-      
+
 //===========================get sharedPreference====================================
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userId = preferLogin.getString("userId","");
