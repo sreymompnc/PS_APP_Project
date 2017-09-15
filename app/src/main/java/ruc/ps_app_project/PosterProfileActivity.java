@@ -1,6 +1,7 @@
 package ruc.ps_app_project;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,11 +63,12 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> DATETIME = new ArrayList<>();
     String imageUpdate,paramUrl,roleUser;
     Context context;
+    final Context contextDialog = this;
 
     public static final int RESULT_LOAD_IMAGE = 10;
     String picturePath = "";
     String IdUser,UserName;
-
+    String profiles,covers;
     String userPostID,page,posterID;
     String userId;
     String checkUserID;
@@ -131,8 +133,8 @@ public class PosterProfileActivity extends AppCompatActivity {
         //=======================check owner or not and hide button===============
          userPostID = getIntent().getStringExtra("userPostId");
         if(!userPostID.equals(userId)){
-            create_post.setEnabled(false);
-            updatePosterInfo.setEnabled(false);
+            create_post.setVisibility(View.INVISIBLE);
+            updatePosterInfo.setVisibility(View.INVISIBLE);
         }
 
 
@@ -159,8 +161,8 @@ public class PosterProfileActivity extends AppCompatActivity {
 
 //                        String id = poster_data.getString("id");
                         String username = poster_data.getString("username");
-                        String profiles = poster_data.getString("image");
-                        String covers = poster_data.getString("covers");
+                         profiles = poster_data.getString("image");
+                         covers = poster_data.getString("covers");
                         //set text for profile
                         poster_name.setText(username);
 
@@ -268,34 +270,58 @@ public class PosterProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                builder1.setMessage("Do you want to");
                 builder1.setCancelable(true);
 
+                if(!userPostID.equals(userId)){
 
-                builder1.setNegativeButton(
-                        "Change Profile",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                imageUpdate = "profile";
-                                paramUrl = "image";
-                                imageChange = (ImageView)findViewById(R.id.pro_poster) ;
-                                Gallary();
-//                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(PosterProfileActivity.this, PosterProfileActivity.class);
-//                                startActivity(intent);
-                            }
-                        });
-                builder1.setPositiveButton(
-                        "View Profile",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(PosterProfileActivity.this, ImageProfileActivity.class);
-                                startActivity(intent);
-                            }
-                        });
+                    final Dialog dialog = new Dialog(contextDialog);
+                    dialog.setContentView(R.layout.view_image_dialog);
 
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_profile_poster);
+                    // if button is clicked, it will delete this post
+                    viewProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(PosterProfileActivity.this, ImageProfileActivity.class);
+                            intent.putExtra("viewImageProfile", profiles);
+                            startActivity(intent);
+                        }
+                    });
+
+
+                    dialog.show();
+
+
+
+                }else{
+                    builder1.setNegativeButton(
+                            "Change Profile",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    imageUpdate = "profile";
+                                    paramUrl = "image";
+                                    imageChange = (ImageView)findViewById(R.id.pro_poster) ;
+                                    Gallary();
+
+                                }
+                            });
+
+                    builder1.setPositiveButton(
+                            "View Profile",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(PosterProfileActivity.this, ImageProfileActivity.class);
+                                    intent.putExtra("viewImageProfile", profiles);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+
+
+
             }
         });
         //=================================for view profile =========================================
@@ -309,29 +335,51 @@ public class PosterProfileActivity extends AppCompatActivity {
                 builder1.setMessage("Do you want to");
                 builder1.setCancelable(true);
 
+                if(!userPostID.equals(userId)){
+                    final Dialog dialog = new Dialog(contextDialog);
+                    dialog.setContentView(R.layout.cover_poster_image_dialog);
 
-                builder1.setNegativeButton(
-                        "Change Cover",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                imageUpdate = "cover";
-                                paramUrl = "covers";
-                                imageChange = (ImageView) findViewById(R.id.cover_poster);
-                                Gallary();
-                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                builder1.setPositiveButton(
-                        "View Cover",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(PosterProfileActivity.this, ImageCoverPosterActivity.class);
-                                startActivity(intent);
-                            }
-                        });
+                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_cover_poster);
+                    // if button is clicked, it will delete this post
+                    viewProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(PosterProfileActivity.this, ImageCoverPosterActivity.class);
+                            intent.putExtra("viewImageCover", covers);
+                            startActivity(intent);
+                        }
+                    });
 
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+
+                    dialog.show();
+
+                }else{
+                    builder1.setNegativeButton(
+                            "Change Cover",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    imageUpdate = "cover";
+                                    paramUrl = "covers";
+                                    imageChange = (ImageView) findViewById(R.id.cover_poster);
+                                    Gallary();
+                                    Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    builder1.setPositiveButton(
+                            "View Cover",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(PosterProfileActivity.this, ImageCoverPosterActivity.class);
+                                    intent.putExtra("viewImageCover", covers);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+
+
             }
         });
     }
