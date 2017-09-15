@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -295,8 +297,9 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            //=========================for show image after we select====================================
+            ImageView imageView = (ImageView) findViewById(R.id.imageViewPost);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             // InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
 
         }

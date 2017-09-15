@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,7 +49,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 
     private TextView poster_name,back;
     ListView listViewPosterPost;
-    ImageView cover, profile;
+    ImageView cover, profile, imageChange;
     List<String> POST_ID = new ArrayList<>();
     List<String> POSTER_ID = new ArrayList<>();
     List<String> PROFILE = new ArrayList<>();
@@ -267,6 +268,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 imageUpdate = "profile";
                                 paramUrl = "image";
+                                imageChange = (ImageView)findViewById(R.id.pro_poster) ;
                                 Gallary();
 //                                Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
 //                                Intent intent = new Intent(PosterProfileActivity.this, PosterProfileActivity.class);
@@ -304,6 +306,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 imageUpdate = "cover";
                                 paramUrl = "covers";
+                                imageChange = (ImageView) findViewById(R.id.cover_poster);
                                 Gallary();
                                 Toast.makeText(PosterProfileActivity.this,"Clicked!!!",Toast.LENGTH_SHORT).show();
                             }
@@ -360,16 +363,17 @@ public class PosterProfileActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
+            imageChange.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             cursor.close();
             ChangeImageProfile();
 
         }
     }
 
-    public void ChangeImageProfile(){
+    public void ChangeImageProfile() {
         RequestParams requestParams = new RequestParams();
-        Log.i("getPosterID",userId);
-        Toast.makeText(PosterProfileActivity.this, userId,Toast.LENGTH_LONG).show();
+        Log.i("getPosterID", userId);
+        Toast.makeText(PosterProfileActivity.this, userId, Toast.LENGTH_LONG).show();
         File file = new File(picturePath);
         try {
             requestParams.put(paramUrl, file, "image/jpeg");
@@ -377,29 +381,36 @@ public class PosterProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(constraint.url+"posters/"+imageUpdate+"/"+userId, requestParams, new AsyncHttpResponseHandler() {
+        client.post(constraint.url + "posters/" + imageUpdate + "/" + userId, requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String data = new String(responseBody, "UTF-8");
                     JSONObject object = new JSONObject(data);
                     String message = object.getString("status");
-                    Toast.makeText(PosterProfileActivity.this, "succes",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PosterProfileActivity.this, "succes", Toast.LENGTH_LONG).show();
                     Log.i("message", message);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(PosterProfileActivity.this, "faild1",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PosterProfileActivity.this, "faild1", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 String bb = "";
-                System.out.print("status"+statusCode);
-                Toast.makeText(PosterProfileActivity.this, "failed2",Toast.LENGTH_LONG).show();
+                System.out.print("status" + statusCode);
+
 
             }
         });
+
+
+    }
+    //===========Back method==========
+    public void onBackPressed()
+    {
+        super.onBackPressed();  // optional depending on your needs
     }
 }
 
