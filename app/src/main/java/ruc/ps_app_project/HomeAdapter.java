@@ -157,6 +157,7 @@ public class HomeAdapter extends ArrayAdapter {
                 if(userLoginID.equals(userPostId)){
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+
                     profileIntent.putExtra("frompage",true);
                     context.startActivity(profileIntent);
                 }else {
