@@ -210,6 +210,8 @@ public class HomeAdapter extends ArrayAdapter {
                 if(roleUser.equals("buyer")){
                     String idOfProduct = productID.get(position);
                     FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
+                    Toast.makeText(context, userSaved.get(position).toString(), Toast.LENGTH_LONG).show();
+
                 }else{
                     Intent intent= new Intent(context, AskConfirmActivity.class);
                     context.startActivity(intent);
@@ -222,7 +224,7 @@ public class HomeAdapter extends ArrayAdapter {
         holder.createDate.setText(dateAndTime.get(position));
         holder.desc.setText(description.get(position));
         holder.btnLike.setText(numLikes.get(position));
-       // holder.btnFav.setText(numFav.get(position));
+        holder.btnFav.setText(numFav.get(position));
         holder.bntCmt.setText(numCmt.get(position));
         // profile
         final String url = constraint.url+"images/posters/" + profile.get(position);
