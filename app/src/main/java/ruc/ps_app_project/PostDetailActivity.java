@@ -52,7 +52,7 @@ import url.constraint;
 import static ruc.ps_app_project.R.id.scroll;
 
 public class PostDetailActivity extends AppCompatActivity {
-    String userLoginID,roleUser,cmtSms;
+    String userLoginID,roleUser,cmtSms,postID;
     TextView poster,postDate,productName,productPrice,productDis,productDes,phone,posteremail,address;
     Button btnLike,btnFav,btnCmt;
     ImageView posterProfile,postImage;
@@ -69,6 +69,7 @@ public class PostDetailActivity extends AppCompatActivity {
     public CommentListAdapter adapter;
 
     List<String> cmtuser,cmtdate,cmtprofile,cmtsms;
+
 
 
     @Override
@@ -177,6 +178,8 @@ public class PostDetailActivity extends AppCompatActivity {
                         JSONArray jArray = jsonObj.getJSONArray("posts");
                         JSONObject objJson = jArray.getJSONObject(0);
 
+                        postID = objJson.getString("id");
+
                         poster.setText(objJson.getString("username"));
                         postDate.setText(objJson.getString("created_at"));
 
@@ -283,7 +286,13 @@ public class PostDetailActivity extends AppCompatActivity {
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//                if(roleUser.equals("buyer")) {
+                    like(postID);
+//                    Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+//                }else{
+//                    Intent intent= new Intent(context, AskConfirmActivity.class);
+//                    context.startActivity(intent);
+//                }
             }
         });
 
@@ -664,10 +673,6 @@ public class PostDetailActivity extends AppCompatActivity {
                         Intent goToFavoritePage = new Intent(PostDetailActivity.this,FavoritePageActivity.class);
                         startActivity(goToFavoritePage);
 
-
-
-
-
                     } catch (Throwable t) {
                         t.printStackTrace();
                     }
@@ -693,6 +698,32 @@ public class PostDetailActivity extends AppCompatActivity {
     }
     //==========================================End remove favorite======================
 
+    private void like(String postID){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(constraint.url + "posts/checkLike/"+userLoginID+"/"+postID, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    Log.i("userLoginID",userLoginID);
+//                    Log.i("userLoginID", String.valueOf(productID));
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject object = new JSONObject(data);
+                        String message = object.getString("status");
+                        String name = "";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
 
 }
