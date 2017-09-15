@@ -2,6 +2,7 @@ package ruc.ps_app_project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -90,9 +95,6 @@ public class HomeAdapter extends ArrayAdapter {
             holder.btnFav = (Button) Listview.findViewById(R.id.hbtnfavorite);
             holder.bntCmt = (Button) Listview.findViewById(R.id.hbtncmt);
 
-
-
-
             Listview.setTag(holder);
         } else {
 
@@ -104,18 +106,9 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 if(roleUser.equals("buyer")) {
-                    AsyncHttpClient client = new AsyncHttpClient();
-                    client.get(constraint.url + "posts/checkLike/"+userLoginID+"/"+productID, new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
-                        }
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                        }
-                    });
+                    String idOfProduct = productID.get(position);
+                    like(idOfProduct);
                     Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
                 }else{
                     Intent intent= new Intent(context, AskConfirmActivity.class);
@@ -142,8 +135,6 @@ public class HomeAdapter extends ArrayAdapter {
             }
 
         });
-
-
 
         holder.postImages.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,7 +258,34 @@ public class HomeAdapter extends ArrayAdapter {
                 .into(imgView);
 
     }
+    private void like(String productID){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(constraint.url + "posts/checkLike/"+userLoginID+"/"+productID, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    Log.i("userLoginID",userLoginID);
+//                    Log.i("userLoginID", String.valueOf(productID));
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject object = new JSONObject(data);
+                        String message = object.getString("status");
+                        String name = "";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
 
 
 
