@@ -1,6 +1,7 @@
 package ruc.ps_app_project;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -43,6 +45,7 @@ public class Login extends AppCompatActivity {
     EditText logEmail, logPassword;
     TextView forgetPassword,register,back;
     TextInputLayout TextInputEmail,TextInputPassword;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,9 +181,22 @@ public class Login extends AppCompatActivity {
 
                                             Intent goHome = new Intent(Login.this, HomeActivity.class);
                                             startActivity(goHome);
-                                            Toast.makeText(Login.this, "Login Success!!", Toast.LENGTH_SHORT).show();
                                         }else{
-                                            Toast.makeText(Login.this, "Email or Password is wrong!", Toast.LENGTH_SHORT).show();
+
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(Login.this);
+                                            builder1.setMessage("Email or password is incorrect!");
+                                            builder1.setCancelable(true);
+                                            builder1.setNegativeButton(
+                                                    "Ok",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+
+                                            AlertDialog alert11 = builder1.create();
+                                            alert11.show();
+
                                         }
 
 
@@ -247,7 +263,19 @@ public class Login extends AppCompatActivity {
                                             startActivity(goHome);
                                             Toast.makeText(Login.this, "Login Success!!", Toast.LENGTH_SHORT).show();
                                         }else{
-                                            Toast.makeText(Login.this, "Email or Password is wrong!", Toast.LENGTH_SHORT).show();
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                                            builder1.setMessage("Email or password is incorrect!");
+                                            builder1.setCancelable(true);
+                                            builder1.setNegativeButton(
+                                                    "Ok",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+
+                                            AlertDialog alert11 = builder1.create();
+                                            alert11.show();
                                         }
 
                                     } catch (Exception e) {

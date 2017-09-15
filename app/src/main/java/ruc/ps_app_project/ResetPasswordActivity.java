@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     EditText resetPass,conFirmPass,verifyCode;
@@ -166,10 +167,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         String getUrl = "";
                         Log.i("url",url);
                         Log.i("email",email);
-                        if (url.equals("http://192.168.1.22:2222/posters/sendMail")){
-                            getUrl = "http://192.168.1.22:2222/posters/resetForgotPass";
+                        if (url.equals(constraint.url+"posters/sendMail")){
+                            getUrl = constraint.url+"posters/resetForgotPass";
                         }else{
-                            getUrl = "http://192.168.1.22:2222/users/resetForgotPass" ;
+                            getUrl = constraint.url+"users/resetForgotPass" ;
                         }
                         RequestParams requestParams = new RequestParams();
                         requestParams.add("email",String.valueOf(email));
