@@ -53,7 +53,7 @@ import static ruc.ps_app_project.R.id.scroll;
 
 public class PostDetailActivity extends AppCompatActivity {
     String userLoginID,roleUser,cmtSms;
-    TextView poster,postDate,productName,productPrice,productDis,productDes,phone,email,address;
+    TextView poster,postDate,productName,productPrice,productDis,productDes,phone,posteremail,address;
     Button btnLike,btnFav,btnCmt;
     ImageView posterProfile,postImage;
     TextView detail_back;
@@ -103,7 +103,7 @@ public class PostDetailActivity extends AppCompatActivity {
         productDis = (TextView)findViewById(R.id.pDiscount) ;
         productDes = (TextView)findViewById(R.id.pDes) ;
         phone = (TextView)findViewById(R.id.cPhone);
-        email = (TextView)findViewById(R.id.cMail);
+        posteremail = (TextView)findViewById(R.id.cMail);
         address = (TextView)findViewById(R.id.cAddress);
 
         btnLike = (Button)findViewById(R.id.btnlikeDetail);
@@ -180,12 +180,13 @@ public class PostDetailActivity extends AppCompatActivity {
                         poster.setText(objJson.getString("username"));
                         postDate.setText(objJson.getString("created_at"));
 
+                        posteremail.setText(objJson.getString("posterEmail"));
+
                         productName.setText(objJson.getString("pos_title"));
                         productPrice.setText("$"+objJson.getString("price"));
                         productDis.setText(objJson.getString("discount")+"%");
                         productDes.setText(objJson.getString("pos_description"));
                         phone.setText(objJson.getString("pos_telephone"));
-
                         address.setText(objJson.getString("pos_address"));
 
                         btnLike.setText(objJson.getString("numlike"));

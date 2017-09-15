@@ -169,7 +169,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
 
                 Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
-                if(!userLoginID.equals("")){
+                if(!userLoginID.equals("") && roleUser.equals("buyer")){
                     Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
                 }else{
@@ -237,7 +237,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 rangePage = 1;
                // new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
-                if(!userLoginID.equals("")){
+                if(!userLoginID.equals("") && roleUser.equals("buyer")){
                     Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
                 }else{
@@ -263,9 +263,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //============================End search=======================
 //        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost"+ rangePage);
-        if(!userLoginID.equals("")){
+        if(!userLoginID.equals("") && roleUser.equals("buyer")){
             Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
-           new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
+            new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
         }else{
             Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
             new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
@@ -523,7 +523,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if(userRole.equals("seller")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
-                intent.putExtra("frompage","menupage");
+
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();

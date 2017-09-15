@@ -157,14 +157,14 @@ public class HomeAdapter extends ArrayAdapter {
                 if(userLoginID.equals(userPostId)){
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                    profileIntent.putExtra("frompage","homepage");
+                    profileIntent.putExtra("frompage",true);
                     context.startActivity(profileIntent);
                 }else {
-//                    Intent profileIntent = new Intent(context, VeiwProfileInHomeActivity.class);
-//                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-//                    profileIntent.putExtra("frompage","homepage");
-//                    context.startActivity(profileIntent);
-                    Toast.makeText(context,"hello",Toast.LENGTH_LONG).show();
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("frompage",true);
+                    context.startActivity(profileIntent);
+
                 }
 
 
@@ -177,16 +177,15 @@ public class HomeAdapter extends ArrayAdapter {
                 if(userLoginID.equals(userPostId)){
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                    profileIntent.putExtra("frompage","homepage");
+                    profileIntent.putExtra("frompage",true);
                     context.startActivity(profileIntent);
                 }else {
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                    profileIntent.putExtra("frompage","homepage");
+                    profileIntent.putExtra("frompage",true);
                     context.startActivity(profileIntent);
 
                 }
-
 
             }
 
