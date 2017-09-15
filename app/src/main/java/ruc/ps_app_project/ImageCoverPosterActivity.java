@@ -28,45 +28,18 @@ public class ImageCoverPosterActivity extends AppCompatActivity {
     Context context;
     ImageView cover;
     TextView back;
+    String coverName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_profile);
         context = ImageCoverPosterActivity.this;
         cover = (ImageView) findViewById(R.id.imageView_pro);
+        coverName = getIntent().getStringExtra("viewImageCover");
 
-        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        String userId = preferLogin.getString("userId", "");
-        final String userName = preferLogin.getString("userName", "");
-        final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(constraint.url+"posters/posterProfile/" + userId, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    String data = new String(responseBody, "UTF8");
-                    //Log.i("data", data);
-                    try {
-                        JSONObject obj = new JSONObject(data);
-                        //String status = obj.getString("status");
-                        JSONObject poster_data = obj.getJSONObject("posterProfile");
-                        String covers = poster_data.getString("covers");
-                        // profile poster
-                        final String posterUrlImg = constraint.url+"images/posters/" + covers;
-                        loadCover(posterUrlImg, cover);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
+        // profile poster
+        final String posterUrlImg = constraint.url+"images/posters/" + coverName;
+        loadCover(posterUrlImg, cover);
         back = (TextView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

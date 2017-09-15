@@ -55,6 +55,7 @@ public class RegisterProfile extends AppCompatActivity {
     List<String> FAVORITEIMAGE = new ArrayList<>();
     List<String> POSTTITLE = new ArrayList<>();
     String imageUpdate,paramUrl;
+    String profiles,covers;
 
     public static final int RESULT_LOAD_IMAGE = 10;
     String picturePath = "";
@@ -120,8 +121,8 @@ public class RegisterProfile extends AppCompatActivity {
                         //String status = obj.getString("status");
                         JSONObject poster_data= user_data.getJSONObject(0);
                         String register_names = poster_data.getString("username");
-                        String profiles = poster_data.getString("image");
-                        String covers = poster_data.getString("covers");
+                        profiles = poster_data.getString("image");
+                        covers = poster_data.getString("covers");
                         //set text
                         register_name.setText(register_names);
 
@@ -220,6 +221,7 @@ public class RegisterProfile extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(RegisterProfile.this, ImageProRegisterActivity.class);
+                                intent.putExtra("viewImageProfile", profiles);
                                 startActivity(intent);
                             }
                         });
@@ -255,6 +257,7 @@ public class RegisterProfile extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(RegisterProfile.this, ImageCoverRegisterActivity.class);
+                                intent.putExtra("viewImageCover", covers);
                                 startActivity(intent);
                             }
                         });

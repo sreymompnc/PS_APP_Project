@@ -27,49 +27,19 @@ public class ImageProRegisterActivity extends AppCompatActivity {
     Context context;
     ImageView profile;
     TextView back;
+    String profileName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_profile);
         context = ImageProRegisterActivity.this;
         profile = (ImageView)findViewById(R.id.imageView_pro);
+        profileName = getIntent().getStringExtra("viewImageProfile");
 
-        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        String userId = preferLogin.getString("userId","");
-        final String userName = preferLogin.getString("userName","");
+        final String posterUrlImg = constraint.url+"images/users/"+profileName;
+        loadProfile(posterUrlImg,profile);
 
-        Toast.makeText(ImageProRegisterActivity.this, "profile",Toast.LENGTH_SHORT).show();
-        final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(constraint.url+"users/userProfile/"+userId, new AsyncHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    String data = new String(responseBody, "UTF8");
-                    Log.i("data", data);
-                    try {
-                        JSONObject obj = new JSONObject(data);
-                        String status = obj.getString("status");
-                        JSONArray jArray = obj.getJSONArray("posterProfile");
-                        JSONObject poster_data= jArray.getJSONObject(0);
-                        String profiles = poster_data.getString("image");
-                        // profile poster
-                        final String posterUrlImg = constraint.url+"images/users/"+profiles;
-                        loadProfile(posterUrlImg,profile);
 
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                        Toast.makeText(ImageProRegisterActivity.this, "1",Toast.LENGTH_SHORT).show();
-                    }
-                }catch (UnsupportedEncodingException e){
-                    e.printStackTrace();
-                    Toast.makeText(ImageProRegisterActivity.this, "1",Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(ImageProRegisterActivity.this, "1",Toast.LENGTH_SHORT).show();
-            }
-        });
         back = (TextView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
