@@ -246,7 +246,6 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
 
                         String text = spinner.getSelectedItem().toString();
-                        Toast.makeText(UpdatePost.this, text, Toast.LENGTH_LONG).show();
 
                         pro_title.setText(product_title);
                         pro_phone.setText(product_phone);
@@ -295,8 +294,6 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                 requestParams.put("categories_id", cat_id);
                 //For add student
 
-                Toast.makeText(getApplicationContext(),pro_id, Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(),requestParams.toString(), Toast.LENGTH_LONG).show();
                 client.post(constraint.url+"posts/updateInfoPost/"+pro_id, requestParams, new AsyncHttpResponseHandler() {
 
                     @Override
