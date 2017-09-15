@@ -214,6 +214,7 @@ public class HomeAdapter extends ArrayAdapter {
         holder.createDate.setText(dateAndTime.get(position));
         holder.desc.setText(description.get(position));
         holder.btnLike.setText(numLikes.get(position));
+//        Toast.makeText(context,numLikes.get(position),Toast.LENGTH_SHORT).show();
         holder.btnFav.setText(numFav.get(position));
         holder.bntCmt.setText(numCmt.get(position));
         // profile
