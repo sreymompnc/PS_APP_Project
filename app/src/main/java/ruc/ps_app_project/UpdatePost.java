@@ -44,7 +44,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
     TextInputLayout TextInputProName, TextInputPhoneNumber, TextInputAddress, TextInputDescription;
     TextView updatePost,back;
     ImageView imageViewPost;
-    EditText pro_title,pro_phone , pro_address, imgDescription;
+    EditText pro_title,pro_phone , pro_address, imgDescription,prices,discounts;
     String userLoginID;
     Context context;
     String proId;
@@ -76,6 +76,8 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
         pro_address = (EditText)findViewById(R.id.pro_address);
         imgDescription = (EditText)findViewById(R.id.imgDescription);
         imageViewPost = (ImageView)findViewById(R.id.imageViewPost);
+        prices = (EditText)findViewById(R.id.pro_price);
+        discounts = (EditText)findViewById(R.id.pro_discount);
 
         proId = getIntent().getStringExtra("pro_id");
         SharedPreferences prefUserLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
@@ -236,6 +238,8 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                         String product_phone = obj.getString("pos_telephone");
                         String pro_addresses = obj.getString("pos_address");
                         String imgDescriptions = obj.getString("pos_description");
+                        String pro_price = obj.getString("price");
+                        String pro_discount = obj.getString("discount");
                         String imageViewPosts = obj.getString("pos_image");
                         String idSellerInfo = obj.getString("id");
                         String cat_ids = obj.getString("categories_id");
@@ -248,6 +252,8 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                         pro_phone.setText(product_phone);
                         pro_address.setText(pro_addresses);
                         imgDescription.setText(imgDescriptions);
+                        prices.setText(pro_price);
+                        discounts.setText(pro_discount);
                         // post image
                         final String productUrlImg = constraint.url+"images/posts/"+obj.getString("pos_image");
                         loadProductImage(productUrlImg,imageViewPost);
