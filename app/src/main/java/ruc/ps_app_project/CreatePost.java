@@ -54,13 +54,13 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
     TextView savePost, back;
     public static final int RESULT_IMAGE = 10;
     Button btn_upload;
-    EditText pro_name, phone_number, address, description;
+    EditText pro_name, phone_number, address, description,prices, discounts;
     String picturePath = "";
     String item;
     String userPostID,page,posterID;
     final List<String> categories = new ArrayList<String>();
     final List<String> cate_id = new ArrayList<String>();
-    TextInputLayout TextInputName, TextInputPhone, TextInputAddress, TextInputDescription;
+    TextInputLayout TextInputName, TextInputPhone, TextInputAddress, TextInputDescription, TextInputDiscount,TextInputPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +83,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         TextInputPhone = (TextInputLayout)findViewById(R.id.TextInputPhone);
         TextInputAddress = (TextInputLayout)findViewById(R.id.TextInputAddress);
         TextInputDescription = (TextInputLayout)findViewById(R.id.TextInputDes);
+        TextInputDiscount = (TextInputLayout)findViewById(R.id.TextInputDiscount);
+        TextInputPrice = (TextInputLayout)findViewById(R.id.TextInputPrice);
 
         pro_name = (EditText) findViewById(R.id.pro_title);
         phone_number = (EditText) findViewById(R.id.pro_phone);
@@ -338,6 +340,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         phone_number = (EditText)findViewById(R.id.pro_phone);
         pro_name = (EditText)findViewById(R.id.pro_title);
         address = (EditText)findViewById(R.id.pro_address);
+        prices = (EditText)findViewById(R.id.pro_price);
+        discounts = (EditText)findViewById(R.id.pro_discount);
 
         RequestParams requestParams = new RequestParams();
         requestParams.setHttpEntityIsRepeatable(true);
@@ -345,6 +349,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         requestParams.put("pos_telephone", String.valueOf(phone_number.getText()));
         requestParams.put("pos_title", String.valueOf(pro_name.getText()));
         requestParams.put("pos_address", String.valueOf(address.getText()));
+        requestParams.put("price", String.valueOf(prices.getText()));
+        requestParams.put("discount", String.valueOf(discounts.getText()));
         requestParams.put("posters_id", userId);
         requestParams.put("categories_id", cat_id);
 
