@@ -32,7 +32,7 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="left"
             android:layout_marginTop="40dp"
-            android:src="@drawable/back"
+            android:src="@drawable/new_pro"
             app:border_color="@color/white"
             app:border_width="1dp"
             android:layout_marginStart="18dp"

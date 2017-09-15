@@ -82,9 +82,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeListView = (ListView)findViewById(R.id.simpleListView);
         //Event on ListView
 
-//        homeList = new HomeAdapter(getApplicationContext(),
-//                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
-//        homeListView.setAdapter(homeList);
+
 
         //-----------drawer bar----------------------
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -104,9 +102,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomeActivity.this,"Clicked!!",Toast.LENGTH_SHORT).show();
-//                Intent regIntent = new Intent(HomeActivity.this,Register.class);
-//                startActivity(regIntent);
+                Intent regIntent = new Intent(HomeActivity.this,Register.class);
+                startActivity(regIntent);
             }
         });
 
@@ -122,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         //===============================for image ==================================
-//        // profile poster
+        // profile poster
 //        final String posterUrlImg = constraint.url+"images/users/"+profiles;
 //        loadProfile(posterUrlImg,profile);
 
@@ -172,17 +169,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-        homeList = new HomeAdapter(getApplicationContext(),
-                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,
-                userSaved,userLiked);
-        homeListView.setAdapter(homeList);
+//
+//        homeList = new HomeAdapter(getApplicationContext(),
+//                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+//        homeListView.setAdapter(homeList);
 
 //        swipeRefreshLayout.setOnRefreshListener(this);
-
-//########################################## End Pull Requrest ####################################
 
         //============================search=======================
         cancelSearch = (TextView)findViewById(R.id.cancelsearch);
@@ -319,8 +311,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         String likes = jsonObject.getString("numlike");
                         String cmts = jsonObject.getString("numcmt");
                         String favs = jsonObject.getString("numfavorite");
-                        String userSavedID = jsonObject.getString("userSavedID");
-                        String userLikedID = jsonObject.getString("userLikedID");
+                        String user_save_fav_id = jsonObject.getString("user_fav_id");
+                        String user_like_id = jsonObject.getString("user_like_id");
+
 
 
                         users.add(name);
@@ -333,8 +326,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         numFav.add(favs);
                         productID.add(postIds);
                         userPostId.add(idUserPost);
-                        userSaved.add(userSavedID);
-                        userLiked.add(userLikedID);
+                        userSaved.add(user_save_fav_id);
+                        userLiked.add(user_like_id);
+
                         Log.i("name", productID.toString());
 
                     }
@@ -350,8 +344,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             homeList = new HomeAdapter(getApplicationContext(),
                     roleUser,userLoginID,userPostId,productID,users,dateAndTime,
-                    postDesc,postPro,postImage,numeLike,numFav,numCmt,
-                    userSaved, userLiked);
+                    postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked);
             homeListView.setAdapter(homeList);
         }
     }
@@ -397,10 +390,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String likes = jsonObject.getString("numlike");
                     String cmts = jsonObject.getString("numcmt");
                     String favs = jsonObject.getString("numfavorite");
-                    String userSavedID = jsonObject.getString("userSavedID");
-                    String userLikedID = jsonObject.getString("userLikedID");
+                    String user_save_fav_id = jsonObject.getString("user_fav_id");
+                    String user_like_id = jsonObject.getString("user_like_id");
 
-                    Toast.makeText(getBaseContext(),userSavedID+userLikedID, Toast.LENGTH_LONG).show();
+
+
 
                     users.add(name);
                     postDesc.add(description);
@@ -412,8 +406,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     numFav.add(favs);
                     productID.add(postIds);
                     userPostId.add(idUserPost);
-                    userSaved.add(userSavedID);
-                    userLiked.add(userLikedID);
+                    userSaved.add(user_save_fav_id);
+                    userLiked.add(user_like_id);
+
                     Log.i("name",productID.toString());
                     loadMore.setVisibility(View.INVISIBLE);
 
@@ -431,16 +426,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 numeLike.clear();
                 numCmt.clear();
                 numFav.clear();
-                productID.clear();
-                userPostId.clear();
+
 
                 loadMore.setVisibility(View.INVISIBLE);
 
             }
 
             searchList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,
-                    userSaved, userLiked);
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked);
             homeListView.setAdapter(searchList);
 
 
@@ -472,7 +465,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String userRole = preferProfile.getString("user","");
 
         if (id == R.id.nav_home) {
-          
+            Intent homeIntent = new Intent(HomeActivity.this,HomeActivity.class);
+            startActivity(homeIntent);
         } else if (id == R.id.nav_categories) {
             Intent intent = new Intent(HomeActivity.this,CategoriesActivity.class);
             startActivity(intent);

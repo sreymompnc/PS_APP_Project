@@ -48,7 +48,7 @@ public class RegisterProfile extends AppCompatActivity {
     Button btnPost, btn_cancel,btn_change_pro, btn_view_pro;
     TextView register_name,back;
     ListView listViewPosterPost;
-    ImageView cover, profile;
+    ImageView cover, profile, imageChange;
     List<String> ID = new ArrayList<>();
     List<String> USERID = new ArrayList<>();
     List<String> POSTER_ID = new ArrayList<>();
@@ -68,6 +68,7 @@ public class RegisterProfile extends AppCompatActivity {
         setContentView(R.layout.activity_register_profile);
         context = RegisterProfile.this;
 
+
         back = (TextView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +77,12 @@ public class RegisterProfile extends AppCompatActivity {
             }
         });
 
-//############################# Get share preference ######################################
+//=============================== Get share preference ===================================
+
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         IdUser = pref.getString("userId","");
         Log.i("Iduser",IdUser);
-//############################# Get share preference ######################################
+//=============================== Get share preference =====================================
 
         //=========================Go to update user ==============
         updateUserInfo = (Button)findViewById(R.id.update_info_user);
@@ -209,6 +211,7 @@ public class RegisterProfile extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 imageUpdate = "profile";
                                 paramUrl = "image";
+                                imageChange = (ImageView)findViewById(R.id.imageView_profile) ;
                                 Gallary();
                             }
                         });
@@ -243,6 +246,7 @@ public class RegisterProfile extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 imageUpdate = "cover";
                                 paramUrl = "covers";
+                                imageChange = (ImageView)findViewById(R.id.imageView_cover) ;
                                 Gallary();
                             }
                         });
@@ -296,6 +300,7 @@ public class RegisterProfile extends AppCompatActivity {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
+            imageChange.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             cursor.close();
             InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
 //            if (imageUpdate.equals("profile")){
@@ -349,8 +354,22 @@ public class RegisterProfile extends AppCompatActivity {
                 String bb = "";
             }
         });
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
+
+    //===========Back method==========
+    public void onBackPressed()
+    {
+        super.onBackPressed();  // optional depending on your needs
+    }
 
 
 }

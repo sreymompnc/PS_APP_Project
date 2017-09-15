@@ -30,13 +30,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class EditPosterInfoActivity extends AppCompatActivity {
     EditText seller_name, seller_mail, seller_phone, seller_add;
     String userLoginID;
     TextView btnUpdate,back_update;
     TextInputLayout TextInputConfirmPhone, TextInputAdd, TextInputUsername, TextInputEmail;
-    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +70,7 @@ public class EditPosterInfoActivity extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         // client.addHeader("header_key", "header value");
 
-        client.get(port+"posters/updateSellerInfoData/"+userLoginID, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"posters/updateSellerInfoData/"+userLoginID, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i("test","success");
@@ -259,7 +259,7 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                     requestParams.add("email",newEmail);
                     requestParams.add("phone",newPhone);
                     requestParams.add("address",newAdd);
-                    client.post(port+"posters/updatePosterInfo/"+userLoginID, requestParams, new AsyncHttpResponseHandler() {
+                    client.post(constraint.url + "posters/updatePosterInfo/"+userLoginID, requestParams, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                             try {
