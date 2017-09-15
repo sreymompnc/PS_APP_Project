@@ -150,7 +150,6 @@
                                 android:layout_gravity="center"
                                 android:hint="Password"
                                 android:inputType="textPassword"
-
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/color_hint" />
                         </android.support.design.widget.TextInputLayout>
