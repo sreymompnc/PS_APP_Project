@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = HomeActivity.this;
+
 
         SharedPreferences preProfile = getSharedPreferences("userRole", Context.MODE_PRIVATE);
         roleUser = preProfile.getString("user","");
@@ -165,8 +167,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         loadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestData(rangePage);
+
                 Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
+                if(!userLoginID.equals("")){
+                    Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
+                    new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
+                }else{
+                    Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
+                    new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
+                }
             }
         });
 //
@@ -212,8 +221,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 cancelSearch.setVisibility(View.INVISIBLE);
                 loadMore.setVisibility(View.VISIBLE);
-                
-                new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
+
+                users.clear();
+                postDesc.clear();
+                postPro.clear();
+                postImage.clear();
+                dateAndTime.clear();
+                numeLike.clear();
+                numCmt.clear();
+                numFav.clear();
+                productID.clear();
+                userPostId.clear();
+                userSaved.clear();
+                userLiked.clear();
+
+                rangePage = 1;
+               // new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
+                if(!userLoginID.equals("")){
+                    Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
+                    new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
+                }else{
+                    Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
+                    new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
+                }
 
             }
         });
@@ -233,7 +263,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //============================End search=======================
 //        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost"+ rangePage);
-        requestData(rangePage);
+        if(!userLoginID.equals("")){
+            Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
+           new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
+        }else{
+            Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
+            new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
+        }
+      //  requestData(rangePage);
     }
 
     public void requestData(int rangePage){

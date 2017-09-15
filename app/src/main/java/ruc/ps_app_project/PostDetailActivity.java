@@ -568,10 +568,17 @@ public class PostDetailActivity extends AppCompatActivity {
                             Toast.makeText(PostDetailActivity.this,"comment success",Toast.LENGTH_SHORT).show();
                             messages.getText().clear();
 
-                            adapter = new CommentListAdapter(getApplicationContext(),cmtuser, cmtdate, cmtsms, cmtprofile);
-                            commentListview.setAdapter(adapter);
+                            cmtuser.add("sreymom");
+                            cmtdate.add("2017-09-15 12:40:50");
+                            cmtsms.add("just for testing");
+                            cmtprofile.add("dj.png");
 
-                            adapter.notifyDataSetChanged();
+                          //  adapter = new CommentListAdapter(getApplicationContext(),cmtuser, cmtdate, cmtsms, cmtprofile);
+//                            commentListview.setAdapter(adapter);
+                            detailCommentList = new CommentListAdapter(getApplicationContext(),
+                                    cmtuser, cmtdate, cmtsms, cmtprofile);
+                            commentListview.setAdapter(detailCommentList);
+                            detailCommentList.notifyDataSetChanged();
 
                         }else {
                             Toast.makeText(PostDetailActivity.this,"comment fail",Toast.LENGTH_SHORT).show();
