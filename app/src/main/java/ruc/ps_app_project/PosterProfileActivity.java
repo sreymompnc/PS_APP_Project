@@ -69,6 +69,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 
     String userPostID,page,posterID;
     String userId;
+    String checkUserID;
 
 
     @Override
@@ -111,19 +112,21 @@ public class PosterProfileActivity extends AppCompatActivity {
             }
         }
 
-        //---------------------Check where action from- home or menu to open profile poster----------------------
-        page =  getIntent().getStringExtra("frompage");
-        posterID = getIntent().getStringExtra("userPostId");
+
 
 //===========================get sharedPreference====================================
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         userId = preferLogin.getString("userId","");
         final String userName = preferLogin.getString("userName","");
-//        if(page.equals("menupage")){
-//
-//
-//        }else{
-//            userId = posterID;
+
+        //---------------------Check where action from- home or menu to open profile poster----------------------
+      //  page =  getIntent().getStringExtra("frompage");
+        posterID = getIntent().getStringExtra("userPostId");
+        if( getIntent().hasExtra("frompage")){
+            checkUserID = posterID;
+        }else{
+            checkUserID = userId;
+        }
 
 
        // userPostID = getIntent().getStringExtra("userPostId");
@@ -134,7 +137,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         final AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("apikey", "123");
 
-        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
+        client.get(constraint.url+"posters/posterProfile/"+checkUserID, new AsyncHttpResponseHandler(){
 
 
             @Override
@@ -177,7 +180,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         });
 //================================for all user post=====================================
         final AsyncHttpClient clients = new AsyncHttpClient();
-        clients.get(constraint.url+"posters/viewPosterPost/"+userId, new AsyncHttpResponseHandler() {
+        clients.get(constraint.url+"posters/viewPosterPost/"+checkUserID, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
