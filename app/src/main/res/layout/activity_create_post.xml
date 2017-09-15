@@ -252,6 +252,70 @@
 
                 </LinearLayout>
 
+                <!--price-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_attach_money_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/pro_price"
+                            android:layout_width="295dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:hint="Price"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!--Discount-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_attach_money_black_24dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/TextInputDiscount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/pro_discount"
+                            android:layout_width="295dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:hint="Discount"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/color_hint" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
