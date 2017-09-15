@@ -104,7 +104,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent regIntent = new Intent(HomeActivity.this,Register.class);
                 startActivity(regIntent);
             }
@@ -179,8 +178,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+//
+//        homeList = new HomeAdapter(getApplicationContext(),
+//                roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+//        homeListView.setAdapter(homeList);
 
-
+//        swipeRefreshLayout.setOnRefreshListener(this);
 
         //============================search=======================
         cancelSearch = (TextView)findViewById(R.id.cancelsearch);
