@@ -523,12 +523,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if(userRole.equals("seller")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
-
+                intent.putExtra("menuProfile",true);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, RegisterProfile.class);
-//                intent.putExtra("isSeller", true);
                 startActivity(intent);
             }else {
                     Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);

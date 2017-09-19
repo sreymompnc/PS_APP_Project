@@ -124,19 +124,31 @@ public class PosterProfileActivity extends AppCompatActivity {
         //---------------------Check where action from- home or menu to open profile poster----------------------
       //  page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
-        if( getIntent().hasExtra("frompage")){
+        if( getIntent().hasExtra("frompagehome")){
+            Toast.makeText(PosterProfileActivity.this,userId+"hometest",Toast.LENGTH_SHORT).show();
             checkUserID = posterID;
         }else{
+            Toast.makeText(PosterProfileActivity.this,userId+"yell",Toast.LENGTH_SHORT).show();
             checkUserID = userId;
         }
 
         //=======================check owner or not and hide button===============
          userPostID = getIntent().getStringExtra("userPostId");
-        if(!userPostID.equals(userId)){
+//       if(!userPostID.equals(userId)){
+//            Toast.makeText(PosterProfileActivity.this,"homepage",Toast.LENGTH_SHORT).show();
+//            create_post.setVisibility(View.INVISIBLE);
+//            updatePosterInfo.setVisibility(View.INVISIBLE);
+//        }
+
+        if(getIntent().hasExtra("menuProfile")){
+            Toast.makeText(PosterProfileActivity.this,"menu",Toast.LENGTH_SHORT).show();
+            create_post.setVisibility(View.VISIBLE);
+            updatePosterInfo.setVisibility(View.VISIBLE);
+        }else if(!userPostID.equals(userId)){
+            Toast.makeText(PosterProfileActivity.this,"frompagehome",Toast.LENGTH_SHORT).show();
             create_post.setVisibility(View.INVISIBLE);
             updatePosterInfo.setVisibility(View.INVISIBLE);
         }
-
 
 
        // Log.i("GetExtraId",userPostID);

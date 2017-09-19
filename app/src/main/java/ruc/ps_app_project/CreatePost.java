@@ -264,8 +264,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
+                String a = "aa";
+;            }
         });
 
 
@@ -318,7 +318,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 //        cat_id.putExtra("catId",a);
         Toast.makeText(getApplicationContext(),spinner+a, Toast.LENGTH_SHORT).show();
 
-
     }
 
     @Override
@@ -361,8 +360,8 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             e.printStackTrace();
         }
         //==================get intent from posterProfile====================================
-        page =  getIntent().getStringExtra("frompage");
-        posterID = getIntent().getStringExtra("userPostId");
+//        page =  getIntent().getStringExtra("frompage");
+//        posterID = getIntent().getStringExtra("userPostId");
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(constraint.url + "posts/createPost", requestParams, new AsyncHttpResponseHandler() {
@@ -375,6 +374,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
 
                         if(status.equals("success")){
                             Intent intent = new Intent(CreatePost.this,PosterProfileActivity.class);
+                            intent.putExtra("menuProfile",true);
                             startActivity(intent);
                         }else {
                             Intent intent = new Intent(CreatePost.this,CreatePost.class);
