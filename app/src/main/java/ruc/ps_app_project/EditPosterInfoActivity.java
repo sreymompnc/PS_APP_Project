@@ -272,14 +272,12 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                                         Toast.makeText(EditPosterInfoActivity.this,"success",Toast.LENGTH_LONG).show();
                                         Intent backProfileUser = new Intent(EditPosterInfoActivity.this,PosterProfileActivity.class);
                                         backProfileUser.putExtra("menuProfile",true);
-                                        backProfileUser.putExtra("managepost",true);
+                                       // backProfileUser.putExtra("managepost",true);
                                         startActivity(backProfileUser);
                                     }
                                     else if(sms.equals("fail")){
                                        //
                                         Toast.makeText(EditPosterInfoActivity.this,"No data change",Toast.LENGTH_LONG).show();
-                                        Intent backProfileUser = new Intent(EditPosterInfoActivity.this,PosterProfileActivity.class);
-                                        startActivity(backProfileUser);
                                     }else if (sms.equals("existingEmail")){
                                         showMsgError(TextInputEmail, seller_mail,"This email is already used!");
                                     }
