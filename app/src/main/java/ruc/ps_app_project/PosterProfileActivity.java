@@ -139,7 +139,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 //            updatePosterInfo.setVisibility(View.INVISIBLE);
 //        }
 
-        if(getIntent().hasExtra("menuProfile")){
+        if(getIntent().hasExtra("menuProfile") || getIntent().hasExtra("managepost")){
             create_post.setVisibility(View.VISIBLE);
             updatePosterInfo.setVisibility(View.VISIBLE);
         }else if(!userPostID.equals(userId)){

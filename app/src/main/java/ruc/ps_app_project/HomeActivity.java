@@ -525,6 +525,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if(userRole.equals("seller")){
                     Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
                     intent.putExtra("frompage","menupage");
+                    intent.putExtra("managepost",true);
                     startActivity(intent);
                 }else{
                     Toast.makeText(HomeActivity.this,"You don't have permisson to access",Toast.LENGTH_SHORT).show();
