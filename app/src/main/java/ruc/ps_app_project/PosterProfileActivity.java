@@ -140,9 +140,13 @@ public class PosterProfileActivity extends AppCompatActivity {
 //        }
 
         if(getIntent().hasExtra("menuProfile") || getIntent().hasExtra("managepost")){
+            Toast.makeText(PosterProfileActivity.this,"true",Toast.LENGTH_SHORT).show();
+
             create_post.setVisibility(View.VISIBLE);
             updatePosterInfo.setVisibility(View.VISIBLE);
         }else if(!userPostID.equals(userId)){
+            Toast.makeText(PosterProfileActivity.this,"false",Toast.LENGTH_SHORT).show();
+
             checkUserID = userPostID;
             create_post.setVisibility(View.INVISIBLE);
             updatePosterInfo.setVisibility(View.INVISIBLE);
@@ -159,7 +163,6 @@ public class PosterProfileActivity extends AppCompatActivity {
 
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("apikey", "123");
 
         client.get(constraint.url+"posters/posterProfile/"+checkUserID, new AsyncHttpResponseHandler(){
 
