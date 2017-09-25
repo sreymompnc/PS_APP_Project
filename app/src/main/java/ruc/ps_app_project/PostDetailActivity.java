@@ -293,13 +293,13 @@ public class PostDetailActivity extends AppCompatActivity {
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(roleUser.equals("buyer")) {
+                if(roleUser.equals("buyer")) {
                     like(postID);
-//                    Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
-//                }else{
-//                    Intent intent= new Intent(context, AskConfirmActivity.class);
-//                    context.startActivity(intent);
-//                }
+                Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -667,9 +667,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
                         JSONObject jsonObject = new JSONObject(data);
                         String sms = jsonObject.getString("status");
-
-                        Intent goToFavoritePage = new Intent(PostDetailActivity.this,FavoritePageActivity.class);
-                        startActivity(goToFavoritePage);
+                        backPress();
 
                     } catch (Throwable t) {
                         t.printStackTrace();
@@ -693,6 +691,9 @@ public class PostDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+    public void backPress(){
+        onBackPressed();
     }
     //==========================================End remove favorite======================
 

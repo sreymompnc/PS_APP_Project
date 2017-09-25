@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -49,11 +50,12 @@ public class RegisterProfile extends AppCompatActivity {
     TextView register_name,back;
     ListView listViewPosterPost;
     ImageView cover, profile, imageChange;
-    List<String> ID = new ArrayList<>();
+    List<String> FAVORITEID = new ArrayList<>();
     List<String> USERID = new ArrayList<>();
     List<String> POSTER_ID = new ArrayList<>();
     List<String> FAVORITEIMAGE = new ArrayList<>();
     List<String> POSTTITLE = new ArrayList<>();
+    List<String>POST_ID = new ArrayList<>();
     String imageUpdate,paramUrl;
     String profiles,covers;
 
@@ -68,6 +70,21 @@ public class RegisterProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_profile);
         context = RegisterProfile.this;
+
+        gridViewFavorite = (GridView)findViewById(R.id.gridViewFavorite);
+        gridViewFavorite.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent toDetail = new Intent(RegisterProfile.this,PostDetailActivity.class);
+                toDetail.putExtra("userPostId",POSTER_ID .get(i).toString());
+                toDetail.putExtra("productId",POST_ID .get(i).toString());
+                toDetail.putExtra("favId",FAVORITEID .get(i).toString());
+                toDetail.putExtra("page","favoritepage");
+
+                startActivity(toDetail);
+
+            }
+        });
 
 
         back = (TextView)findViewById(R.id.back);
@@ -161,17 +178,20 @@ public class RegisterProfile extends AppCompatActivity {
                         //Loop all info
                         for(int i = 0; i <= user_data.length(); i++){
                             JSONObject poster_data= user_data.getJSONObject(i);
-                            String post_id = poster_data.getString("id");
-                            String user_id = poster_data.getString("users_id");
-                            String poster_id = poster_data.getString("posters_id");
-                            String pos_title = poster_data.getString("pos_title");
-                            String image_pos = poster_data.getString("pos_image");
+
+                            String favID = poster_data.getString("id");
+                            String userID  = poster_data.getString("users_id");
+                            String postID = poster_data.getString("posts_id");
+                            String postImage = poster_data.getString("pos_image");
+                            String postTitle = poster_data.getString("pos_title");
+                            String posterID = poster_data.getString("posters_id");
                             //add  each info in to list array
-                            ID.add(post_id);
-                            USERID.add(user_id);
-                            POSTER_ID.add(poster_id);
-                            FAVORITEIMAGE.add(image_pos);
-                            POSTTITLE.add(pos_title);
+                            FAVORITEID.add(favID);
+                            USERID.add(userID);
+                            POSTER_ID.add(posterID);
+                            FAVORITEIMAGE.add(postImage);
+                            POSTTITLE.add(postTitle);
+                            POST_ID.add(postID);
 
                         }
                     }catch (JSONException e){
@@ -180,7 +200,7 @@ public class RegisterProfile extends AppCompatActivity {
                 }catch (UnsupportedEncodingException e){
                     e.printStackTrace();
                 }
-                gridViewFavorite = (GridView)findViewById(R.id.gridViewFavorite);
+
                 RegisterAdapter customAdapter = new RegisterAdapter(getApplicationContext(),POSTTITLE, FAVORITEIMAGE);
                 gridViewFavorite.setAdapter(customAdapter);
             }
@@ -201,7 +221,6 @@ public class RegisterProfile extends AppCompatActivity {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage("Do you want to");
                 builder1.setCancelable(true);
-
 
                 builder1.setNegativeButton(
                         "Change Profile",
