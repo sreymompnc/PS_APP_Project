@@ -92,6 +92,7 @@ public class PosterAdapter extends ArrayAdapter {
                 Intent detailIntent = new Intent(context, PostDetailActivity.class);
                 detailIntent.putExtra("productId", POST_ID.get(i).toString());
                 detailIntent.putExtra("userPostId", POSTER_ID.get(i).toString());
+                detailIntent.putExtra("page","posterpage");
                 context.startActivity(detailIntent);
             }
 

@@ -31,7 +31,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="left"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:src="@drawable/new_pro"
             app:border_color="@color/white"
             app:border_width="1dp"
@@ -40,17 +40,18 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="108dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="User Name"
-        android:id="@+id/user_name"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+    <!--<TextView-->
+        <!--android:layout_width="108dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="User Name"-->
+        <!--android:id="@+id/user_name"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textStyle="bold" />-->
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

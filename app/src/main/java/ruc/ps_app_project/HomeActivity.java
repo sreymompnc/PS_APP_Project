@@ -116,8 +116,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //=============================for profile===================================
         View header=navigationView.getHeaderView(0);
         user_name = (TextView)header.findViewById(R.id.user_name);
+
         image_profile = (ImageView)header.findViewById(R.id.image_profile);
-        user_name.setText(userName);
+       // user_name.setText(userName);
 
 
         //===============================for image ==================================
