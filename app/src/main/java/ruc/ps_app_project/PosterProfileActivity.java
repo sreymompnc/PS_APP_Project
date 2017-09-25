@@ -132,10 +132,10 @@ public class PosterProfileActivity extends AppCompatActivity {
 
         //=======================check owner or not and hide button===============
          userPostID = getIntent().getStringExtra("userPostId");
-        if(!userPostID.equals(userId)){
-            create_post.setVisibility(View.INVISIBLE);
-            updatePosterInfo.setVisibility(View.INVISIBLE);
-        }
+//        if(!userPostID.equals(userId)){
+//            create_post.setVisibility(View.INVISIBLE);
+//            updatePosterInfo.setVisibility(View.INVISIBLE);
+//        }
 
 
 
