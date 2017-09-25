@@ -185,7 +185,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         posteremail.setText(objJson.getString("posterEmail"));
 
                         productName.setText(objJson.getString("pos_title"));
-                        productPrice.setText("$"+objJson.getString("price"));
+                        productPrice.setText(objJson.getString("price")+"$");
                         productDis.setText(objJson.getString("discount")+"%");
                         productDes.setText(objJson.getString("pos_description"));
                         phone.setText(objJson.getString("pos_telephone"));
@@ -293,13 +293,13 @@ public class PostDetailActivity extends AppCompatActivity {
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(roleUser.equals("buyer")) {
+                if(roleUser.equals("buyer")) {
                     like(postID);
-//                    Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
-//                }else{
-//                    Intent intent= new Intent(context, AskConfirmActivity.class);
-//                    context.startActivity(intent);
-//                }
+                Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -584,13 +584,6 @@ public class PostDetailActivity extends AppCompatActivity {
                             Toast.makeText(PostDetailActivity.this,"comment success",Toast.LENGTH_SHORT).show();
                             messages.getText().clear();
 
-                            cmtuser.add("sreymom");
-                            cmtdate.add("2017-09-15 12:40:50");
-                            cmtsms.add("just for testing");
-                            cmtprofile.add("dj.png");
-
-                          //  adapter = new CommentListAdapter(getApplicationContext(),cmtuser, cmtdate, cmtsms, cmtprofile);
-//                            commentListview.setAdapter(adapter);
                             detailCommentList = new CommentListAdapter(getApplicationContext(),
                                     cmtuser, cmtdate, cmtsms, cmtprofile);
                             commentListview.setAdapter(detailCommentList);
@@ -674,9 +667,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
                         JSONObject jsonObject = new JSONObject(data);
                         String sms = jsonObject.getString("status");
-
-                        Intent goToFavoritePage = new Intent(PostDetailActivity.this,FavoritePageActivity.class);
-                        startActivity(goToFavoritePage);
+                        backPress();
 
                     } catch (Throwable t) {
                         t.printStackTrace();
@@ -700,6 +691,9 @@ public class PostDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+    public void backPress(){
+        onBackPressed();
     }
     //==========================================End remove favorite======================
 

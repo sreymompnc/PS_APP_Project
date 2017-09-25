@@ -61,6 +61,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> NUMFAV = new ArrayList<>();
     List<String> DESCRIPTION = new ArrayList<>();
     List<String> DATETIME = new ArrayList<>();
+    List<String> productTitle = new ArrayList<>();
     String imageUpdate,paramUrl,roleUser;
     Context context;
     final Context contextDialog = this;
@@ -132,34 +133,25 @@ public class PosterProfileActivity extends AppCompatActivity {
         }
 
         //=======================check owner or not and hide button===============
-        userPostID = getIntent().getStringExtra("userPostId");
-//       if(!userPostID.equals(userId)){
-//            Toast.makeText(PosterProfileActivity.this,"homepage",Toast.LENGTH_SHORT).show();
-//            create_post.setVisibility(View.INVISIBLE);
-//            updatePosterInfo.setVisibility(View.INVISIBLE);
-//        }
 
-        if(getIntent().hasExtra("menuProfile")){
+        userPostID = getIntent().getStringExtra("userPostId");
+
+        if(getIntent().hasExtra("menuProfile") || getIntent().hasExtra("managepost")){
             create_post.setVisibility(View.VISIBLE);
             updatePosterInfo.setVisibility(View.VISIBLE);
-        }else if(!userPostID.equals(userId)){
+        }else if(userPostID.equals(userId)){
             checkUserID = userPostID;
+            create_post.setVisibility(View.VISIBLE);
+            updatePosterInfo.setVisibility(View.VISIBLE);
+        }else{
             create_post.setVisibility(View.INVISIBLE);
             updatePosterInfo.setVisibility(View.INVISIBLE);
         }
 
 
-       // Log.i("GetExtraId",userPostID);
-//        else if(!userPostID.equals(userId)){
-//            Toast.makeText(PosterProfileActivity.this,"frompagehome",Toast.LENGTH_SHORT).show();
-//            create_post.setVisibility(View.INVISIBLE);
-//            updatePosterInfo.setVisibility(View.INVISIBLE);
-//        }
-
 
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("apikey", "123");
 
         client.get(constraint.url+"posters/posterProfile/"+checkUserID, new AsyncHttpResponseHandler(){
 
@@ -231,7 +223,10 @@ public class PosterProfileActivity extends AppCompatActivity {
                             String likes = poster_data.getString("numlike");
                             String cmts = poster_data.getString("numcmt");
                             String favs = poster_data.getString("numfavorite");
-                            Log.i("hello",favs);
+                            String title = poster_data.getString("pos_title");
+
+
+
                             //add  each info in to list array
                             POST_ID.add(post_id);
                             POSTER_ID.add(poster_id);
@@ -243,6 +238,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                             NUMCMT.add(cmts);
                             NUMFAV.add(favs);
                             NUMLIKE.add(likes);
+                            productTitle.add(title);
                         }
                         Log.i("Poster_id", String.valueOf(POST_ID));
                     }catch (JSONException e){
@@ -253,11 +249,8 @@ public class PosterProfileActivity extends AppCompatActivity {
                 }
 
                 listViewPosterPost = (ListView)findViewById(R.id.listViewPosterPost);
-                Log.i("UserId", String.valueOf(POST_ID));
-                Log.i("Username", String.valueOf(USERNAME.size()));
-                Log.i("DATETIME", String.valueOf(DATETIME.size()));
-                Log.i("DESCRIPTION", String.valueOf(DESCRIPTION.size()));
-                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT);
+
+                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT,productTitle);
                 listViewPosterPost.setAdapter(customAdapter);
             }
 

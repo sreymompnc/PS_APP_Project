@@ -24,11 +24,11 @@ import url.constraint;
 public class PosterAdapter extends ArrayAdapter {
 
     Context context;
-    List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT;
+    List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT,productTitle;
 //    String ROLEUSER;
     public PosterAdapter(Context context, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
                        List<String> description,List<String> profile, List<String> allPostImage,
-                       List<String> numLikes,List<String> numFav,List<String> numCmt) {
+                       List<String> numLikes,List<String> numFav,List<String> numCmt,List<String> productTitle) {
         super(context,R.layout.listview_post);
         this.context = context;
         this.POSTER_ID = userId;
@@ -41,6 +41,7 @@ public class PosterAdapter extends ArrayAdapter {
         this.NUMLIKE = numLikes;
         this.NUMFAV = numFav;
         this.NUMCMT = numCmt;
+        this.productTitle = productTitle;
 //        this.ROLEUSER = roleUser;
     }
 
@@ -70,6 +71,8 @@ public class PosterAdapter extends ArrayAdapter {
             holder.pro_image = (ImageView)vi.findViewById(R.id.poster_profile);
             holder.username = (TextView)vi.findViewById(R.id.poster_name);
             holder.pos_description = (TextView)vi.findViewById(R.id.pos_description);
+            holder.titleProduct = (TextView) vi.findViewById(R.id.productTitle);
+
             holder.bntCmt = (Button)vi.findViewById(R.id.btncmt);
             holder.btnFav = (Button)vi.findViewById(R.id.btnfavorite);
             holder.btnLike = (Button)vi.findViewById(R.id.btnlike);
@@ -125,6 +128,7 @@ public class PosterAdapter extends ArrayAdapter {
         holder.pos_description.setText(DESCRIPTION.get(i));
         holder.createDate.setText(DATETIME.get(i));
         holder.username.setText(USERNAME.get(i));
+        holder.titleProduct.setText(productTitle.get(i));
 
         holder.btnLike.setText(NUMLIKE.get(i));
        // holder.btnFav.setText(NUMFAV.get(i));
@@ -161,6 +165,7 @@ public class PosterAdapter extends ArrayAdapter {
 
     public class ViewHolder {
         ImageView pos_image;
+        TextView titleProduct;
         ImageView pro_image;
         TextView username;
         TextView createDate;
