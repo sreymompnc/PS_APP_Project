@@ -29,10 +29,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     TextView backChangePass,changePassword;
-    String port = "http://192.168.1.17:1111/";
     String uri,userLoginID,roleUser;
     EditText currentPass,newPass,confirmPass;
     TextInputLayout TextInputCurrentPass, TextInputPass, TextInputConfirmPass;
@@ -188,7 +188,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     requestParams.add("password", newpw);
 
 
-                    client.post(port + uri + userLoginID, requestParams, new AsyncHttpResponseHandler() {
+                    client.post(constraint.url + uri + userLoginID, requestParams, new AsyncHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
