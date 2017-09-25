@@ -33,14 +33,14 @@ public class HomeAdapter extends ArrayAdapter {
 
     Context context;
     List<String> userPostId, productID, username, dateAndTime, description, profile, allPostImage, numLikes, numFav, numCmt;
-    List<String> userSaved, userLiked;
+    List<String> userSaved, userLiked,productTitle;
     String roleUser,userLoginID;
 
     public HomeAdapter(Context applicationContext, String roleUser,String userLoginID, List<String> userPostId, List<String> productID,
                        List<String> username, List<String> dateAndTime,
                        List<String> description, List<String> profile, List<String> allPostImage,
                        List<String> numLikes, List<String> numFav, List<String> numCmt,
-                       List<String> userSaved,  List<String> userLiked) {
+                       List<String> userSaved,  List<String> userLiked,List<String> productTitle) {
         super(applicationContext, R.layout.homelist_item);
         this.context = applicationContext;
         this.roleUser = roleUser;
@@ -57,6 +57,7 @@ public class HomeAdapter extends ArrayAdapter {
         this.numCmt = numCmt;
         this.userSaved = userSaved;
         this.userLiked = userLiked;
+        this.productTitle = productTitle;
 
     }
 
@@ -90,6 +91,7 @@ public class HomeAdapter extends ArrayAdapter {
             holder.createDate = (TextView) Listview.findViewById(R.id.datetime);
             holder.usernames = (TextView) Listview.findViewById(R.id.userItem);
             holder.desc = (TextView) Listview.findViewById(R.id.descrip);
+            holder.proTitle = (TextView)Listview.findViewById(R.id.productTitle) ;
             holder.posterProfile = (ImageView) Listview.findViewById(R.id.circle_image);
             holder.postImages = (ImageView) Listview.findViewById(R.id.displayImage);
 
@@ -215,6 +217,7 @@ public class HomeAdapter extends ArrayAdapter {
         holder.usernames.setText(username.get(position));
         holder.createDate.setText(dateAndTime.get(position));
         holder.desc.setText(description.get(position));
+        holder.proTitle.setText(productTitle.get(position));
 
         if(numLikes.get(position).toString().equals("null")){
             holder.btnLike.setText("0");
@@ -244,7 +247,7 @@ public class HomeAdapter extends ArrayAdapter {
 
 
     public static class ViewHolder {
-        TextView usernames;
+        TextView usernames,proTitle;
         TextView createDate;
         TextView desc;
         ImageView posterProfile;
