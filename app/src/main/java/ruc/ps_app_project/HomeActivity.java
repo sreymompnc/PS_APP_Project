@@ -51,7 +51,7 @@ import url.constraint;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ListView simpleList;
     private Spinner spinner;
-    List<String> users;
+    List<String> users,productTitle;
     List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav,userSaved,userLiked;
     ListView homeListView;
     String roleUser,userLoginID;
@@ -157,6 +157,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         userPostId = new ArrayList<String>();
         userSaved = new ArrayList<String>();
         userLiked = new ArrayList<String>();
+        productTitle = new ArrayList<String>();
         //------------------------Start get data all of post----------------------
         userPostId = new ArrayList<String>();
 
@@ -229,6 +230,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 userPostId.clear();
                 userSaved.clear();
                 userLiked.clear();
+                productTitle.clear();
 
                 rangePage = 1;
                // new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
@@ -340,6 +342,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         String favs = jsonObject.getString("numfavorite");
                         String user_save_fav_id = jsonObject.getString("user_fav_id");
                         String user_like_id = jsonObject.getString("user_like_id");
+                        String title = jsonObject.getString("pos_title");
 
 
 
@@ -355,6 +358,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         userPostId.add(idUserPost);
                         userSaved.add(user_save_fav_id);
                         userLiked.add(user_like_id);
+                        productTitle.add(title);
 
                         Log.i("name", productID.toString());
 
@@ -371,7 +375,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             homeList = new HomeAdapter(getApplicationContext(),
                     roleUser,userLoginID,userPostId,productID,users,dateAndTime,
-                    postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked);
+                    postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked,productTitle);
             homeListView.setAdapter(homeList);
         }
     }
@@ -403,6 +407,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 userPostId.clear();
                 userSaved.clear();
                 userLiked.clear();
+                productTitle.clear();
 
                 for(int i=0; i < jArray.length(); i++){
                     JSONObject jsonObject = jArray.getJSONObject(i);
@@ -418,6 +423,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     String favs = jsonObject.getString("numfavorite");
                     String user_save_fav_id = jsonObject.getString("user_fav_id");
                     String user_like_id = jsonObject.getString("user_like_id");
+                    String title = jsonObject.getString("pos_title");
 
 
 
@@ -434,6 +440,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     userPostId.add(idUserPost);
                     userSaved.add(user_save_fav_id);
                     userLiked.add(user_like_id);
+                    productTitle.add(title);
 
                     Log.i("name",productID.toString());
                     loadMore.setVisibility(View.INVISIBLE);
@@ -452,6 +459,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 numeLike.clear();
                 numCmt.clear();
                 numFav.clear();
+                productTitle.clear();
 
 
                 loadMore.setVisibility(View.INVISIBLE);
@@ -459,7 +467,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             searchList = new HomeAdapter(getApplicationContext(),
-                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked);
+                    roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,userSaved,userLiked,productTitle);
             homeListView.setAdapter(searchList);
 
 

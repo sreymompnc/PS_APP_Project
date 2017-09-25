@@ -37,7 +37,7 @@ import url.constraint;
 
 public class CategoriesEachActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    List<String> users;
+    List<String> users,productTitle;
     List<String> productID,userPostId, postDesc,postPro,postImage,dateAndTime,numeLike,numCmt,numFav;
 
     ListView categoryListView;
@@ -71,6 +71,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
         numFav = new ArrayList<String>();
         productID = new ArrayList<String>();
         userPostId = new ArrayList<String>();
+        productTitle = new ArrayList<String>();
 
         intent = getIntent();
         Id = intent.getStringExtra("CategoryID");
@@ -155,6 +156,8 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
                     String likes = jsonObject.getString("numlike");
                     String cmts = jsonObject.getString("numcmt");
                     String favs = jsonObject.getString("numfavorite");
+                    String title = jsonObject.getString("pos_title");
+
 
                     users.add(name);
                     postDesc.add(description);
@@ -166,6 +169,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
                     numFav.add(favs);
                     productID.add(postIds);
                     userPostId.add(idUserPost);
+                    productTitle.add(title);
                     Log.i("name",productID.toString());
 
 
@@ -178,7 +182,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
 
             }
 
-            CategoriesEachAdapter categoriesList = new CategoriesEachAdapter(getApplicationContext(),roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt);
+            CategoriesEachAdapter categoriesList = new CategoriesEachAdapter(getApplicationContext(),roleUser,userLoginID,userPostId,productID,users,dateAndTime,postDesc,postPro,postImage,numeLike,numFav,numCmt,productTitle);
             categoryListView.setAdapter(categoriesList);
 //
 //            homeList.notifyDataSetChanged();
