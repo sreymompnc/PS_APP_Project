@@ -347,10 +347,12 @@ public class PostDetailActivity extends AppCompatActivity {
             menu.findItem(R.id.update_post).setVisible(false);
             menu.findItem(R.id.delete_favorite).setVisible(true);
             return true;
-        }
+        }else{
             menu.findItem(R.id.delete_post).setVisible(false);
             menu.findItem(R.id.update_post).setVisible(false);
             menu.findItem(R.id.delete_favorite).setVisible(false);
+        }
+
 
 
 
