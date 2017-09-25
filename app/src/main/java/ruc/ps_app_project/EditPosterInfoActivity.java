@@ -272,6 +272,7 @@ public class EditPosterInfoActivity extends AppCompatActivity {
                                         Toast.makeText(EditPosterInfoActivity.this,"success",Toast.LENGTH_LONG).show();
                                         Intent backProfileUser = new Intent(EditPosterInfoActivity.this,PosterProfileActivity.class);
                                         backProfileUser.putExtra("menuProfile",true);
+                                        backProfileUser.putExtra("managepost",true);
                                         startActivity(backProfileUser);
                                     }
                                     else if(sms.equals("fail")){
