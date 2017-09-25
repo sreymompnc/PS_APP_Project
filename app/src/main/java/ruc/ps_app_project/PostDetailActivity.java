@@ -158,7 +158,6 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(PostDetailActivity.this,productPostID,Toast.LENGTH_SHORT).show();
 
 
         //------------------------Start get data detail of post
@@ -192,9 +191,17 @@ public class PostDetailActivity extends AppCompatActivity {
                         phone.setText(objJson.getString("pos_telephone"));
                         address.setText(objJson.getString("pos_address"));
 
-                        btnLike.setText(objJson.getString("numlike"));
+                        if(objJson.getString("numlike").equals("null")){
+                            btnLike.setText("0");
+                        }else{
+                            btnLike.setText(objJson.getString("numlike"));
+                        }
+                        if(objJson.getString("numcmt").equals("null")){
+                            btnCmt.setText("0");
+                        }else{
+                            btnCmt.setText(objJson.getString("numcmt"));
+                        }
                        // btnFav.setText(objJson.getString("numfavorite"));
-                        btnCmt.setText(objJson.getString("numcmt"));
 
                         // profile poster
                         final String posterUrlImg = constraint.url+"images/posters/"+objJson.getString("image");
@@ -389,16 +396,15 @@ public class PostDetailActivity extends AppCompatActivity {
                 deleteStu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(PostDetailActivity.this,"yes",Toast.LENGTH_SHORT).show();
-                        Toast.makeText(PostDetailActivity.this,productPostID,Toast.LENGTH_LONG).show();
                         final AsyncHttpClient client = new AsyncHttpClient();
-                        client.addHeader("apikey", "123");
+
                         client.delete(constraint.url+"posts/deletePost/"+productPostID, new AsyncHttpResponseHandler() {
 
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
                                 Toast.makeText(PostDetailActivity.this,"Delete success",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(PostDetailActivity.this,PosterProfileActivity.class);
+                                Intent intent = new Intent(PostDetailActivity.this,HomeActivity.class);
                                 startActivity(intent);
                             }
 
@@ -669,7 +675,6 @@ public class PostDetailActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(data);
                         String sms = jsonObject.getString("status");
 
-                        Toast.makeText(getBaseContext(), sms, Toast.LENGTH_LONG).show();
                         Intent goToFavoritePage = new Intent(PostDetailActivity.this,FavoritePageActivity.class);
                         startActivity(goToFavoritePage);
 

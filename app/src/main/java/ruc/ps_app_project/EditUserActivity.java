@@ -31,13 +31,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class EditUserActivity extends AppCompatActivity {
     EditText user_name,user_mail,user_phone,user_add;
     String userLoginID;
     TextView btnUpdate,back_update;
     TextInputLayout TextInputConfirmPhone, TextInputAdd, TextInputUsername, TextInputEmail;
-    String port = "http://192.168.1.17:1111/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,7 @@ public class EditUserActivity extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         // client.addHeader("header_key", "header value");
 
-        client.get(port+"users/userProfile/"+userLoginID, new AsyncHttpResponseHandler() {
+        client.get(constraint.url+"users/userProfile/"+userLoginID, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Log.i("test","success");
@@ -267,7 +267,7 @@ public class EditUserActivity extends AppCompatActivity {
                     requestParams.add("phone",newPhone);
                     requestParams.add("address",newAdd);
 
-                    client.post(port+"users/updateUserInfo/"+userLoginID, requestParams, new AsyncHttpResponseHandler() {
+                    client.post(constraint.url+"users/updateUserInfo/"+userLoginID, requestParams, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                             try {

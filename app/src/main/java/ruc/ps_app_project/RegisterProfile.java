@@ -104,7 +104,6 @@ public class RegisterProfile extends AppCompatActivity {
         SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         String userId = preferLogin.getString("userId","");
         final String userName = preferLogin.getString("userName","");
-        Toast.makeText(RegisterProfile.this, userName, Toast.LENGTH_LONG).show();
 
         //============================data of poster==========================================
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -156,7 +155,6 @@ public class RegisterProfile extends AppCompatActivity {
                     String data = new String(responseBody, "UTF8");
                     Log.i("user_data", data);
                     try {
-                        Toast.makeText(RegisterProfile.this, "yes",Toast.LENGTH_SHORT).show();
                         JSONObject jsonObj = new JSONObject(data);
                         Log.i("user_data_obj", jsonObj.toString());
                         JSONArray user_data = jsonObj.getJSONArray("users");
@@ -177,7 +175,6 @@ public class RegisterProfile extends AppCompatActivity {
 
                         }
                     }catch (JSONException e){
-                        Toast.makeText(RegisterProfile.this, "no",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }catch (UnsupportedEncodingException e){

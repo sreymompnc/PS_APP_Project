@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    android:text="To my get what you want here.To my get what you want here.To my get what you want here."
+                    android:text="Navigate throughout the Shop in products categories."
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 

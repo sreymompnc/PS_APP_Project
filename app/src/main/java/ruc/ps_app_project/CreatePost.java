@@ -377,8 +377,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                             intent.putExtra("menuProfile",true);
                             startActivity(intent);
                         }else {
-                            Intent intent = new Intent(CreatePost.this,CreatePost.class);
-                            startActivity(intent);
+                            Toast.makeText(CreatePost.this,"Fail",Toast.LENGTH_SHORT).show();
                         }
 
                 }catch (Exception e){
