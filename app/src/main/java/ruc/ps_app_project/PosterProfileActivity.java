@@ -132,6 +132,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         }
 
         //=======================check owner or not and hide button===============
+
         userPostID = getIntent().getStringExtra("userPostId");
 //       if(!userPostID.equals(userId)){
 //            Toast.makeText(PosterProfileActivity.this,"homepage",Toast.LENGTH_SHORT).show();
@@ -151,6 +152,7 @@ public class PosterProfileActivity extends AppCompatActivity {
             create_post.setVisibility(View.INVISIBLE);
             updatePosterInfo.setVisibility(View.INVISIBLE);
         }
+
 
 
        // Log.i("GetExtraId",userPostID);
