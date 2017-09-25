@@ -216,11 +216,9 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
         } else if (id == R.id.nav_manage_profile) {
 
             if(userRole.equals("seller")){
-                Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(CategoriesEachActivity.this, PosterProfileActivity.class);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
-                Toast.makeText(CategoriesEachActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(CategoriesEachActivity.this, RegisterProfile.class);
 //                intent.putExtra("isSeller", true);
                 startActivity(intent);

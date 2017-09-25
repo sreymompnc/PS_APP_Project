@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:text="Already have an account as a buyer?"/>
+                android:text="Already have an account?"/>
 
             <Button
                 android:id="@+id/goToLogin"
