@@ -291,6 +291,8 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                 requestParams.put("pos_telephone", String.valueOf(pro_phone.getText()));
                 requestParams.put("pos_title", String.valueOf(pro_title.getText()));
                 requestParams.put("pos_address", String.valueOf(pro_address.getText()));
+                requestParams.put("price", String.valueOf(prices.getText()));
+                requestParams.put("discount", String.valueOf(discounts.getText()));
                 requestParams.put("posters_id", userLoginID);
                 requestParams.put("categories_id", cat_id);
                 //For add student
