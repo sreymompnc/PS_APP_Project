@@ -87,7 +87,6 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String categoryId = categoriesId.get(i);
-                Toast.makeText(CategoriesActivity.this,categoryId,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CategoriesActivity.this,CategoriesEachActivity.class);
                 intent.putExtra("CategoryID",categoryId);
                 startActivity(intent);
@@ -106,80 +105,5 @@ public class CategoriesActivity extends AppCompatActivity {
         });
 //------------------------ End Go to Category ------------------------------------------
     }
-    // To get API url
-//    public static String GET(String url) {
-//        InputStream inputStream = null;
-//        String result = "";
-//        try {
-//
-//            // create HttpClient
-//            HttpClient httpclient = new DefaultHttpClient();
-//
-//            // make GET request to the given URL
-//            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-//
-//            // receive response as inputStream
-//            inputStream = httpResponse.getEntity().getContent();
-//
-//            // convert inputstream to string
-//            if (inputStream != null)
-//                result = convertInputStreamToString(inputStream);
-//            else
-//                result = "Did not work!";
-//
-//        } catch (Exception e) {
-//            Log.d("InputStream", e.getLocalizedMessage());
-//        }
-//
-//        return result;
-//    }
-//
-//    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-//        String line = "";
-//        String result = "";
-//        while ((line = bufferedReader.readLine()) != null)
-//            result += line;
-//
-//        inputStream.close();
-//        return result;
-//    }
-//
-//    class HttpAsyncTask extends AsyncTask<String, Void, String>{
-//
-//        @Override
-//        protected String doInBackground(String... urls) {
-//            return GET(urls[0]);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            try {
-//                JSONObject jsonObj = new JSONObject(result);
-//                JSONArray jArray = jsonObj.getJSONArray("categories");
-//                int i;
-//
-////                HomeActivity.postCategoryName.clear();
-//                for(i=0; i < jArray.length(); i++){
-//                    JSONObject jsonObject = jArray.getJSONObject(i);
-////                    String idCate = jsonObject.getString("id");
-//                    String nameCate = jsonObject.getString("cat_name");
-//                    postCategoryName.add(nameCate);
-////                    postCategoryId.add(idCate);
-//                    Log.i("nameCate",nameCate.toString());
-//                }
-////                Log.i("nameResult",postCategoryName.toString());
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                Toast.makeText(getBaseContext(), "not data!", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            CategoriesAdapter categories = new CategoriesAdapter(getApplicationContext(),postCategoryName);
-//            categoriesListView.setAdapter(categories);
-////            super.onPostExecute(s);
-//        }
-//
-//    }
+
 }

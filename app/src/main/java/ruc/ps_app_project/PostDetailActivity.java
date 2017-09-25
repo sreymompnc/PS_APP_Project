@@ -185,7 +185,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         posteremail.setText(objJson.getString("posterEmail"));
 
                         productName.setText(objJson.getString("pos_title"));
-                        productPrice.setText("$"+objJson.getString("price"));
+                        productPrice.setText(objJson.getString("price")+"$");
                         productDis.setText(objJson.getString("discount")+"%");
                         productDes.setText(objJson.getString("pos_description"));
                         phone.setText(objJson.getString("pos_telephone"));
@@ -584,13 +584,6 @@ public class PostDetailActivity extends AppCompatActivity {
                             Toast.makeText(PostDetailActivity.this,"comment success",Toast.LENGTH_SHORT).show();
                             messages.getText().clear();
 
-                            cmtuser.add("sreymom");
-                            cmtdate.add("2017-09-15 12:40:50");
-                            cmtsms.add("just for testing");
-                            cmtprofile.add("dj.png");
-
-                          //  adapter = new CommentListAdapter(getApplicationContext(),cmtuser, cmtdate, cmtsms, cmtprofile);
-//                            commentListview.setAdapter(adapter);
                             detailCommentList = new CommentListAdapter(getApplicationContext(),
                                     cmtuser, cmtdate, cmtsms, cmtprofile);
                             commentListview.setAdapter(detailCommentList);

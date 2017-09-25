@@ -134,33 +134,19 @@ public class PosterProfileActivity extends AppCompatActivity {
         //=======================check owner or not and hide button===============
 
         userPostID = getIntent().getStringExtra("userPostId");
-//       if(!userPostID.equals(userId)){
-//            Toast.makeText(PosterProfileActivity.this,"homepage",Toast.LENGTH_SHORT).show();
-//            create_post.setVisibility(View.INVISIBLE);
-//            updatePosterInfo.setVisibility(View.INVISIBLE);
-//        }
 
         if(getIntent().hasExtra("menuProfile") || getIntent().hasExtra("managepost")){
-            Toast.makeText(PosterProfileActivity.this,"true",Toast.LENGTH_SHORT).show();
-
             create_post.setVisibility(View.VISIBLE);
             updatePosterInfo.setVisibility(View.VISIBLE);
-        }else if(!userPostID.equals(userId)){
-            Toast.makeText(PosterProfileActivity.this,"false",Toast.LENGTH_SHORT).show();
-
+        }else if(userPostID.equals(userId)){
             checkUserID = userPostID;
+            create_post.setVisibility(View.VISIBLE);
+            updatePosterInfo.setVisibility(View.VISIBLE);
+        }else{
             create_post.setVisibility(View.INVISIBLE);
             updatePosterInfo.setVisibility(View.INVISIBLE);
         }
 
-
-
-       // Log.i("GetExtraId",userPostID);
-//        else if(!userPostID.equals(userId)){
-//            Toast.makeText(PosterProfileActivity.this,"frompagehome",Toast.LENGTH_SHORT).show();
-//            create_post.setVisibility(View.INVISIBLE);
-//            updatePosterInfo.setVisibility(View.INVISIBLE);
-//        }
 
 
         //============================data of poster==========================================
