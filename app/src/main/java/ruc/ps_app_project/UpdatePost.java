@@ -228,7 +228,6 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                 Log.i("test","success");
                 try {
                     String data = new String(responseBody, "UTF-8");
-                    Toast.makeText(UpdatePost.this, data, Toast.LENGTH_LONG).show();
                     try {
                         JSONObject jsonObj = new JSONObject(data);
                         JSONArray jArray = jsonObj.getJSONArray("postInfo");
@@ -269,6 +268,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {;
+                Toast.makeText(UpdatePost.this,"Fail",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -277,6 +277,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
         updatePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = getIntent();
                 String pro_id = intent.getStringExtra("pro_id");
                 int id = spinner.getSelectedItemPosition();
@@ -284,7 +285,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 //
                 // get text form input
                 AsyncHttpClient client = new AsyncHttpClient();
-                client.addHeader("apikey", "123");
+
                 RequestParams requestParams = new RequestParams();
                 requestParams.put("pos_description", String.valueOf(imgDescription.getText()));
                 requestParams.put("pos_telephone", String.valueOf(pro_phone.getText()));
@@ -304,11 +305,13 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
                             try {
                                 JSONObject obj = new JSONObject(data);
                                 String status = obj.getString("status");
+
                                 if(status.equals("success")){
-                                    Intent intent = new Intent(UpdatePost.this,PosterProfileActivity.class);
+                                    Toast.makeText(UpdatePost.this,status,Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdatePost.this,HomeActivity.class);
                                     startActivity(intent);
                                 }else {
-
+                                    Toast.makeText(UpdatePost.this,status,Toast.LENGTH_SHORT).show();
                                 }
                                 System.out.println(obj);
                             } catch (Throwable t) {
@@ -321,6 +324,7 @@ public class UpdatePost extends AppCompatActivity implements AdapterView.OnItemS
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(UpdatePost.this,"Fail",Toast.LENGTH_SHORT).show();
 
                     }
                 });

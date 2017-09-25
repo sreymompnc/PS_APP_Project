@@ -173,9 +173,18 @@ public class CategoriesEachAdapter extends ArrayAdapter {
         holder.usernames.setText(username.get(position));
         holder.createDate.setText(dateAndTime.get(position));
         holder.desc.setText(description.get(position));
-        holder.btnLike.setText(numLikes.get(position));
+        if(numLikes.get(position).toString().equals("null")){
+            holder.btnLike.setText("0");
+        }else{
+            holder.btnLike.setText(numLikes.get(position));
+        }
+        if(numCmt.get(position).toString().equals("null")){
+            holder.bntCmt.setText("0");
+        }else{
+            holder.bntCmt.setText(numCmt.get(position));
+        }
+
         //holder.btnFav.setText(numFav.get(position));
-        holder.bntCmt.setText(numCmt.get(position));
         // profile
         final String url =  constraint.url+"images/posters/" + profile.get(position);
         loadImage(url, holder.posterProfile);

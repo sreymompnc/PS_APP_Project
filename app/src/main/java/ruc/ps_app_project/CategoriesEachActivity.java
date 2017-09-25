@@ -84,8 +84,7 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CategoriesEachActivity.this,CategoriesActivity.class);
-                startActivity(intent);
+               onBackPressed();
             }
         });
 //------------------------ End Go to Category ------------------------------------------
@@ -187,15 +186,15 @@ public class CategoriesEachActivity extends AppCompatActivity implements Navigat
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
