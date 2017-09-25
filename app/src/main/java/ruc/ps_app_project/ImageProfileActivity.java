@@ -25,6 +25,7 @@ public class ImageProfileActivity extends AppCompatActivity {
     Context context;
     ImageView profile;
     TextView back;
+    String profileName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,39 +33,12 @@ public class ImageProfileActivity extends AppCompatActivity {
         context = ImageProfileActivity.this;
         profile = (ImageView)findViewById(R.id.imageView_pro);
 
-        SharedPreferences preferLogin = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        String userId = preferLogin.getString("userId","");
-        final String userName = preferLogin.getString("userName","");
+        profileName = getIntent().getStringExtra("viewImageProfile");
 
-        Toast.makeText(ImageProfileActivity.this, "profile",Toast.LENGTH_SHORT).show();
-        final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(constraint.url+"posters/posterProfile/"+userId, new AsyncHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    String data = new String(responseBody, "UTF8");
-                    //Log.i("data", data);
-                    try {
-                        JSONObject obj = new JSONObject(data);
-                        //String status = obj.getString("status");
-                        JSONObject poster_data= obj.getJSONObject("posterProfile");
-                        String profiles = poster_data.getString("image");
-                        // profile poster
-                        final String posterUrlImg = constraint.url+"images/posters/"+profiles;
-                        loadProfile(posterUrlImg,profile);
+        final String posterUrlImg = constraint.url+"images/posters/"+profileName;
+        loadProfile(posterUrlImg,profile);
 
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                }catch (UnsupportedEncodingException e){
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-            }
-        });
 
         back = (TextView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
