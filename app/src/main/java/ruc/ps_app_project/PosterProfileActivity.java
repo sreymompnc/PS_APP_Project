@@ -102,6 +102,7 @@ public class PosterProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent updateInfoPoster = new Intent(PosterProfileActivity.this,EditPosterInfoActivity.class);
+                updateInfoPoster.putExtra("userPostId",userPostID);
                 startActivity(updateInfoPoster);
             }
         });
@@ -124,22 +125,38 @@ public class PosterProfileActivity extends AppCompatActivity {
         //---------------------Check where action from- home or menu to open profile poster----------------------
       //  page =  getIntent().getStringExtra("frompage");
         posterID = getIntent().getStringExtra("userPostId");
-        if( getIntent().hasExtra("frompage")){
+        if( getIntent().hasExtra("frompagehome")){
             checkUserID = posterID;
         }else{
             checkUserID = userId;
         }
 
         //=======================check owner or not and hide button===============
-         userPostID = getIntent().getStringExtra("userPostId");
-//        if(!userPostID.equals(userId)){
+
+        userPostID = getIntent().getStringExtra("userPostId");
+//       if(!userPostID.equals(userId)){
+//            Toast.makeText(PosterProfileActivity.this,"homepage",Toast.LENGTH_SHORT).show();
 //            create_post.setVisibility(View.INVISIBLE);
 //            updatePosterInfo.setVisibility(View.INVISIBLE);
 //        }
 
+        if(getIntent().hasExtra("menuProfile") || getIntent().hasExtra("managepost")){
+            create_post.setVisibility(View.VISIBLE);
+            updatePosterInfo.setVisibility(View.VISIBLE);
+        }else if(!userPostID.equals(userId)){
+            checkUserID = userPostID;
+            create_post.setVisibility(View.INVISIBLE);
+            updatePosterInfo.setVisibility(View.INVISIBLE);
+        }
+
 
 
        // Log.i("GetExtraId",userPostID);
+//        else if(!userPostID.equals(userId)){
+//            Toast.makeText(PosterProfileActivity.this,"frompagehome",Toast.LENGTH_SHORT).show();
+//            create_post.setVisibility(View.INVISIBLE);
+//            updatePosterInfo.setVisibility(View.INVISIBLE);
+//        }
 
 
         //============================data of poster==========================================
@@ -197,7 +214,6 @@ public class PosterProfileActivity extends AppCompatActivity {
                     String data = new String(responseBody, "UTF8");
                     //Log.i("data", data);
                     try {
-                        Toast.makeText(PosterProfileActivity.this, "yes",Toast.LENGTH_SHORT).show();
                         JSONObject jsonObj = new JSONObject(data);
 
                         Log.i("data_all_post",jsonObj.toString());
@@ -232,7 +248,6 @@ public class PosterProfileActivity extends AppCompatActivity {
                         }
                         Log.i("Poster_id", String.valueOf(POST_ID));
                     }catch (JSONException e){
-                        Toast.makeText(PosterProfileActivity.this, "no",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                 }catch (UnsupportedEncodingException e){

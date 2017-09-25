@@ -29,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import url.constraint;
 
 public class ForgotPassActivity extends AppCompatActivity {
     Button btn_continue;
@@ -100,14 +101,10 @@ public class ForgotPassActivity extends AppCompatActivity {
                         if (user.equals("seller")) {
                             // get text form input
                             AsyncHttpClient client = new AsyncHttpClient();
-//                            client.addHeader("apikey", "123");
                             RequestParams requestParams = new RequestParams();
                             requestParams.add("email", String.valueOf(email.getText()));
-//                            requestParams.add("password", String.valueOf(password.getText()));
-//                            requestParams.add("username", String.valueOf(username.getText()));
-//                            requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                             //For add student
-                            url = "http://192.168.1.22:2222/posters/sendMail";
+                            url = constraint.url+"posters/sendMail";
                             Log.i("url",url);
                             client.post(url, requestParams, new AsyncHttpResponseHandler() {
                                 @Override
@@ -149,7 +146,7 @@ public class ForgotPassActivity extends AppCompatActivity {
 //                            requestParams.add("username", String.valueOf(username.getText()));
 //                            requestParams.add("confirmPass", String.valueOf(confirmPass.getText()));
                             //For add student
-                            url = "http://192.168.1.22:2222/users/sendMail";
+                            url = constraint.url+"users/sendMail";
                             Log.i("url",url);
                             client.post(url, requestParams, new AsyncHttpResponseHandler() {
                                 @Override

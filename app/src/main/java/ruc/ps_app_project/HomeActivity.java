@@ -170,10 +170,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 Toast.makeText(HomeActivity.this,"Load More",Toast.LENGTH_SHORT).show();
                 if(!userLoginID.equals("") && roleUser.equals("buyer")){
-                    Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
                 }else{
-                    Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
                 }
             }
@@ -216,9 +214,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 searchValue.getText().clear();
-                Toast.makeText(HomeActivity.this,"cancel search",Toast.LENGTH_SHORT).show();
-
-
                 cancelSearch.setVisibility(View.INVISIBLE);
                 loadMore.setVisibility(View.VISIBLE);
 
@@ -238,10 +233,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 rangePage = 1;
                // new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage);
                 if(!userLoginID.equals("") && roleUser.equals("buyer")){
-                    Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
                 }else{
-                    Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
                     new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
                 }
 
@@ -256,7 +249,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String productName = searchValue.getText().toString();
                 // call AsynTask to perform network operation on separate thread
                 new HttpAsyncTaskOfSearch().execute(constraint.url+"posts/search/"+productName);
-                Toast.makeText(HomeActivity.this,productName,Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -264,10 +256,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //============================End search=======================
 //        new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost"+ rangePage);
         if(!userLoginID.equals("") && roleUser.equals("buyer")){
-            Toast.makeText(HomeActivity.this, "Have user login", Toast.LENGTH_LONG).show();
             new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/"+userLoginID);
         }else{
-            Toast.makeText(HomeActivity.this, "No user", Toast.LENGTH_LONG).show();
             new HttpAsyncTask().execute(constraint.url+"posts/viewAllPost/"+ rangePage+"/0");
         }
       //  requestData(rangePage);
@@ -400,7 +390,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             try {
                 JSONObject jsonObj = new JSONObject(result);
                 JSONArray jArray = jsonObj.getJSONArray("posts");
-                Toast.makeText(getBaseContext(), "it is true!", Toast.LENGTH_LONG).show();
 
                 users.clear();
                 postDesc.clear();
@@ -453,7 +442,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "Search no data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "No data!", Toast.LENGTH_LONG).show();
 
                 users.clear();
                 postDesc.clear();
@@ -521,14 +510,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage_profile) {
 
             if(userRole.equals("seller")){
-                Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
-
+                intent.putExtra("menuProfile",true);
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
-                Toast.makeText(HomeActivity.this, userRole, Toast.LENGTH_LONG).show();
                 Intent intent= new Intent(HomeActivity.this, RegisterProfile.class);
-//                intent.putExtra("isSeller", true);
                 startActivity(intent);
             }else {
                     Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
@@ -539,9 +525,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if(userRole.equals("seller")){
                     Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
                     intent.putExtra("frompage","menupage");
+                    intent.putExtra("managepost",true);
                     startActivity(intent);
                 }else{
                     Toast.makeText(HomeActivity.this,"You don't have permisson to access",Toast.LENGTH_SHORT).show();
+                    Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
+                    startActivity(intent);
                 }
         } else if (id == R.id.nav_change_password) {
             if(userRole.equals("buyer") || userRole.equals("seller")){

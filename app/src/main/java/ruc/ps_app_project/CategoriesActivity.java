@@ -96,7 +96,7 @@ public class CategoriesActivity extends AppCompatActivity {
 
 
         //------------------------ Start Go to Category ------------------------------------------
-        back = (TextView)findViewById(R.id.btnPostBack);
+        back = (TextView)findViewById(R.id.btnCatBack);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
