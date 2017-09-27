@@ -99,8 +99,7 @@ public class CategoriesActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CategoriesActivity.this,HomeActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 //------------------------ End Go to Category ------------------------------------------
