@@ -221,7 +221,6 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                     hideMsgError(TextInputAddress, address,2);
                 }
                 if(!isImageSelected){
-                    Toast.makeText(getApplicationContext(), "Please select image.", Toast.LENGTH_LONG).show();
                     checkData = true;
                     errorMessageImage();
                 }
