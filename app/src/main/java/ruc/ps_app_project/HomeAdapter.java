@@ -156,17 +156,18 @@ public class HomeAdapter extends ArrayAdapter {
         holder.posterProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(userLoginID.equals(userPostId)){
+                if(userLoginID.equals(userPostId.get(position))){
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-
-                  //  profileIntent.putExtra("frompage",true);
+                    profileIntent.putExtra("poster","owner");
+                    //  profileIntent.putExtra("frompage",true);
                     context.startActivity(profileIntent);
                 }else {
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                     profileIntent.putExtra("frompage",true);
                     profileIntent.putExtra("frompagehome",true);
+                    profileIntent.putExtra("poster","other");
                     context.startActivity(profileIntent);
 
                 }
@@ -182,10 +183,12 @@ public class HomeAdapter extends ArrayAdapter {
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
                     //profileIntent.putExtra("frompagehome",true);
+                    profileIntent.putExtra("poster","owner");
                     context.startActivity(profileIntent);
                 }else {
                     Intent profileIntent = new Intent(context, PosterProfileActivity.class);
                     profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("poster","other");
                     profileIntent.putExtra("frompagehome",true);
                     context.startActivity(profileIntent);
 
@@ -226,7 +229,12 @@ public class HomeAdapter extends ArrayAdapter {
 
         }
 //        Toast.makeText(context,numLikes.get(position),Toast.LENGTH_SHORT).show();
-       // holder.btnFav.setText(numFav.get(position));
+
+        if(numFav.get(position).toString().equals("null")){
+            holder.btnFav.setText("0");
+        }else{
+             holder.btnFav.setText(numFav.get(position));
+        }
         if(numCmt.get(position).toString().equals("null")){
             holder.bntCmt.setText("0");
         }else{

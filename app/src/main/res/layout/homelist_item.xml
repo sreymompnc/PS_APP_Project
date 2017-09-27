@@ -7,151 +7,141 @@
 
 
         <!--start header of listview-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical">
+
         <LinearLayout
+            android:id="@+id/headerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:descendantFocusability="blocksDescendants">
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circle_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
             <LinearLayout
-                android:id="@+id/headerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circle_image"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp">
-
-                    <TextView
-                        android:id="@+id/userItem"
-                        android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="16dp"/>
-
-
-                    <TextView
-                        android:id="@+id/datetime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_menu"
-                        android:textSize="11sp" />
-
-
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-            <!--End header-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/userItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:id="@+id/productTitle"
-                    android:paddingLeft="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:textStyle="bold"/>
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
 
 
-                <ImageView
-                    android:id="@+id/displayImage"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true"
-                    android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/descrip"
-                    android:ellipsize="end"
-                    android:maxLength="110"
-                    android:maxLines="2"
-                    android:paddingTop="15dp"
-                    android:paddingLeft="20dp"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
+                    android:id="@+id/datetime"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text=""/>
+                    android:textColor="@color/color_menu"
+                    android:textSize="11sp" />
+
+
             </LinearLayout>
 
 
+        </LinearLayout>
+        <!--End header-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/productTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/hbtnlike"
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:drawableStart="@drawable/ic_like"
-                    android:textColor="@color/color_menu"
-                    android:background="@drawable/btnlikefavoritecmt"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textSize="10dp"
-                    />
 
-                <Button
-                    android:id="@+id/hbtnfavorite"
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="30dp"
-                    android:drawableStart="@drawable/ic_heart"
-                    android:background="@drawable/btnlikefavoritecmt"
-                    android:textColor="@color/color_menu"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textSize="10dp"/>
+            <ImageView
+                android:id="@+id/displayImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
 
-                <Button
-                    android:id="@+id/hbtncmt"
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="30dp"
-                    android:drawableStart="@drawable/ic_cmt"
-                    android:textColor="@color/color_menu"
-                    android:background="@drawable/btnlikefavoritecmt"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textSize="10dp"/>
-
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/descrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:ellipsize="end"
+                android:maxLength="110"
+                android:maxLines="2"
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:text=""
+                android:textColor="@color/black" />
         </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/hbtnlike"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:drawableStart="@drawable/ic_like"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/color_menu"
+                android:textSize="10dp" />
 
+            <Button
+                android:id="@+id/hbtnfavorite"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:drawableStart="@drawable/ic_heart"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/color_menu"
+                android:textSize="10dp" />
 
+            <Button
+                android:id="@+id/hbtncmt"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/btnlikefavoritecmt"
+                android:drawableStart="@drawable/ic_cmt"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/color_menu"
+                android:textSize="10dp" />
 
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

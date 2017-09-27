@@ -2,6 +2,7 @@ package ruc.ps_app_project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
 import static android.support.v4.view.PagerAdapter.POSITION_NONE;
@@ -108,7 +116,14 @@ public class CategoriesEachAdapter extends ArrayAdapter {
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"create like",Toast.LENGTH_LONG).show();
+                if(roleUser.equals("buyer")) {
+
+                    String idOfProduct = productID.get(position);
+                    like(idOfProduct);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
             }
 
         });
@@ -116,10 +131,18 @@ public class CategoriesEachAdapter extends ArrayAdapter {
         holder.bntCmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent detailIntent = new Intent(context, PostDetailActivity.class);
-                detailIntent.putExtra("productId", productID.get(position).toString());
-                detailIntent.putExtra("userPostId", userPostId.get(position).toString());
-                context.startActivity(detailIntent);
+                if(roleUser.equals("buyer")){
+                    Intent detailIntent = new Intent(context, PostDetailActivity.class);
+                    detailIntent.putExtra("productId", productID.get(position).toString());
+                    detailIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    detailIntent.putExtra("page","categorypage");
+
+                    context.startActivity(detailIntent);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+
             }
 
         });
@@ -132,6 +155,7 @@ public class CategoriesEachAdapter extends ArrayAdapter {
                 Intent detailIntent = new Intent(context, PostDetailActivity.class);
                 detailIntent.putExtra("productId", productID.get(position).toString());
                 detailIntent.putExtra("userPostId", userPostId.get(position).toString());
+                detailIntent.putExtra("page","categorypage");
                 context.startActivity(detailIntent);
             }
 
@@ -142,10 +166,21 @@ public class CategoriesEachAdapter extends ArrayAdapter {
         holder.posterProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(userLoginID.equals(userPostId.get(position))){
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("poster","owner");
+                    //  profileIntent.putExtra("frompage",true);
+                    context.startActivity(profileIntent);
+                }else {
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("frompage",true);
+                    profileIntent.putExtra("frompagehome",true);
+                    profileIntent.putExtra("poster","other");
+                    context.startActivity(profileIntent);
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
-                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                context.startActivity(profileIntent);
+                }
             }
 
         });
@@ -153,9 +188,24 @@ public class CategoriesEachAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
-                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
-                context.startActivity(profileIntent);
+//                Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+//                profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+//                context.startActivity(profileIntent);
+
+                if(userLoginID.equals(userPostId)){
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    //profileIntent.putExtra("frompagehome",true);
+                    profileIntent.putExtra("poster","owner");
+                    context.startActivity(profileIntent);
+                }else {
+                    Intent profileIntent = new Intent(context, PosterProfileActivity.class);
+                    profileIntent.putExtra("userPostId", userPostId.get(position).toString());
+                    profileIntent.putExtra("poster","other");
+                    profileIntent.putExtra("frompagehome",true);
+                    context.startActivity(profileIntent);
+
+                }
             }
 
         });
@@ -166,8 +216,15 @@ public class CategoriesEachAdapter extends ArrayAdapter {
 
             @Override
             public void onClick(View view) {
-                String idOfProduct = productID.get(position);
-                FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
+                if(roleUser.equals("buyer")){
+                    String idOfProduct = productID.get(position);
+                    FavoriteSingleton.getInstance().saveFavorite(userLoginID,idOfProduct);
+                    Toast.makeText(context,"Saved",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+
 
             }
 
@@ -190,7 +247,12 @@ public class CategoriesEachAdapter extends ArrayAdapter {
             holder.bntCmt.setText(numCmt.get(position));
         }
 
-        //holder.btnFav.setText(numFav.get(position));
+        if(numFav.get(position).toString().equals("null")){
+            holder.btnFav.setText("0");
+        }else{
+            holder.btnFav.setText(numFav.get(position));
+        }
+
         // profile
         final String url =  constraint.url+"images/posters/" + profile.get(position);
         loadImage(url, holder.posterProfile);
@@ -236,4 +298,38 @@ public class CategoriesEachAdapter extends ArrayAdapter {
                 .into(imgView);
 
     }
+
+    private void like(String productID){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(constraint.url + "posts/checkLike/"+userLoginID+"/"+productID, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    Log.i("userLoginID",userLoginID);
+//                    Log.i("userLoginID", String.valueOf(productID));
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject object = new JSONObject(data);
+                        String message = object.getString("status");
+                        String name = "";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(context, "Liked", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+
+
 }
+
+

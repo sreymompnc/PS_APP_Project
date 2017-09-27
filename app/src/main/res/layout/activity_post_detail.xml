@@ -66,16 +66,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:descendantFocusability="blocksDescendants">
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/detail_circle_image"
@@ -87,25 +87,25 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/posterName"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="16dp"/>
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
 
 
                         <TextView
                             android:id="@+id/postDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="@color/color_menu" />
+                            android:textColor="@color/color_menu"
+                            android:textSize="11sp" />
 
 
                     </LinearLayout>
@@ -121,11 +121,11 @@
 
                     <ImageView
                         android:id="@+id/detailImage"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
-                        android:scaleType="fitXY"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:layout_height="wrap_content" />
+                        android:scaleType="fitXY" />
 
                     <TextView
                         android:id="@+id/pDes"
@@ -133,9 +133,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:textAlignment="textStart"
                         android:layout_marginTop="10dp"
                         android:text=""
+                        android:textAlignment="textStart"
                         android:textColor="#000"
                         android:textSize="14dp" />
 
@@ -143,28 +143,24 @@
                 </LinearLayout>
 
 
-
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp">
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/btnlikeDetail"
                         android:layout_width="60dp"
                         android:layout_height="25dp"
-                        android:drawableStart="@drawable/ic_like"
-                        android:textColor="@color/color_menu"
                         android:background="@drawable/btnlikefavoritecmt"
+                        android:drawableStart="@drawable/ic_like"
                         android:padding="5dp"
                         android:text=""
-                        android:textSize="10dp"
-                        />
-
+                        android:textColor="@color/color_menu"
+                        android:textSize="10dp" />
 
 
                     <Button
@@ -172,29 +168,30 @@
                         android:layout_width="60dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="30dp"
-                        android:drawableStart="@drawable/ic_heart"
                         android:background="@drawable/btnlikefavoritecmt"
-                        android:textColor="@color/color_menu"
+                        android:drawableStart="@drawable/ic_heart"
                         android:padding="5dp"
                         android:text=""
-                        android:textSize="10dp"/>
+                        android:textColor="@color/color_menu"
+                        android:textSize="10dp" />
 
                     <Button
                         android:id="@+id/btncommentDetail"
                         android:layout_width="60dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="30dp"
-                        android:drawableStart="@drawable/ic_cmt"
-                        android:textColor="@color/color_menu"
                         android:background="@drawable/btnlikefavoritecmt"
+                        android:drawableStart="@drawable/ic_cmt"
                         android:padding="5dp"
                         android:text=""
-                        android:textSize="10dp"/>
+                        android:textColor="@color/color_menu"
+                        android:textSize="10dp" />
 
                 </LinearLayout>
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -409,7 +406,9 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="10dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/cmtMessage"

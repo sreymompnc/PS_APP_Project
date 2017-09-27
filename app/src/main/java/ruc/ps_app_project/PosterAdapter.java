@@ -16,17 +16,21 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import url.constraint;
 
 public class PosterAdapter extends ArrayAdapter {
-
+    String roleUser,userLoginId;
     Context context;
     List<String> POST_ID, POSTER_ID, USERNAME,DATETIME,DESCRIPTION,PROFILE, POSTIMAGE,NUMLIKE,NUMFAV,NUMCMT,productTitle;
 //    String ROLEUSER;
-    public PosterAdapter(Context context, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
+    public PosterAdapter(Context context,String roleUser,String userLoginId, List<String> postId, List<String> userId, List<String> username,List<String> dateAndTime,
                        List<String> description,List<String> profile, List<String> allPostImage,
                        List<String> numLikes,List<String> numFav,List<String> numCmt,List<String> productTitle) {
         super(context,R.layout.listview_post);
@@ -42,7 +46,8 @@ public class PosterAdapter extends ArrayAdapter {
         this.NUMFAV = numFav;
         this.NUMCMT = numCmt;
         this.productTitle = productTitle;
-//        this.ROLEUSER = roleUser;
+        this.roleUser = roleUser;
+        this.userLoginId = userLoginId;
     }
 
     public PosterAdapter(Context applicationContext, String[] countryList, int[] flags) {
@@ -98,6 +103,62 @@ public class PosterAdapter extends ArrayAdapter {
 
         });
 
+        //==================Button save favorite=============
+        holder.btnFav.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if(roleUser.equals("buyer")){
+                    String idOfProduct = POST_ID.get(i);
+                    FavoriteSingleton.getInstance().saveFavorite(userLoginId,idOfProduct);
+                    Toast.makeText(context,"Saved",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+
+
+            }
+
+        });
+
+        //=======================Comment ===============
+        holder.bntCmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roleUser.equals("buyer")){
+                    Intent detailIntent = new Intent(context, PostDetailActivity.class);
+                    detailIntent.putExtra("productId", POST_ID.get(i).toString());
+                    detailIntent.putExtra("userPostId", POSTER_ID.get(i).toString());
+                    detailIntent.putExtra("page","categorypage");
+
+                    context.startActivity(detailIntent);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+
+            }
+
+        });
+        // Go to detail activity of click product image
+        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roleUser.equals("buyer")) {
+
+                    String idOfProduct = POST_ID.get(i);
+                    like(idOfProduct);
+                }else{
+                    Intent intent= new Intent(context, AskConfirmActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+
+        });
+
+
+
         // Go to detail activity of click product image
 //        holder.btnLike.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -132,7 +193,7 @@ public class PosterAdapter extends ArrayAdapter {
         holder.titleProduct.setText(productTitle.get(i));
 
         holder.btnLike.setText(NUMLIKE.get(i));
-       // holder.btnFav.setText(NUMFAV.get(i));
+        holder.btnFav.setText(NUMFAV.get(i));
         holder.bntCmt.setText(NUMCMT.get(i));
 
         // profile
@@ -196,5 +257,38 @@ public class PosterAdapter extends ArrayAdapter {
                 .into(imgView);
 
     }
+
+    //===================================Like=======================================
+    private void like(String productID){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(constraint.url + "posts/checkLike/"+userLoginId+"/"+productID, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    Log.i("userLoginID",userLoginId);
+//                    Log.i("userLoginID", String.valueOf(productID));
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject object = new JSONObject(data);
+                        String message = object.getString("status");
+                        String name = "";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(context, "Liked", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+    //===================================End Like=======================================
+
+
 
 }

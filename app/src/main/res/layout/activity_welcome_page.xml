@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/welcom"
+    android:background="@drawable/backt"
     tools:context="ruc.ps_app_project.ForgotPassActivity"
     android:orientation="vertical">
 
@@ -22,17 +22,15 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="55dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="90dp">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -48,18 +46,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Welcome"
-                    android:textColor="@color/color_menu"
-                    android:textSize="22sp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
                 <!--username address-->
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="288dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
                     android:text="Navigate throughout the Shop in products categories."
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
 
@@ -69,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/buttonformat"
+                    android:background="@drawable/welcomebtn"
                     android:text="Let's go"
                     android:textColor="#fff" />
 
