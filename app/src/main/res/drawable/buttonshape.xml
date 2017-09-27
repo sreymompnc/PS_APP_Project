@@ -9,7 +9,7 @@
         android:bottomRightRadius="10dp"
         />
     <solid
-        android:color="#3B5998"
+        android:color="@color/color_login_register_action"
         />
     <padding
         android:left="0dp"

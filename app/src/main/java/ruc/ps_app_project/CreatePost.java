@@ -350,7 +350,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         requestParams.put("categories_id", cat_id);
 
         File file = new File(picturePath);
-        Toast.makeText(CreatePost.this,file.toString(),Toast.LENGTH_SHORT).show();
+       // Toast.makeText(CreatePost.this,file.toString(),Toast.LENGTH_SHORT).show();
 
         try {
             requestParams.put("pos_image", file, "image/jpeg");

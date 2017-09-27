@@ -2,6 +2,8 @@ package ruc.ps_app_project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,14 +107,46 @@ public class HomeAdapter extends ArrayAdapter {
             holder = (ViewHolder) Listview.getTag();
         }
 
+        //===========================Check to set color=======================
+        String userLikedID = userLiked.get(position);
+        if(userLoginID.equals(userLikedID)){
+            //holder.btnLike.setBackgroundColor(Color.GREEN);
+            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_liked );
+            img.setBounds( 0, 0, 82, 82 );
+            holder.btnLike.setCompoundDrawables( img, null, null, null );
+           // holder.btnLike.setBackgroundDrawable
+        }else{
+            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_like );
+            img.setBounds( 0, 0, 82, 82 );
+            holder.btnLike.setCompoundDrawables( img, null, null, null );
+        }
+
+
+        //==============================End color=============================
+        //=================================Check saved ==================
+        String userSavedID = userSaved.get(position);
+        if(userLoginID.equals(userSavedID)){
+            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_heart_red );
+            img.setBounds( 0, 0, 82, 82 );
+            holder.btnFav.setCompoundDrawables( img, null, null, null );
+            // holder.btnLike.setBackgroundDrawable
+        }else{
+            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_heart );
+            img.setBounds( 0, 0, 82, 82 );
+            holder.btnFav.setCompoundDrawables( img, null, null, null );
+        }
+        //============================End saved==========================
+
+
+
         // Go to detail activity of click product image
         holder.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(roleUser.equals("buyer")) {
-
                     String idOfProduct = productID.get(position);
                     like(idOfProduct);
+
                 }else{
                     Intent intent= new Intent(context, AskConfirmActivity.class);
                     context.startActivity(intent);
@@ -205,9 +239,9 @@ public class HomeAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 if(roleUser.equals("buyer")){
+                    String userLikedID = userSaved.get(position);
                     String idOfProduct = productID.get(position);
                     saveFavorite(userLoginID,idOfProduct);
-                    Toast.makeText(context, "saved", Toast.LENGTH_LONG).show();
 
                 }else{
                     Intent intent= new Intent(context, AskConfirmActivity.class);
@@ -304,7 +338,6 @@ public class HomeAdapter extends ArrayAdapter {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(context, "Liked", Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -100,7 +100,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="19dp"
             android:layout_marginLeft="20dp"
             android:orientation="horizontal">
 
@@ -140,6 +140,9 @@
                 android:textSize="10dp" />
 
         </LinearLayout>
+
+
+
 
     </LinearLayout>
 

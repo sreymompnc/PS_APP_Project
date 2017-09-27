@@ -558,8 +558,6 @@ public class PostDetailActivity extends AppCompatActivity {
                     cmtprofile.add(usercmtProfile);
                     Log.i("comment data",cmtprofile.toString());
 
-
-
                 }
 
             } catch (JSONException e) {
