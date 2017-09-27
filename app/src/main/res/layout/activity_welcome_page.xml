@@ -58,7 +58,8 @@
                     android:paddingTop="10dp"
                     android:text="Navigate throughout the Shop in products categories."
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:gravity="center"/>
 
 
                 <Button
