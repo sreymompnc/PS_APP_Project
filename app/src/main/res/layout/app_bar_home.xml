@@ -9,7 +9,9 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -30,8 +32,10 @@
                     android:layout_gravity="center"
                     android:hint="Search Product"
                     android:inputType="text"
+                    android:textSize="14dp"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:textColorHint="#9DAD9A"
+                    />
 
 
             <!--<android.support.v7.widget.SearchView-->
@@ -73,7 +77,7 @@
         android:id="@+id/buttonLoadMore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btnloadmore"
+        android:background="@color/color_menu"
         android:textColor="@color/white"
         android:layout_gravity="top|left"
         android:text="Load More"

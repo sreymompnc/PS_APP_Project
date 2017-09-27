@@ -3,15 +3,14 @@
     android:id="@+id/dfgs"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="1dp">
+    android:orientation="vertical">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginLeft="6dp">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/fav_pro"
@@ -22,18 +21,18 @@
             android:scaleType="fitXY"
             android:verticalSpacing="15dp" />
 
-        <TextView
-            android:id="@+id/title_pro"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="71dp"
-            android:alpha="0.5"
-            android:background="@color/color_products"
-            android:padding="5dp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/title_pro"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="2dp"-->
+            <!--android:alpha="0.5"-->
+            <!--android:background="@color/color_products"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textStyle="bold" />-->
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

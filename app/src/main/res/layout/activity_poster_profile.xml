@@ -140,7 +140,7 @@
             <ListView
                 android:id="@+id/listViewPosterPost"
                 android:layout_width="fill_parent"
-                android:layout_height="220dp"
+                android:layout_height="292dp"
                 android:layout_gravity="center"
                 android:divider="@color/color_like_cmt_fav"
                 android:dividerHeight="1dp"

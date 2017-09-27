@@ -136,7 +136,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         loginAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomeActivity.this,"log",Toast.LENGTH_LONG).show();
                 Intent regIntent = new Intent(HomeActivity.this,Login.class);
                 startActivity(regIntent);
             }
@@ -371,7 +370,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(HomeActivity.this, "not data!", Toast.LENGTH_LONG).show();
 
             }
             homeList = new HomeAdapter(getApplicationContext(),
@@ -450,8 +448,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(getBaseContext(), "No data!", Toast.LENGTH_LONG).show();
-
                 users.clear();
                 postDesc.clear();
                 postPro.clear();
@@ -521,6 +517,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if(userRole.equals("seller")){
                 Intent intent= new Intent(HomeActivity.this, PosterProfileActivity.class);
                 intent.putExtra("menuProfile",true);
+                intent.putExtra("poster","owner");
+
                 startActivity(intent);
             }else if(userRole.equals("buyer")){
                 Intent intent= new Intent(HomeActivity.this, RegisterProfile.class);
@@ -537,7 +535,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     intent.putExtra("managepost",true);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(HomeActivity.this,"You don't have permisson to access",Toast.LENGTH_SHORT).show();
                     Intent intent= new Intent(HomeActivity.this, AskConfirmActivity.class);
                     startActivity(intent);
                 }
@@ -562,7 +559,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 editor.clear();
                 editor.commit();
                 Log.i("Clear", editor.toString());
-                Toast.makeText(HomeActivity.this, "Logout Successful.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 startActivity(intent);
             }else{
