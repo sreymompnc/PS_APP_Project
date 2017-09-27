@@ -14,7 +14,7 @@ public class WelcomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
         Drawable loginActivityBackground = findViewById(R.id.activity_forgot_pass).getBackground();
-        loginActivityBackground.setAlpha(100);
+        //loginActivityBackground.setAlpha(100);
         welcome_page = (Button)findViewById(R.id.welcome_page);
         welcome_page.setOnClickListener(new View.OnClickListener() {
             @Override

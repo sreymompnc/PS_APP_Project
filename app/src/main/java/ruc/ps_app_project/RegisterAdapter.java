@@ -57,7 +57,7 @@ public class RegisterAdapter extends ArrayAdapter {
             holder = new RegisterAdapter.ViewHolder();
 
             holder.fav_image = (ImageView) Gridview.findViewById(R.id.fav_pro);
-            holder.pos_title = (TextView) Gridview.findViewById(R.id.title_pro);
+//            holder.pos_title = (TextView) Gridview.findViewById(R.id.title_pro);
 
             Gridview.setTag(holder);
         }else {
@@ -68,7 +68,7 @@ public class RegisterAdapter extends ArrayAdapter {
         // post image
         final String postImageurl = constraint.url+"images/posts/"+FAVORITEIMAGE.get(i);
         loadImagePost(postImageurl,holder.fav_image);
-        holder.pos_title.setText(POSTTITLE.get(i));
+//        holder.pos_title.setText(POSTTITLE.get(i));
 
         return Gridview;
     }

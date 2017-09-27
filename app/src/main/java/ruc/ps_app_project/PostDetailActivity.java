@@ -133,20 +133,32 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(roleUser.equals("buyer")){
-                    Toast.makeText(PostDetailActivity.this,"forcus",Toast.LENGTH_SHORT).show();
-
-                   // messages
-
-
+                    messages.setFocusable(true);
+                    messages.setFocusableInTouchMode(true);///add this line
+                    messages.requestFocus();
 
                 }else{
                     Intent intentToConfirm =  new Intent(PostDetailActivity.this, AskConfirmActivity.class);
-                    context.startActivity(intentToConfirm);
+                    startActivity(intentToConfirm);
                 }
 
             }
         });
         //==========================End comment, save favorite and like=========
+
+        //===========================btn save event================
+        btnFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roleUser.equals("buyer")) {
+                    saveFavoriteOnDetail(userLoginID, productPostID);
+                }else{
+                    Intent intentToConfirm =  new Intent(PostDetailActivity.this, AskConfirmActivity.class);
+                    startActivity(intentToConfirm);
+                }
+            }
+        });
+        //==============================End save===================
 
 
         //=============================back to home ===========================
@@ -201,7 +213,12 @@ public class PostDetailActivity extends AppCompatActivity {
                         }else{
                             btnCmt.setText(objJson.getString("numcmt"));
                         }
-                       // btnFav.setText(objJson.getString("numfavorite"));
+
+                        if(objJson.getString("numfavorite").equals("null")){
+                            btnFav.setText("0");
+                        }else{
+                            btnFav.setText(objJson.getString("numfavorite"));
+                        }
 
                         // profile poster
                         final String posterUrlImg = constraint.url+"images/posters/"+objJson.getString("image");
@@ -295,10 +312,10 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(roleUser.equals("buyer")) {
                     like(postID);
-                Toast.makeText(context, "create like", Toast.LENGTH_LONG).show();
+                Toast.makeText(PostDetailActivity.this, "Liked", Toast.LENGTH_LONG).show();
                 }else{
-                    Intent intent= new Intent(context, AskConfirmActivity.class);
-                    context.startActivity(intent);
+                    Intent intent= new Intent(PostDetailActivity.this, AskConfirmActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -726,5 +743,64 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    //----------------------------------------Start mehtod save favorite------------------
+    public void saveFavoriteOnDetail(String userLoginID, String idOfProduct){
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("users_id",userLoginID);
+        requestParams.add("posts_id",idOfProduct);
+
+
+        client.post(constraint.url+"posts/store", requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.i("my test","success");
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+
+                        String sms = jsonObject.getString("status");
+                        if(sms.equals("success")){
+                            Toast.makeText(PostDetailActivity.this,"save success",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(PostDetailActivity.this,"save fail",Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i("my test","Fail");
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+    }
+
+    //============================End favorite ========================
+
 
 }
