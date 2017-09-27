@@ -64,6 +64,7 @@ public class PosterProfileActivity extends AppCompatActivity {
     List<String> productTitle = new ArrayList<>();
     String imageUpdate,paramUrl,roleUser;
     Context context;
+    String profilePoster;
     final Context contextDialog = this;
 
     public static final int RESULT_LOAD_IMAGE = 10;
@@ -250,7 +251,7 @@ public class PosterProfileActivity extends AppCompatActivity {
 
                 listViewPosterPost = (ListView)findViewById(R.id.listViewPosterPost);
 
-                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT,productTitle);
+                PosterAdapter customAdapter = new PosterAdapter(getApplicationContext(),roleUser,userId,POST_ID,POSTER_ID, USERNAME,DATETIME ,DESCRIPTION,PROFILE, POSTIMAGE ,NUMLIKE,NUMFAV,NUMCMT,productTitle);
                 listViewPosterPost.setAdapter(customAdapter);
             }
 
@@ -270,6 +271,7 @@ public class PosterProfileActivity extends AppCompatActivity {
         });
 
         //=================================for view profile =========================================
+        profilePoster = getIntent().getStringExtra("poster");
         profile = (ImageView)findViewById(R.id.pro_poster);
         profile.setOnClickListener(new View.OnClickListener() {
 
@@ -277,29 +279,8 @@ public class PosterProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setCancelable(true);
-
-                if(!userPostID.equals(userId)){
-
-                    final Dialog dialog = new Dialog(contextDialog);
-                    dialog.setContentView(R.layout.view_image_dialog);
-
-                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_profile_poster);
-                    // if button is clicked, it will delete this post
-                    viewProfile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(PosterProfileActivity.this, ImageProfileActivity.class);
-                            intent.putExtra("viewImageProfile", profiles);
-                            startActivity(intent);
-                        }
-                    });
-
-
-                    dialog.show();
-
-
-
-                }else{
+                if(profilePoster.equals("owner")){
+                    builder1.setMessage("Do you want to");
                     builder1.setNegativeButton(
                             "Change Profile",
                             new DialogInterface.OnClickListener() {
@@ -324,6 +305,24 @@ public class PosterProfileActivity extends AppCompatActivity {
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
+
+
+                } else{
+                    final Dialog dialog = new Dialog(contextDialog);
+                    dialog.setContentView(R.layout.view_image_dialog);
+
+                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_profile_poster);
+                    // if button is clicked, it will delete this post
+                    viewProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(PosterProfileActivity.this, ImageProfileActivity.class);
+                            intent.putExtra("viewImageProfile", profiles);
+                            startActivity(intent);
+                        }
+                    });
+                    dialog.show();
+
                 }
 
 
@@ -341,7 +340,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                 builder1.setMessage("Do you want to");
                 builder1.setCancelable(true);
 
-                if(!userPostID.equals(userId)){
+                if(!profilePoster.equals("owner")){
                     final Dialog dialog = new Dialog(contextDialog);
                     dialog.setContentView(R.layout.cover_poster_image_dialog);
 
