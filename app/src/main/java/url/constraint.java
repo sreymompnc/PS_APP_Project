@@ -6,6 +6,6 @@ package url;
 
 public class constraint {
 
-    public static String url = "http://192.168.1.7:8888/";
+    public static String url = "http://192.168.1.6:2222/";
 
 }

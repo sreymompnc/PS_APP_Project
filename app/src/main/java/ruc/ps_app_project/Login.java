@@ -263,7 +263,7 @@ public class Login extends AppCompatActivity {
                                             startActivity(goHome);
                                             Toast.makeText(Login.this, "Login Success!!", Toast.LENGTH_SHORT).show();
                                         }else{
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(Login.this);
                                             builder1.setMessage("Email or password is incorrect!");
                                             builder1.setCancelable(true);
                                             builder1.setNegativeButton(
