@@ -51,16 +51,20 @@ import url.constraint;
 
 public class CreatePost extends Activity implements OnItemSelectedListener{
     private Spinner spinner;
-    TextView savePost, back;
+    TextView savePost;
+    TextView back;
+    static TextView texterror;
     public static final int RESULT_IMAGE = 10;
     Button btn_upload;
     EditText pro_name, phone_number, address, description,prices, discounts;
     String picturePath = "";
     String item;
+    String textMessage = "";
     String userPostID,page,posterID;
     final List<String> categories = new ArrayList<String>();
     final List<String> cate_id = new ArrayList<String>();
     TextInputLayout TextInputName, TextInputPhone, TextInputAddress, TextInputDescription, TextInputDiscount,TextInputPrice;
+    boolean isImageSelected = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +94,7 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         phone_number = (EditText) findViewById(R.id.pro_phone);
         address = (EditText) findViewById(R.id.pro_address);
         description = (EditText) findViewById(R.id.imgDescription);
+        texterror = (TextView) findViewById(R.id.texterror);
         //ask permission for read image
         if (Build.VERSION.SDK_INT >= 23) {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -215,6 +220,10 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
                 }else {
                     hideMsgError(TextInputAddress, address,2);
                 }
+                if(!isImageSelected){
+                    checkData = true;
+                    errorMessageImage();
+                }
                 if(checkData.equals(false)) {
                     createPost();
                 }else {
@@ -303,7 +312,11 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
             ImageView imageView = (ImageView) findViewById(R.id.imageViewPost);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             // InputStream fileImage = convertBitmapToInputStream(BitmapFactory.decodeFile(picturePath));
+            isImageSelected = true;
+            texterror.setVisibility(TextView.INVISIBLE);
 
+        }else{
+            isImageSelected = false;
         }
     }
 
@@ -416,6 +429,12 @@ public class CreatePost extends Activity implements OnItemSelectedListener{
         }else{
             edt.setBackgroundDrawable(drawable); // use setBackgroundDrawable because setBackground required API 16
         }
+    }
+
+    public static void errorMessageImage(){
+        texterror.setTextColor(Color.RED);
+        texterror.setVisibility(TextView.VISIBLE);
+        texterror.setText("No image selected!");
     }
 }
 

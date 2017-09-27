@@ -112,6 +112,14 @@
 
 
                 <!--Product name-->
+                <TextView
+                    android:id="@+id/texterror"
+                    android:layout_width="312dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="53dp"
+                    android:text="TextView"
+                    android:visibility="invisible" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
