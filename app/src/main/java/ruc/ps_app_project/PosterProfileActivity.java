@@ -340,25 +340,7 @@ public class PosterProfileActivity extends AppCompatActivity {
                 builder1.setMessage("Do you want to");
                 builder1.setCancelable(true);
 
-                if(!profilePoster.equals("owner")){
-                    final Dialog dialog = new Dialog(contextDialog);
-                    dialog.setContentView(R.layout.cover_poster_image_dialog);
-
-                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_cover_poster);
-                    // if button is clicked, it will delete this post
-                    viewProfile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(PosterProfileActivity.this, ImageCoverPosterActivity.class);
-                            intent.putExtra("viewImageCover", covers);
-                            startActivity(intent);
-                        }
-                    });
-
-
-                    dialog.show();
-
-                }else{
+                if(profilePoster.equals("owner")){
                     builder1.setNegativeButton(
                             "Change Cover",
                             new DialogInterface.OnClickListener() {
@@ -382,6 +364,26 @@ public class PosterProfileActivity extends AppCompatActivity {
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
+
+
+
+                }else{
+                    final Dialog dialog = new Dialog(contextDialog);
+                    dialog.setContentView(R.layout.cover_poster_image_dialog);
+
+                    TextView viewProfile = (TextView) dialog.findViewById(R.id.view_cover_poster);
+                    // if button is clicked, it will delete this post
+                    viewProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(PosterProfileActivity.this, ImageCoverPosterActivity.class);
+                            intent.putExtra("viewImageCover", covers);
+                            startActivity(intent);
+                        }
+                    });
+
+
+                    dialog.show();
                 }
 
 
